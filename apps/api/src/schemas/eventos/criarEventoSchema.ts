@@ -27,7 +27,11 @@ const criarEventoSchema = z
         closingDate: z.iso
           .date("A data de encerramento deve estar no formato ISO 8601.")
           .nonoptional("O campo 'closing_date' é obrigatório.")
-          .transform((date) => new Date(date))
+          .transform((dateString) => {
+            const date = new Date(dateString);
+            date.setUTCHours(23 + 3, 59, 59, 999);
+            return date;
+          })
           .openapi({
             description: "Data de encerramento do evento",
             example: new Date().toISOString().split("T")[0],
@@ -35,7 +39,11 @@ const criarEventoSchema = z
         startDate: z.iso
           .date("A data de início deve estar no formato ISO 8601.")
           .nonoptional("O campo 'start_date' é obrigatório.")
-          .transform((date) => new Date(date))
+          .transform((dateString) => {
+            const date = new Date(dateString);
+            date.setUTCHours(0 + 3, 0, 0, 0);
+            return date;
+          })
           .openapi({
             description: "Data de início do evento",
             example: new Date().toISOString().split("T")[0],

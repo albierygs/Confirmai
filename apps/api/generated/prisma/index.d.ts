@@ -49,10 +49,15 @@ export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
  */
 export type usuarios = $Result.DefaultSelection<Prisma.$usuariosPayload>
 /**
- * Model GlobalPaymentConfig
+ * Model PaymentProvider
  * 
  */
-export type GlobalPaymentConfig = $Result.DefaultSelection<Prisma.$GlobalPaymentConfigPayload>
+export type PaymentProvider = $Result.DefaultSelection<Prisma.$PaymentProviderPayload>
+/**
+ * Model PaymentMethod
+ * 
+ */
+export type PaymentMethod = $Result.DefaultSelection<Prisma.$PaymentMethodPayload>
 /**
  * Model StripeAccount
  * 
@@ -73,6 +78,11 @@ export type OrderItem = $Result.DefaultSelection<Prisma.$OrderItemPayload>
  * 
  */
 export type Reservation = $Result.DefaultSelection<Prisma.$ReservationPayload>
+/**
+ * Model ReservationTicket
+ * 
+ */
+export type ReservationTicket = $Result.DefaultSelection<Prisma.$ReservationTicketPayload>
 
 /**
  * Enums
@@ -166,7 +176,7 @@ export const OrderStatus: {
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 
-export const PaymentMethod: {
+export const PaymentMethodTypes: {
   CREDIT_CARD: 'CREDIT_CARD',
   DEBIT_CARD: 'DEBIT_CARD',
   PIX: 'PIX',
@@ -174,7 +184,7 @@ export const PaymentMethod: {
   WALLET: 'WALLET'
 };
 
-export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+export type PaymentMethodTypes = (typeof PaymentMethodTypes)[keyof typeof PaymentMethodTypes]
 
 
 export const ReservationStatus: {
@@ -224,9 +234,9 @@ export type OrderStatus = $Enums.OrderStatus
 
 export const OrderStatus: typeof $Enums.OrderStatus
 
-export type PaymentMethod = $Enums.PaymentMethod
+export type PaymentMethodTypes = $Enums.PaymentMethodTypes
 
-export const PaymentMethod: typeof $Enums.PaymentMethod
+export const PaymentMethodTypes: typeof $Enums.PaymentMethodTypes
 
 export type ReservationStatus = $Enums.ReservationStatus
 
@@ -420,14 +430,24 @@ export class PrismaClient<
   get usuarios(): Prisma.usuariosDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.globalPaymentConfig`: Exposes CRUD operations for the **GlobalPaymentConfig** model.
+   * `prisma.paymentProvider`: Exposes CRUD operations for the **PaymentProvider** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more GlobalPaymentConfigs
-    * const globalPaymentConfigs = await prisma.globalPaymentConfig.findMany()
+    * // Fetch zero or more PaymentProviders
+    * const paymentProviders = await prisma.paymentProvider.findMany()
     * ```
     */
-  get globalPaymentConfig(): Prisma.GlobalPaymentConfigDelegate<ExtArgs, ClientOptions>;
+  get paymentProvider(): Prisma.PaymentProviderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.paymentMethod`: Exposes CRUD operations for the **PaymentMethod** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentMethods
+    * const paymentMethods = await prisma.paymentMethod.findMany()
+    * ```
+    */
+  get paymentMethod(): Prisma.PaymentMethodDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.stripeAccount`: Exposes CRUD operations for the **StripeAccount** model.
@@ -468,6 +488,16 @@ export class PrismaClient<
     * ```
     */
   get reservation(): Prisma.ReservationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.reservationTicket`: Exposes CRUD operations for the **ReservationTicket** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReservationTickets
+    * const reservationTickets = await prisma.reservationTicket.findMany()
+    * ```
+    */
+  get reservationTicket(): Prisma.ReservationTicketDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -909,11 +939,13 @@ export namespace Prisma {
     BatchTicket: 'BatchTicket',
     Ticket: 'Ticket',
     usuarios: 'usuarios',
-    GlobalPaymentConfig: 'GlobalPaymentConfig',
+    PaymentProvider: 'PaymentProvider',
+    PaymentMethod: 'PaymentMethod',
     StripeAccount: 'StripeAccount',
     Order: 'Order',
     OrderItem: 'OrderItem',
-    Reservation: 'Reservation'
+    Reservation: 'Reservation',
+    ReservationTicket: 'ReservationTicket'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -929,7 +961,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenants" | "eventos" | "batch" | "ticketType" | "batchTicket" | "ticket" | "usuarios" | "globalPaymentConfig" | "stripeAccount" | "order" | "orderItem" | "reservation"
+      modelProps: "tenants" | "eventos" | "batch" | "ticketType" | "batchTicket" | "ticket" | "usuarios" | "paymentProvider" | "paymentMethod" | "stripeAccount" | "order" | "orderItem" | "reservation" | "reservationTicket"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1395,69 +1427,135 @@ export namespace Prisma {
           }
         }
       }
-      GlobalPaymentConfig: {
-        payload: Prisma.$GlobalPaymentConfigPayload<ExtArgs>
-        fields: Prisma.GlobalPaymentConfigFieldRefs
+      PaymentProvider: {
+        payload: Prisma.$PaymentProviderPayload<ExtArgs>
+        fields: Prisma.PaymentProviderFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.GlobalPaymentConfigFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload> | null
+            args: Prisma.PaymentProviderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.GlobalPaymentConfigFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload>
+            args: Prisma.PaymentProviderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload>
           }
           findFirst: {
-            args: Prisma.GlobalPaymentConfigFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload> | null
+            args: Prisma.PaymentProviderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.GlobalPaymentConfigFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload>
+            args: Prisma.PaymentProviderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload>
           }
           findMany: {
-            args: Prisma.GlobalPaymentConfigFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload>[]
+            args: Prisma.PaymentProviderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload>[]
           }
           create: {
-            args: Prisma.GlobalPaymentConfigCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload>
+            args: Prisma.PaymentProviderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload>
           }
           createMany: {
-            args: Prisma.GlobalPaymentConfigCreateManyArgs<ExtArgs>
+            args: Prisma.PaymentProviderCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           delete: {
-            args: Prisma.GlobalPaymentConfigDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload>
+            args: Prisma.PaymentProviderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload>
           }
           update: {
-            args: Prisma.GlobalPaymentConfigUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload>
+            args: Prisma.PaymentProviderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload>
           }
           deleteMany: {
-            args: Prisma.GlobalPaymentConfigDeleteManyArgs<ExtArgs>
+            args: Prisma.PaymentProviderDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.GlobalPaymentConfigUpdateManyArgs<ExtArgs>
+            args: Prisma.PaymentProviderUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           upsert: {
-            args: Prisma.GlobalPaymentConfigUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GlobalPaymentConfigPayload>
+            args: Prisma.PaymentProviderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentProviderPayload>
           }
           aggregate: {
-            args: Prisma.GlobalPaymentConfigAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateGlobalPaymentConfig>
+            args: Prisma.PaymentProviderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentProvider>
           }
           groupBy: {
-            args: Prisma.GlobalPaymentConfigGroupByArgs<ExtArgs>
-            result: $Utils.Optional<GlobalPaymentConfigGroupByOutputType>[]
+            args: Prisma.PaymentProviderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentProviderGroupByOutputType>[]
           }
           count: {
-            args: Prisma.GlobalPaymentConfigCountArgs<ExtArgs>
-            result: $Utils.Optional<GlobalPaymentConfigCountAggregateOutputType> | number
+            args: Prisma.PaymentProviderCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentProviderCountAggregateOutputType> | number
+          }
+        }
+      }
+      PaymentMethod: {
+        payload: Prisma.$PaymentMethodPayload<ExtArgs>
+        fields: Prisma.PaymentMethodFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentMethodFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentMethodFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentMethodFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentMethodFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentMethodFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentMethodCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentMethodCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.PaymentMethodDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload>
+          }
+          update: {
+            args: Prisma.PaymentMethodUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentMethodDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentMethodUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentMethodUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMethodPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentMethodAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentMethod>
+          }
+          groupBy: {
+            args: Prisma.PaymentMethodGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentMethodGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentMethodCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentMethodCountAggregateOutputType> | number
           }
         }
       }
@@ -1725,6 +1823,72 @@ export namespace Prisma {
           }
         }
       }
+      ReservationTicket: {
+        payload: Prisma.$ReservationTicketPayload<ExtArgs>
+        fields: Prisma.ReservationTicketFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReservationTicketFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReservationTicketFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload>
+          }
+          findFirst: {
+            args: Prisma.ReservationTicketFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReservationTicketFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload>
+          }
+          findMany: {
+            args: Prisma.ReservationTicketFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload>[]
+          }
+          create: {
+            args: Prisma.ReservationTicketCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload>
+          }
+          createMany: {
+            args: Prisma.ReservationTicketCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.ReservationTicketDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload>
+          }
+          update: {
+            args: Prisma.ReservationTicketUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReservationTicketDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReservationTicketUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ReservationTicketUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReservationTicketPayload>
+          }
+          aggregate: {
+            args: Prisma.ReservationTicketAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReservationTicket>
+          }
+          groupBy: {
+            args: Prisma.ReservationTicketGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReservationTicketGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReservationTicketCountArgs<ExtArgs>
+            result: $Utils.Optional<ReservationTicketCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1840,11 +2004,13 @@ export namespace Prisma {
     batchTicket?: BatchTicketOmit
     ticket?: TicketOmit
     usuarios?: usuariosOmit
-    globalPaymentConfig?: GlobalPaymentConfigOmit
+    paymentProvider?: PaymentProviderOmit
+    paymentMethod?: PaymentMethodOmit
     stripeAccount?: StripeAccountOmit
     order?: OrderOmit
     orderItem?: OrderItemOmit
     reservation?: ReservationOmit
+    reservationTicket?: ReservationTicketOmit
   }
 
   /* Types for Logging */
@@ -1928,12 +2094,14 @@ export namespace Prisma {
     usuarios: number
     eventos: number
     orders: number
+    reservations: number
   }
 
   export type TenantsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     usuarios?: boolean | TenantsCountOutputTypeCountUsuariosArgs
     eventos?: boolean | TenantsCountOutputTypeCountEventosArgs
     orders?: boolean | TenantsCountOutputTypeCountOrdersArgs
+    reservations?: boolean | TenantsCountOutputTypeCountReservationsArgs
   }
 
   // Custom InputTypes
@@ -1968,6 +2136,13 @@ export namespace Prisma {
     where?: OrderWhereInput
   }
 
+  /**
+   * TenantsCountOutputType without action
+   */
+  export type TenantsCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationWhereInput
+  }
+
 
   /**
    * Count Type EventosCountOutputType
@@ -1976,13 +2151,11 @@ export namespace Prisma {
   export type EventosCountOutputType = {
     batches: number
     tickets: number
-    orders: number
   }
 
   export type EventosCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     batches?: boolean | EventosCountOutputTypeCountBatchesArgs
     tickets?: boolean | EventosCountOutputTypeCountTicketsArgs
-    orders?: boolean | EventosCountOutputTypeCountOrdersArgs
   }
 
   // Custom InputTypes
@@ -2008,13 +2181,6 @@ export namespace Prisma {
    */
   export type EventosCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
-  }
-
-  /**
-   * EventosCountOutputType without action
-   */
-  export type EventosCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OrderWhereInput
   }
 
 
@@ -2087,13 +2253,13 @@ export namespace Prisma {
   export type BatchTicketCountOutputType = {
     tickets: number
     orderItems: number
-    reservations: number
+    reservationTickets: number
   }
 
   export type BatchTicketCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tickets?: boolean | BatchTicketCountOutputTypeCountTicketsArgs
     orderItems?: boolean | BatchTicketCountOutputTypeCountOrderItemsArgs
-    reservations?: boolean | BatchTicketCountOutputTypeCountReservationsArgs
+    reservationTickets?: boolean | BatchTicketCountOutputTypeCountReservationTicketsArgs
   }
 
   // Custom InputTypes
@@ -2124,8 +2290,8 @@ export namespace Prisma {
   /**
    * BatchTicketCountOutputType without action
    */
-  export type BatchTicketCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ReservationWhereInput
+  export type BatchTicketCountOutputTypeCountReservationTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationTicketWhereInput
   }
 
 
@@ -2135,12 +2301,16 @@ export namespace Prisma {
 
   export type UsuariosCountOutputType = {
     orders: number
+    checkedTickets: number
     tickets: number
+    reservations: number
   }
 
   export type UsuariosCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orders?: boolean | UsuariosCountOutputTypeCountOrdersArgs
+    checkedTickets?: boolean | UsuariosCountOutputTypeCountCheckedTicketsArgs
     tickets?: boolean | UsuariosCountOutputTypeCountTicketsArgs
+    reservations?: boolean | UsuariosCountOutputTypeCountReservationsArgs
   }
 
   // Custom InputTypes
@@ -2164,8 +2334,53 @@ export namespace Prisma {
   /**
    * UsuariosCountOutputType without action
    */
+  export type UsuariosCountOutputTypeCountCheckedTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TicketWhereInput
+  }
+
+  /**
+   * UsuariosCountOutputType without action
+   */
   export type UsuariosCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TicketWhereInput
+  }
+
+  /**
+   * UsuariosCountOutputType without action
+   */
+  export type UsuariosCountOutputTypeCountReservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationWhereInput
+  }
+
+
+  /**
+   * Count Type PaymentProviderCountOutputType
+   */
+
+  export type PaymentProviderCountOutputType = {
+    paymentMethods: number
+  }
+
+  export type PaymentProviderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    paymentMethods?: boolean | PaymentProviderCountOutputTypeCountPaymentMethodsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PaymentProviderCountOutputType without action
+   */
+  export type PaymentProviderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentProviderCountOutputType
+     */
+    select?: PaymentProviderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PaymentProviderCountOutputType without action
+   */
+  export type PaymentProviderCountOutputTypeCountPaymentMethodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentMethodWhereInput
   }
 
 
@@ -2206,6 +2421,46 @@ export namespace Prisma {
    */
   export type OrderCountOutputTypeCountOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderItemWhereInput
+  }
+
+
+  /**
+   * Count Type ReservationCountOutputType
+   */
+
+  export type ReservationCountOutputType = {
+    tickets: number
+    orders: number
+  }
+
+  export type ReservationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tickets?: boolean | ReservationCountOutputTypeCountTicketsArgs
+    orders?: boolean | ReservationCountOutputTypeCountOrdersArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReservationCountOutputType without action
+   */
+  export type ReservationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationCountOutputType
+     */
+    select?: ReservationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReservationCountOutputType without action
+   */
+  export type ReservationCountOutputTypeCountTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationTicketWhereInput
+  }
+
+  /**
+   * ReservationCountOutputType without action
+   */
+  export type ReservationCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
 
@@ -2429,6 +2684,7 @@ export namespace Prisma {
     eventos?: boolean | tenants$eventosArgs<ExtArgs>
     stripeAccount?: boolean | tenants$stripeAccountArgs<ExtArgs>
     orders?: boolean | tenants$ordersArgs<ExtArgs>
+    reservations?: boolean | tenants$reservationsArgs<ExtArgs>
     _count?: boolean | TenantsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tenants"]>
 
@@ -2454,6 +2710,7 @@ export namespace Prisma {
     eventos?: boolean | tenants$eventosArgs<ExtArgs>
     stripeAccount?: boolean | tenants$stripeAccountArgs<ExtArgs>
     orders?: boolean | tenants$ordersArgs<ExtArgs>
+    reservations?: boolean | tenants$reservationsArgs<ExtArgs>
     _count?: boolean | TenantsCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2464,6 +2721,7 @@ export namespace Prisma {
       eventos: Prisma.$eventosPayload<ExtArgs>[]
       stripeAccount: Prisma.$StripeAccountPayload<ExtArgs> | null
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      reservations: Prisma.$ReservationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2821,6 +3079,7 @@ export namespace Prisma {
     eventos<T extends tenants$eventosArgs<ExtArgs> = {}>(args?: Subset<T, tenants$eventosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$eventosPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     stripeAccount<T extends tenants$stripeAccountArgs<ExtArgs> = {}>(args?: Subset<T, tenants$stripeAccountArgs<ExtArgs>>): Prisma__StripeAccountClient<$Result.GetResult<Prisma.$StripeAccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     orders<T extends tenants$ordersArgs<ExtArgs> = {}>(args?: Subset<T, tenants$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reservations<T extends tenants$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, tenants$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3295,6 +3554,30 @@ export namespace Prisma {
   }
 
   /**
+   * tenants.reservations
+   */
+  export type tenants$reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reservation
+     */
+    select?: ReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reservation
+     */
+    omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    where?: ReservationWhereInput
+    orderBy?: ReservationOrderByWithRelationInput | ReservationOrderByWithRelationInput[]
+    cursor?: ReservationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
+  }
+
+  /**
    * tenants without action
    */
   export type tenantsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3520,7 +3803,6 @@ export namespace Prisma {
     tenant?: boolean | tenantsDefaultArgs<ExtArgs>
     batches?: boolean | eventos$batchesArgs<ExtArgs>
     tickets?: boolean | eventos$ticketsArgs<ExtArgs>
-    orders?: boolean | eventos$ordersArgs<ExtArgs>
     _count?: boolean | EventosCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["eventos"]>
 
@@ -3544,7 +3826,6 @@ export namespace Prisma {
     tenant?: boolean | tenantsDefaultArgs<ExtArgs>
     batches?: boolean | eventos$batchesArgs<ExtArgs>
     tickets?: boolean | eventos$ticketsArgs<ExtArgs>
-    orders?: boolean | eventos$ordersArgs<ExtArgs>
     _count?: boolean | EventosCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3554,7 +3835,6 @@ export namespace Prisma {
       tenant: Prisma.$tenantsPayload<ExtArgs>
       batches: Prisma.$BatchPayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
-      orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3910,7 +4190,6 @@ export namespace Prisma {
     tenant<T extends tenantsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tenantsDefaultArgs<ExtArgs>>): Prisma__tenantsClient<$Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     batches<T extends eventos$batchesArgs<ExtArgs> = {}>(args?: Subset<T, eventos$batchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tickets<T extends eventos$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, eventos$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    orders<T extends eventos$ordersArgs<ExtArgs> = {}>(args?: Subset<T, eventos$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4341,30 +4620,6 @@ export namespace Prisma {
   }
 
   /**
-   * eventos.orders
-   */
-  export type eventos$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Order
-     */
-    select?: OrderSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Order
-     */
-    omit?: OrderOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OrderInclude<ExtArgs> | null
-    where?: OrderWhereInput
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
-    cursor?: OrderWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
-  }
-
-  /**
    * eventos without action
    */
   export type eventosDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4396,12 +4651,10 @@ export namespace Prisma {
   }
 
   export type BatchAvgAggregateOutputType = {
-    totalSold: number | null
     order: number | null
   }
 
   export type BatchSumAggregateOutputType = {
-    totalSold: number | null
     order: number | null
   }
 
@@ -4413,7 +4666,6 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     isActive: boolean | null
-    totalSold: number | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4427,7 +4679,6 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     isActive: boolean | null
-    totalSold: number | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4441,7 +4692,6 @@ export namespace Prisma {
     startDate: number
     endDate: number
     isActive: number
-    totalSold: number
     order: number
     createdAt: number
     updatedAt: number
@@ -4450,12 +4700,10 @@ export namespace Prisma {
 
 
   export type BatchAvgAggregateInputType = {
-    totalSold?: true
     order?: true
   }
 
   export type BatchSumAggregateInputType = {
-    totalSold?: true
     order?: true
   }
 
@@ -4467,7 +4715,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isActive?: true
-    totalSold?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -4481,7 +4728,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isActive?: true
-    totalSold?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -4495,7 +4741,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isActive?: true
-    totalSold?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -4596,7 +4841,6 @@ export namespace Prisma {
     startDate: Date
     endDate: Date
     isActive: boolean
-    totalSold: number
     order: number
     createdAt: Date
     updatedAt: Date
@@ -4629,7 +4873,6 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isActive?: boolean
-    totalSold?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4648,13 +4891,12 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isActive?: boolean
-    totalSold?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "name" | "description" | "startDate" | "endDate" | "isActive" | "totalSold" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["batch"]>
+  export type BatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "name" | "description" | "startDate" | "endDate" | "isActive" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["batch"]>
   export type BatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | eventosDefaultArgs<ExtArgs>
     batchTickets?: boolean | Batch$batchTicketsArgs<ExtArgs>
@@ -4675,7 +4917,6 @@ export namespace Prisma {
       startDate: Date
       endDate: Date
       isActive: boolean
-      totalSold: number
       order: number
       createdAt: Date
       updatedAt: Date
@@ -5057,7 +5298,6 @@ export namespace Prisma {
     readonly startDate: FieldRef<"Batch", 'DateTime'>
     readonly endDate: FieldRef<"Batch", 'DateTime'>
     readonly isActive: FieldRef<"Batch", 'Boolean'>
-    readonly totalSold: FieldRef<"Batch", 'Int'>
     readonly order: FieldRef<"Batch", 'Int'>
     readonly createdAt: FieldRef<"Batch", 'DateTime'>
     readonly updatedAt: FieldRef<"Batch", 'DateTime'>
@@ -6655,7 +6895,7 @@ export namespace Prisma {
     ticketType?: boolean | TicketTypeDefaultArgs<ExtArgs>
     tickets?: boolean | BatchTicket$ticketsArgs<ExtArgs>
     orderItems?: boolean | BatchTicket$orderItemsArgs<ExtArgs>
-    reservations?: boolean | BatchTicket$reservationsArgs<ExtArgs>
+    reservationTickets?: boolean | BatchTicket$reservationTicketsArgs<ExtArgs>
     _count?: boolean | BatchTicketCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["batchTicket"]>
 
@@ -6680,7 +6920,7 @@ export namespace Prisma {
     ticketType?: boolean | TicketTypeDefaultArgs<ExtArgs>
     tickets?: boolean | BatchTicket$ticketsArgs<ExtArgs>
     orderItems?: boolean | BatchTicket$orderItemsArgs<ExtArgs>
-    reservations?: boolean | BatchTicket$reservationsArgs<ExtArgs>
+    reservationTickets?: boolean | BatchTicket$reservationTicketsArgs<ExtArgs>
     _count?: boolean | BatchTicketCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -6691,7 +6931,7 @@ export namespace Prisma {
       ticketType: Prisma.$TicketTypePayload<ExtArgs>
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
-      reservations: Prisma.$ReservationPayload<ExtArgs>[]
+      reservationTickets: Prisma.$ReservationTicketPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7048,7 +7288,7 @@ export namespace Prisma {
     ticketType<T extends TicketTypeDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TicketTypeDefaultArgs<ExtArgs>>): Prisma__TicketTypeClient<$Result.GetResult<Prisma.$TicketTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tickets<T extends BatchTicket$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, BatchTicket$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orderItems<T extends BatchTicket$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, BatchTicket$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    reservations<T extends BatchTicket$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, BatchTicket$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reservationTickets<T extends BatchTicket$reservationTicketsArgs<ExtArgs> = {}>(args?: Subset<T, BatchTicket$reservationTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7479,27 +7719,27 @@ export namespace Prisma {
   }
 
   /**
-   * BatchTicket.reservations
+   * BatchTicket.reservationTickets
    */
-  export type BatchTicket$reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type BatchTicket$reservationTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Reservation
+     * Select specific fields to fetch from the ReservationTicket
      */
-    select?: ReservationSelect<ExtArgs> | null
+    select?: ReservationTicketSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Reservation
+     * Omit specific fields from the ReservationTicket
      */
-    omit?: ReservationOmit<ExtArgs> | null
+    omit?: ReservationTicketOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ReservationInclude<ExtArgs> | null
-    where?: ReservationWhereInput
-    orderBy?: ReservationOrderByWithRelationInput | ReservationOrderByWithRelationInput[]
-    cursor?: ReservationWhereUniqueInput
+    include?: ReservationTicketInclude<ExtArgs> | null
+    where?: ReservationTicketWhereInput
+    orderBy?: ReservationTicketOrderByWithRelationInput | ReservationTicketOrderByWithRelationInput[]
+    cursor?: ReservationTicketWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
+    distinct?: ReservationTicketScalarFieldEnum | ReservationTicketScalarFieldEnum[]
   }
 
   /**
@@ -7545,11 +7785,9 @@ export namespace Prisma {
     id: string | null
     orderId: string | null
     eventId: string | null
+    userId: string | null
     batchTicketId: string | null
     hash: string | null
-    ownerName: string | null
-    ownerEmail: string | null
-    ownerDocument: string | null
     price: Decimal | null
     status: $Enums.TicketStatus | null
     checkedInAt: Date | null
@@ -7562,11 +7800,9 @@ export namespace Prisma {
     id: string | null
     orderId: string | null
     eventId: string | null
+    userId: string | null
     batchTicketId: string | null
     hash: string | null
-    ownerName: string | null
-    ownerEmail: string | null
-    ownerDocument: string | null
     price: Decimal | null
     status: $Enums.TicketStatus | null
     checkedInAt: Date | null
@@ -7579,11 +7815,9 @@ export namespace Prisma {
     id: number
     orderId: number
     eventId: number
+    userId: number
     batchTicketId: number
     hash: number
-    ownerName: number
-    ownerEmail: number
-    ownerDocument: number
     price: number
     status: number
     checkedInAt: number
@@ -7606,11 +7840,9 @@ export namespace Prisma {
     id?: true
     orderId?: true
     eventId?: true
+    userId?: true
     batchTicketId?: true
     hash?: true
-    ownerName?: true
-    ownerEmail?: true
-    ownerDocument?: true
     price?: true
     status?: true
     checkedInAt?: true
@@ -7623,11 +7855,9 @@ export namespace Prisma {
     id?: true
     orderId?: true
     eventId?: true
+    userId?: true
     batchTicketId?: true
     hash?: true
-    ownerName?: true
-    ownerEmail?: true
-    ownerDocument?: true
     price?: true
     status?: true
     checkedInAt?: true
@@ -7640,11 +7870,9 @@ export namespace Prisma {
     id?: true
     orderId?: true
     eventId?: true
+    userId?: true
     batchTicketId?: true
     hash?: true
-    ownerName?: true
-    ownerEmail?: true
-    ownerDocument?: true
     price?: true
     status?: true
     checkedInAt?: true
@@ -7744,11 +7972,9 @@ export namespace Prisma {
     id: string
     orderId: string
     eventId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument: string | null
     price: Decimal
     status: $Enums.TicketStatus
     checkedInAt: Date | null
@@ -7780,11 +8006,9 @@ export namespace Prisma {
     id?: boolean
     orderId?: boolean
     eventId?: boolean
+    userId?: boolean
     batchTicketId?: boolean
     hash?: boolean
-    ownerName?: boolean
-    ownerEmail?: boolean
-    ownerDocument?: boolean
     price?: boolean
     status?: boolean
     checkedInAt?: boolean
@@ -7793,6 +8017,7 @@ export namespace Prisma {
     updatedAt?: boolean
     order?: boolean | OrderDefaultArgs<ExtArgs>
     event?: boolean | eventosDefaultArgs<ExtArgs>
+    usuario?: boolean | usuariosDefaultArgs<ExtArgs>
     batchTicket?: boolean | BatchTicketDefaultArgs<ExtArgs>
     checkedInUser?: boolean | Ticket$checkedInUserArgs<ExtArgs>
   }, ExtArgs["result"]["ticket"]>
@@ -7803,11 +8028,9 @@ export namespace Prisma {
     id?: boolean
     orderId?: boolean
     eventId?: boolean
+    userId?: boolean
     batchTicketId?: boolean
     hash?: boolean
-    ownerName?: boolean
-    ownerEmail?: boolean
-    ownerDocument?: boolean
     price?: boolean
     status?: boolean
     checkedInAt?: boolean
@@ -7816,10 +8039,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "eventId" | "batchTicketId" | "hash" | "ownerName" | "ownerEmail" | "ownerDocument" | "price" | "status" | "checkedInAt" | "checkedInBy" | "createdAt" | "updatedAt", ExtArgs["result"]["ticket"]>
+  export type TicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "eventId" | "userId" | "batchTicketId" | "hash" | "price" | "status" | "checkedInAt" | "checkedInBy" | "createdAt" | "updatedAt", ExtArgs["result"]["ticket"]>
   export type TicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | OrderDefaultArgs<ExtArgs>
     event?: boolean | eventosDefaultArgs<ExtArgs>
+    usuario?: boolean | usuariosDefaultArgs<ExtArgs>
     batchTicket?: boolean | BatchTicketDefaultArgs<ExtArgs>
     checkedInUser?: boolean | Ticket$checkedInUserArgs<ExtArgs>
   }
@@ -7829,6 +8053,7 @@ export namespace Prisma {
     objects: {
       order: Prisma.$OrderPayload<ExtArgs>
       event: Prisma.$eventosPayload<ExtArgs>
+      usuario: Prisma.$usuariosPayload<ExtArgs>
       batchTicket: Prisma.$BatchTicketPayload<ExtArgs>
       checkedInUser: Prisma.$usuariosPayload<ExtArgs> | null
     }
@@ -7836,11 +8061,9 @@ export namespace Prisma {
       id: string
       orderId: string
       eventId: string
+      userId: string
       batchTicketId: string
       hash: string
-      ownerName: string
-      ownerEmail: string
-      ownerDocument: string | null
       price: Prisma.Decimal
       status: $Enums.TicketStatus
       checkedInAt: Date | null
@@ -8189,6 +8412,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     event<T extends eventosDefaultArgs<ExtArgs> = {}>(args?: Subset<T, eventosDefaultArgs<ExtArgs>>): Prisma__eventosClient<$Result.GetResult<Prisma.$eventosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usuario<T extends usuariosDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usuariosDefaultArgs<ExtArgs>>): Prisma__usuariosClient<$Result.GetResult<Prisma.$usuariosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     batchTicket<T extends BatchTicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BatchTicketDefaultArgs<ExtArgs>>): Prisma__BatchTicketClient<$Result.GetResult<Prisma.$BatchTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     checkedInUser<T extends Ticket$checkedInUserArgs<ExtArgs> = {}>(args?: Subset<T, Ticket$checkedInUserArgs<ExtArgs>>): Prisma__usuariosClient<$Result.GetResult<Prisma.$usuariosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -8223,11 +8447,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Ticket", 'String'>
     readonly orderId: FieldRef<"Ticket", 'String'>
     readonly eventId: FieldRef<"Ticket", 'String'>
+    readonly userId: FieldRef<"Ticket", 'String'>
     readonly batchTicketId: FieldRef<"Ticket", 'String'>
     readonly hash: FieldRef<"Ticket", 'String'>
-    readonly ownerName: FieldRef<"Ticket", 'String'>
-    readonly ownerEmail: FieldRef<"Ticket", 'String'>
-    readonly ownerDocument: FieldRef<"Ticket", 'String'>
     readonly price: FieldRef<"Ticket", 'Decimal'>
     readonly status: FieldRef<"Ticket", 'TicketStatus'>
     readonly checkedInAt: FieldRef<"Ticket", 'DateTime'>
@@ -8804,7 +9026,9 @@ export namespace Prisma {
     updatedAt?: boolean
     tenant?: boolean | usuarios$tenantArgs<ExtArgs>
     orders?: boolean | usuarios$ordersArgs<ExtArgs>
+    checkedTickets?: boolean | usuarios$checkedTicketsArgs<ExtArgs>
     tickets?: boolean | usuarios$ticketsArgs<ExtArgs>
+    reservations?: boolean | usuarios$reservationsArgs<ExtArgs>
     _count?: boolean | UsuariosCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuarios"]>
 
@@ -8825,7 +9049,9 @@ export namespace Prisma {
   export type usuariosInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | usuarios$tenantArgs<ExtArgs>
     orders?: boolean | usuarios$ordersArgs<ExtArgs>
+    checkedTickets?: boolean | usuarios$checkedTicketsArgs<ExtArgs>
     tickets?: boolean | usuarios$ticketsArgs<ExtArgs>
+    reservations?: boolean | usuarios$reservationsArgs<ExtArgs>
     _count?: boolean | UsuariosCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -8834,7 +9060,9 @@ export namespace Prisma {
     objects: {
       tenant: Prisma.$tenantsPayload<ExtArgs> | null
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      checkedTickets: Prisma.$TicketPayload<ExtArgs>[]
       tickets: Prisma.$TicketPayload<ExtArgs>[]
+      reservations: Prisma.$ReservationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9187,7 +9415,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends usuarios$tenantArgs<ExtArgs> = {}>(args?: Subset<T, usuarios$tenantArgs<ExtArgs>>): Prisma__tenantsClient<$Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     orders<T extends usuarios$ordersArgs<ExtArgs> = {}>(args?: Subset<T, usuarios$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    checkedTickets<T extends usuarios$checkedTicketsArgs<ExtArgs> = {}>(args?: Subset<T, usuarios$checkedTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tickets<T extends usuarios$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, usuarios$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reservations<T extends usuarios$reservationsArgs<ExtArgs> = {}>(args?: Subset<T, usuarios$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9611,6 +9841,30 @@ export namespace Prisma {
   }
 
   /**
+   * usuarios.checkedTickets
+   */
+  export type usuarios$checkedTicketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ticket
+     */
+    select?: TicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ticket
+     */
+    omit?: TicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TicketInclude<ExtArgs> | null
+    where?: TicketWhereInput
+    orderBy?: TicketOrderByWithRelationInput | TicketOrderByWithRelationInput[]
+    cursor?: TicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
+  }
+
+  /**
    * usuarios.tickets
    */
   export type usuarios$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9635,6 +9889,30 @@ export namespace Prisma {
   }
 
   /**
+   * usuarios.reservations
+   */
+  export type usuarios$reservationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reservation
+     */
+    select?: ReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reservation
+     */
+    omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    where?: ReservationWhereInput
+    orderBy?: ReservationOrderByWithRelationInput | ReservationOrderByWithRelationInput[]
+    cursor?: ReservationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
+  }
+
+  /**
    * usuarios without action
    */
   export type usuariosDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9654,511 +9932,395 @@ export namespace Prisma {
 
 
   /**
-   * Model GlobalPaymentConfig
+   * Model PaymentProvider
    */
 
-  export type AggregateGlobalPaymentConfig = {
-    _count: GlobalPaymentConfigCountAggregateOutputType | null
-    _avg: GlobalPaymentConfigAvgAggregateOutputType | null
-    _sum: GlobalPaymentConfigSumAggregateOutputType | null
-    _min: GlobalPaymentConfigMinAggregateOutputType | null
-    _max: GlobalPaymentConfigMaxAggregateOutputType | null
+  export type AggregatePaymentProvider = {
+    _count: PaymentProviderCountAggregateOutputType | null
+    _avg: PaymentProviderAvgAggregateOutputType | null
+    _sum: PaymentProviderSumAggregateOutputType | null
+    _min: PaymentProviderMinAggregateOutputType | null
+    _max: PaymentProviderMaxAggregateOutputType | null
   }
 
-  export type GlobalPaymentConfigAvgAggregateOutputType = {
-    defaultPlatformFeePercent: Decimal | null
-    defaultPlatformFeeFixed: Decimal | null
-    defaultServiceFeePercent: Decimal | null
-    defaultServiceFeeFixed: Decimal | null
-    maxInstallments: number | null
-    minInstallmentValue: Decimal | null
-    interestFree: number | null
-    refundDeadlineDays: number | null
+  export type PaymentProviderAvgAggregateOutputType = {
+    platformFeePercent: Decimal | null
+    platformCoustPercent: Decimal | null
   }
 
-  export type GlobalPaymentConfigSumAggregateOutputType = {
-    defaultPlatformFeePercent: Decimal | null
-    defaultPlatformFeeFixed: Decimal | null
-    defaultServiceFeePercent: Decimal | null
-    defaultServiceFeeFixed: Decimal | null
-    maxInstallments: number | null
-    minInstallmentValue: Decimal | null
-    interestFree: number | null
-    refundDeadlineDays: number | null
+  export type PaymentProviderSumAggregateOutputType = {
+    platformFeePercent: Decimal | null
+    platformCoustPercent: Decimal | null
   }
 
-  export type GlobalPaymentConfigMinAggregateOutputType = {
+  export type PaymentProviderMinAggregateOutputType = {
     id: string | null
-    defaultPlatformFeePercent: Decimal | null
-    defaultPlatformFeeFixed: Decimal | null
-    defaultServiceFeePercent: Decimal | null
-    defaultServiceFeeFixed: Decimal | null
-    defaultServiceFeePayerType: string | null
-    acceptCreditCard: boolean | null
-    acceptDebitCard: boolean | null
-    acceptPix: boolean | null
-    acceptBoleto: boolean | null
-    maxInstallments: number | null
-    minInstallmentValue: Decimal | null
-    interestFree: number | null
-    allowRefunds: boolean | null
-    refundDeadlineDays: number | null
+    slug: string | null
+    isActive: boolean | null
+    platformFeePercent: Decimal | null
+    platformCoustPercent: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type GlobalPaymentConfigMaxAggregateOutputType = {
+  export type PaymentProviderMaxAggregateOutputType = {
     id: string | null
-    defaultPlatformFeePercent: Decimal | null
-    defaultPlatformFeeFixed: Decimal | null
-    defaultServiceFeePercent: Decimal | null
-    defaultServiceFeeFixed: Decimal | null
-    defaultServiceFeePayerType: string | null
-    acceptCreditCard: boolean | null
-    acceptDebitCard: boolean | null
-    acceptPix: boolean | null
-    acceptBoleto: boolean | null
-    maxInstallments: number | null
-    minInstallmentValue: Decimal | null
-    interestFree: number | null
-    allowRefunds: boolean | null
-    refundDeadlineDays: number | null
+    slug: string | null
+    isActive: boolean | null
+    platformFeePercent: Decimal | null
+    platformCoustPercent: Decimal | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
-  export type GlobalPaymentConfigCountAggregateOutputType = {
+  export type PaymentProviderCountAggregateOutputType = {
     id: number
-    defaultPlatformFeePercent: number
-    defaultPlatformFeeFixed: number
-    defaultServiceFeePercent: number
-    defaultServiceFeeFixed: number
-    defaultServiceFeePayerType: number
-    acceptCreditCard: number
-    acceptDebitCard: number
-    acceptPix: number
-    acceptBoleto: number
-    maxInstallments: number
-    minInstallmentValue: number
-    interestFree: number
-    allowRefunds: number
-    refundDeadlineDays: number
+    slug: number
+    isActive: number
+    platformFeePercent: number
+    platformCoustPercent: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type GlobalPaymentConfigAvgAggregateInputType = {
-    defaultPlatformFeePercent?: true
-    defaultPlatformFeeFixed?: true
-    defaultServiceFeePercent?: true
-    defaultServiceFeeFixed?: true
-    maxInstallments?: true
-    minInstallmentValue?: true
-    interestFree?: true
-    refundDeadlineDays?: true
+  export type PaymentProviderAvgAggregateInputType = {
+    platformFeePercent?: true
+    platformCoustPercent?: true
   }
 
-  export type GlobalPaymentConfigSumAggregateInputType = {
-    defaultPlatformFeePercent?: true
-    defaultPlatformFeeFixed?: true
-    defaultServiceFeePercent?: true
-    defaultServiceFeeFixed?: true
-    maxInstallments?: true
-    minInstallmentValue?: true
-    interestFree?: true
-    refundDeadlineDays?: true
+  export type PaymentProviderSumAggregateInputType = {
+    platformFeePercent?: true
+    platformCoustPercent?: true
   }
 
-  export type GlobalPaymentConfigMinAggregateInputType = {
+  export type PaymentProviderMinAggregateInputType = {
     id?: true
-    defaultPlatformFeePercent?: true
-    defaultPlatformFeeFixed?: true
-    defaultServiceFeePercent?: true
-    defaultServiceFeeFixed?: true
-    defaultServiceFeePayerType?: true
-    acceptCreditCard?: true
-    acceptDebitCard?: true
-    acceptPix?: true
-    acceptBoleto?: true
-    maxInstallments?: true
-    minInstallmentValue?: true
-    interestFree?: true
-    allowRefunds?: true
-    refundDeadlineDays?: true
+    slug?: true
+    isActive?: true
+    platformFeePercent?: true
+    platformCoustPercent?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type GlobalPaymentConfigMaxAggregateInputType = {
+  export type PaymentProviderMaxAggregateInputType = {
     id?: true
-    defaultPlatformFeePercent?: true
-    defaultPlatformFeeFixed?: true
-    defaultServiceFeePercent?: true
-    defaultServiceFeeFixed?: true
-    defaultServiceFeePayerType?: true
-    acceptCreditCard?: true
-    acceptDebitCard?: true
-    acceptPix?: true
-    acceptBoleto?: true
-    maxInstallments?: true
-    minInstallmentValue?: true
-    interestFree?: true
-    allowRefunds?: true
-    refundDeadlineDays?: true
+    slug?: true
+    isActive?: true
+    platformFeePercent?: true
+    platformCoustPercent?: true
     createdAt?: true
     updatedAt?: true
   }
 
-  export type GlobalPaymentConfigCountAggregateInputType = {
+  export type PaymentProviderCountAggregateInputType = {
     id?: true
-    defaultPlatformFeePercent?: true
-    defaultPlatformFeeFixed?: true
-    defaultServiceFeePercent?: true
-    defaultServiceFeeFixed?: true
-    defaultServiceFeePayerType?: true
-    acceptCreditCard?: true
-    acceptDebitCard?: true
-    acceptPix?: true
-    acceptBoleto?: true
-    maxInstallments?: true
-    minInstallmentValue?: true
-    interestFree?: true
-    allowRefunds?: true
-    refundDeadlineDays?: true
+    slug?: true
+    isActive?: true
+    platformFeePercent?: true
+    platformCoustPercent?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
   }
 
-  export type GlobalPaymentConfigAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which GlobalPaymentConfig to aggregate.
+     * Filter which PaymentProvider to aggregate.
      */
-    where?: GlobalPaymentConfigWhereInput
+    where?: PaymentProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GlobalPaymentConfigs to fetch.
+     * Determine the order of PaymentProviders to fetch.
      */
-    orderBy?: GlobalPaymentConfigOrderByWithRelationInput | GlobalPaymentConfigOrderByWithRelationInput[]
+    orderBy?: PaymentProviderOrderByWithRelationInput | PaymentProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: GlobalPaymentConfigWhereUniqueInput
+    cursor?: PaymentProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GlobalPaymentConfigs from the position of the cursor.
+     * Take `±n` PaymentProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GlobalPaymentConfigs.
+     * Skip the first `n` PaymentProviders.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned GlobalPaymentConfigs
+     * Count returned PaymentProviders
     **/
-    _count?: true | GlobalPaymentConfigCountAggregateInputType
+    _count?: true | PaymentProviderCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: GlobalPaymentConfigAvgAggregateInputType
+    _avg?: PaymentProviderAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: GlobalPaymentConfigSumAggregateInputType
+    _sum?: PaymentProviderSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: GlobalPaymentConfigMinAggregateInputType
+    _min?: PaymentProviderMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: GlobalPaymentConfigMaxAggregateInputType
+    _max?: PaymentProviderMaxAggregateInputType
   }
 
-  export type GetGlobalPaymentConfigAggregateType<T extends GlobalPaymentConfigAggregateArgs> = {
-        [P in keyof T & keyof AggregateGlobalPaymentConfig]: P extends '_count' | 'count'
+  export type GetPaymentProviderAggregateType<T extends PaymentProviderAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentProvider]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateGlobalPaymentConfig[P]>
-      : GetScalarType<T[P], AggregateGlobalPaymentConfig[P]>
+        : GetScalarType<T[P], AggregatePaymentProvider[P]>
+      : GetScalarType<T[P], AggregatePaymentProvider[P]>
   }
 
 
 
 
-  export type GlobalPaymentConfigGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GlobalPaymentConfigWhereInput
-    orderBy?: GlobalPaymentConfigOrderByWithAggregationInput | GlobalPaymentConfigOrderByWithAggregationInput[]
-    by: GlobalPaymentConfigScalarFieldEnum[] | GlobalPaymentConfigScalarFieldEnum
-    having?: GlobalPaymentConfigScalarWhereWithAggregatesInput
+  export type PaymentProviderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentProviderWhereInput
+    orderBy?: PaymentProviderOrderByWithAggregationInput | PaymentProviderOrderByWithAggregationInput[]
+    by: PaymentProviderScalarFieldEnum[] | PaymentProviderScalarFieldEnum
+    having?: PaymentProviderScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: GlobalPaymentConfigCountAggregateInputType | true
-    _avg?: GlobalPaymentConfigAvgAggregateInputType
-    _sum?: GlobalPaymentConfigSumAggregateInputType
-    _min?: GlobalPaymentConfigMinAggregateInputType
-    _max?: GlobalPaymentConfigMaxAggregateInputType
+    _count?: PaymentProviderCountAggregateInputType | true
+    _avg?: PaymentProviderAvgAggregateInputType
+    _sum?: PaymentProviderSumAggregateInputType
+    _min?: PaymentProviderMinAggregateInputType
+    _max?: PaymentProviderMaxAggregateInputType
   }
 
-  export type GlobalPaymentConfigGroupByOutputType = {
+  export type PaymentProviderGroupByOutputType = {
     id: string
-    defaultPlatformFeePercent: Decimal
-    defaultPlatformFeeFixed: Decimal
-    defaultServiceFeePercent: Decimal
-    defaultServiceFeeFixed: Decimal
-    defaultServiceFeePayerType: string
-    acceptCreditCard: boolean
-    acceptDebitCard: boolean
-    acceptPix: boolean
-    acceptBoleto: boolean
-    maxInstallments: number
-    minInstallmentValue: Decimal
-    interestFree: number
-    allowRefunds: boolean
-    refundDeadlineDays: number
+    slug: string
+    isActive: boolean
+    platformFeePercent: Decimal
+    platformCoustPercent: Decimal
     createdAt: Date
     updatedAt: Date
-    _count: GlobalPaymentConfigCountAggregateOutputType | null
-    _avg: GlobalPaymentConfigAvgAggregateOutputType | null
-    _sum: GlobalPaymentConfigSumAggregateOutputType | null
-    _min: GlobalPaymentConfigMinAggregateOutputType | null
-    _max: GlobalPaymentConfigMaxAggregateOutputType | null
+    _count: PaymentProviderCountAggregateOutputType | null
+    _avg: PaymentProviderAvgAggregateOutputType | null
+    _sum: PaymentProviderSumAggregateOutputType | null
+    _min: PaymentProviderMinAggregateOutputType | null
+    _max: PaymentProviderMaxAggregateOutputType | null
   }
 
-  type GetGlobalPaymentConfigGroupByPayload<T extends GlobalPaymentConfigGroupByArgs> = Prisma.PrismaPromise<
+  type GetPaymentProviderGroupByPayload<T extends PaymentProviderGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<GlobalPaymentConfigGroupByOutputType, T['by']> &
+      PickEnumerable<PaymentProviderGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof GlobalPaymentConfigGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof PaymentProviderGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], GlobalPaymentConfigGroupByOutputType[P]>
-            : GetScalarType<T[P], GlobalPaymentConfigGroupByOutputType[P]>
+              : GetScalarType<T[P], PaymentProviderGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentProviderGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type GlobalPaymentConfigSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type PaymentProviderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    defaultPlatformFeePercent?: boolean
-    defaultPlatformFeeFixed?: boolean
-    defaultServiceFeePercent?: boolean
-    defaultServiceFeeFixed?: boolean
-    defaultServiceFeePayerType?: boolean
-    acceptCreditCard?: boolean
-    acceptDebitCard?: boolean
-    acceptPix?: boolean
-    acceptBoleto?: boolean
-    maxInstallments?: boolean
-    minInstallmentValue?: boolean
-    interestFree?: boolean
-    allowRefunds?: boolean
-    refundDeadlineDays?: boolean
+    slug?: boolean
+    isActive?: boolean
+    platformFeePercent?: boolean
+    platformCoustPercent?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-  }, ExtArgs["result"]["globalPaymentConfig"]>
+    paymentMethods?: boolean | PaymentProvider$paymentMethodsArgs<ExtArgs>
+    _count?: boolean | PaymentProviderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentProvider"]>
 
 
 
-  export type GlobalPaymentConfigSelectScalar = {
+  export type PaymentProviderSelectScalar = {
     id?: boolean
-    defaultPlatformFeePercent?: boolean
-    defaultPlatformFeeFixed?: boolean
-    defaultServiceFeePercent?: boolean
-    defaultServiceFeeFixed?: boolean
-    defaultServiceFeePayerType?: boolean
-    acceptCreditCard?: boolean
-    acceptDebitCard?: boolean
-    acceptPix?: boolean
-    acceptBoleto?: boolean
-    maxInstallments?: boolean
-    minInstallmentValue?: boolean
-    interestFree?: boolean
-    allowRefunds?: boolean
-    refundDeadlineDays?: boolean
+    slug?: boolean
+    isActive?: boolean
+    platformFeePercent?: boolean
+    platformCoustPercent?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type GlobalPaymentConfigOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "defaultPlatformFeePercent" | "defaultPlatformFeeFixed" | "defaultServiceFeePercent" | "defaultServiceFeeFixed" | "defaultServiceFeePayerType" | "acceptCreditCard" | "acceptDebitCard" | "acceptPix" | "acceptBoleto" | "maxInstallments" | "minInstallmentValue" | "interestFree" | "allowRefunds" | "refundDeadlineDays" | "createdAt" | "updatedAt", ExtArgs["result"]["globalPaymentConfig"]>
+  export type PaymentProviderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "isActive" | "platformFeePercent" | "platformCoustPercent" | "createdAt" | "updatedAt", ExtArgs["result"]["paymentProvider"]>
+  export type PaymentProviderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    paymentMethods?: boolean | PaymentProvider$paymentMethodsArgs<ExtArgs>
+    _count?: boolean | PaymentProviderCountOutputTypeDefaultArgs<ExtArgs>
+  }
 
-  export type $GlobalPaymentConfigPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "GlobalPaymentConfig"
-    objects: {}
+  export type $PaymentProviderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentProvider"
+    objects: {
+      paymentMethods: Prisma.$PaymentMethodPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      defaultPlatformFeePercent: Prisma.Decimal
-      defaultPlatformFeeFixed: Prisma.Decimal
-      defaultServiceFeePercent: Prisma.Decimal
-      defaultServiceFeeFixed: Prisma.Decimal
-      defaultServiceFeePayerType: string
-      acceptCreditCard: boolean
-      acceptDebitCard: boolean
-      acceptPix: boolean
-      acceptBoleto: boolean
-      maxInstallments: number
-      minInstallmentValue: Prisma.Decimal
-      interestFree: number
-      allowRefunds: boolean
-      refundDeadlineDays: number
+      slug: string
+      isActive: boolean
+      platformFeePercent: Prisma.Decimal
+      platformCoustPercent: Prisma.Decimal
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["globalPaymentConfig"]>
+    }, ExtArgs["result"]["paymentProvider"]>
     composites: {}
   }
 
-  type GlobalPaymentConfigGetPayload<S extends boolean | null | undefined | GlobalPaymentConfigDefaultArgs> = $Result.GetResult<Prisma.$GlobalPaymentConfigPayload, S>
+  type PaymentProviderGetPayload<S extends boolean | null | undefined | PaymentProviderDefaultArgs> = $Result.GetResult<Prisma.$PaymentProviderPayload, S>
 
-  type GlobalPaymentConfigCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<GlobalPaymentConfigFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: GlobalPaymentConfigCountAggregateInputType | true
+  type PaymentProviderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PaymentProviderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PaymentProviderCountAggregateInputType | true
     }
 
-  export interface GlobalPaymentConfigDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GlobalPaymentConfig'], meta: { name: 'GlobalPaymentConfig' } }
+  export interface PaymentProviderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentProvider'], meta: { name: 'PaymentProvider' } }
     /**
-     * Find zero or one GlobalPaymentConfig that matches the filter.
-     * @param {GlobalPaymentConfigFindUniqueArgs} args - Arguments to find a GlobalPaymentConfig
+     * Find zero or one PaymentProvider that matches the filter.
+     * @param {PaymentProviderFindUniqueArgs} args - Arguments to find a PaymentProvider
      * @example
-     * // Get one GlobalPaymentConfig
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.findUnique({
+     * // Get one PaymentProvider
+     * const paymentProvider = await prisma.paymentProvider.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends GlobalPaymentConfigFindUniqueArgs>(args: SelectSubset<T, GlobalPaymentConfigFindUniqueArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends PaymentProviderFindUniqueArgs>(args: SelectSubset<T, PaymentProviderFindUniqueArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one GlobalPaymentConfig that matches the filter or throw an error with `error.code='P2025'`
+     * Find one PaymentProvider that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {GlobalPaymentConfigFindUniqueOrThrowArgs} args - Arguments to find a GlobalPaymentConfig
+     * @param {PaymentProviderFindUniqueOrThrowArgs} args - Arguments to find a PaymentProvider
      * @example
-     * // Get one GlobalPaymentConfig
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.findUniqueOrThrow({
+     * // Get one PaymentProvider
+     * const paymentProvider = await prisma.paymentProvider.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends GlobalPaymentConfigFindUniqueOrThrowArgs>(args: SelectSubset<T, GlobalPaymentConfigFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends PaymentProviderFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentProviderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first GlobalPaymentConfig that matches the filter.
+     * Find the first PaymentProvider that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GlobalPaymentConfigFindFirstArgs} args - Arguments to find a GlobalPaymentConfig
+     * @param {PaymentProviderFindFirstArgs} args - Arguments to find a PaymentProvider
      * @example
-     * // Get one GlobalPaymentConfig
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.findFirst({
+     * // Get one PaymentProvider
+     * const paymentProvider = await prisma.paymentProvider.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends GlobalPaymentConfigFindFirstArgs>(args?: SelectSubset<T, GlobalPaymentConfigFindFirstArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends PaymentProviderFindFirstArgs>(args?: SelectSubset<T, PaymentProviderFindFirstArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first GlobalPaymentConfig that matches the filter or
+     * Find the first PaymentProvider that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GlobalPaymentConfigFindFirstOrThrowArgs} args - Arguments to find a GlobalPaymentConfig
+     * @param {PaymentProviderFindFirstOrThrowArgs} args - Arguments to find a PaymentProvider
      * @example
-     * // Get one GlobalPaymentConfig
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.findFirstOrThrow({
+     * // Get one PaymentProvider
+     * const paymentProvider = await prisma.paymentProvider.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends GlobalPaymentConfigFindFirstOrThrowArgs>(args?: SelectSubset<T, GlobalPaymentConfigFindFirstOrThrowArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends PaymentProviderFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentProviderFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more GlobalPaymentConfigs that matches the filter.
+     * Find zero or more PaymentProviders that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GlobalPaymentConfigFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {PaymentProviderFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all GlobalPaymentConfigs
-     * const globalPaymentConfigs = await prisma.globalPaymentConfig.findMany()
+     * // Get all PaymentProviders
+     * const paymentProviders = await prisma.paymentProvider.findMany()
      * 
-     * // Get first 10 GlobalPaymentConfigs
-     * const globalPaymentConfigs = await prisma.globalPaymentConfig.findMany({ take: 10 })
+     * // Get first 10 PaymentProviders
+     * const paymentProviders = await prisma.paymentProvider.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const globalPaymentConfigWithIdOnly = await prisma.globalPaymentConfig.findMany({ select: { id: true } })
+     * const paymentProviderWithIdOnly = await prisma.paymentProvider.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends GlobalPaymentConfigFindManyArgs>(args?: SelectSubset<T, GlobalPaymentConfigFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends PaymentProviderFindManyArgs>(args?: SelectSubset<T, PaymentProviderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a GlobalPaymentConfig.
-     * @param {GlobalPaymentConfigCreateArgs} args - Arguments to create a GlobalPaymentConfig.
+     * Create a PaymentProvider.
+     * @param {PaymentProviderCreateArgs} args - Arguments to create a PaymentProvider.
      * @example
-     * // Create one GlobalPaymentConfig
-     * const GlobalPaymentConfig = await prisma.globalPaymentConfig.create({
+     * // Create one PaymentProvider
+     * const PaymentProvider = await prisma.paymentProvider.create({
      *   data: {
-     *     // ... data to create a GlobalPaymentConfig
+     *     // ... data to create a PaymentProvider
      *   }
      * })
      * 
      */
-    create<T extends GlobalPaymentConfigCreateArgs>(args: SelectSubset<T, GlobalPaymentConfigCreateArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends PaymentProviderCreateArgs>(args: SelectSubset<T, PaymentProviderCreateArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many GlobalPaymentConfigs.
-     * @param {GlobalPaymentConfigCreateManyArgs} args - Arguments to create many GlobalPaymentConfigs.
+     * Create many PaymentProviders.
+     * @param {PaymentProviderCreateManyArgs} args - Arguments to create many PaymentProviders.
      * @example
-     * // Create many GlobalPaymentConfigs
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.createMany({
+     * // Create many PaymentProviders
+     * const paymentProvider = await prisma.paymentProvider.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends GlobalPaymentConfigCreateManyArgs>(args?: SelectSubset<T, GlobalPaymentConfigCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends PaymentProviderCreateManyArgs>(args?: SelectSubset<T, PaymentProviderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Delete a GlobalPaymentConfig.
-     * @param {GlobalPaymentConfigDeleteArgs} args - Arguments to delete one GlobalPaymentConfig.
+     * Delete a PaymentProvider.
+     * @param {PaymentProviderDeleteArgs} args - Arguments to delete one PaymentProvider.
      * @example
-     * // Delete one GlobalPaymentConfig
-     * const GlobalPaymentConfig = await prisma.globalPaymentConfig.delete({
+     * // Delete one PaymentProvider
+     * const PaymentProvider = await prisma.paymentProvider.delete({
      *   where: {
-     *     // ... filter to delete one GlobalPaymentConfig
+     *     // ... filter to delete one PaymentProvider
      *   }
      * })
      * 
      */
-    delete<T extends GlobalPaymentConfigDeleteArgs>(args: SelectSubset<T, GlobalPaymentConfigDeleteArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends PaymentProviderDeleteArgs>(args: SelectSubset<T, PaymentProviderDeleteArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one GlobalPaymentConfig.
-     * @param {GlobalPaymentConfigUpdateArgs} args - Arguments to update one GlobalPaymentConfig.
+     * Update one PaymentProvider.
+     * @param {PaymentProviderUpdateArgs} args - Arguments to update one PaymentProvider.
      * @example
-     * // Update one GlobalPaymentConfig
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.update({
+     * // Update one PaymentProvider
+     * const paymentProvider = await prisma.paymentProvider.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10168,30 +10330,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends GlobalPaymentConfigUpdateArgs>(args: SelectSubset<T, GlobalPaymentConfigUpdateArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends PaymentProviderUpdateArgs>(args: SelectSubset<T, PaymentProviderUpdateArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more GlobalPaymentConfigs.
-     * @param {GlobalPaymentConfigDeleteManyArgs} args - Arguments to filter GlobalPaymentConfigs to delete.
+     * Delete zero or more PaymentProviders.
+     * @param {PaymentProviderDeleteManyArgs} args - Arguments to filter PaymentProviders to delete.
      * @example
-     * // Delete a few GlobalPaymentConfigs
-     * const { count } = await prisma.globalPaymentConfig.deleteMany({
+     * // Delete a few PaymentProviders
+     * const { count } = await prisma.paymentProvider.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends GlobalPaymentConfigDeleteManyArgs>(args?: SelectSubset<T, GlobalPaymentConfigDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends PaymentProviderDeleteManyArgs>(args?: SelectSubset<T, PaymentProviderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more GlobalPaymentConfigs.
+     * Update zero or more PaymentProviders.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GlobalPaymentConfigUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {PaymentProviderUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many GlobalPaymentConfigs
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.updateMany({
+     * // Update many PaymentProviders
+     * const paymentProvider = await prisma.paymentProvider.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10201,56 +10363,56 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends GlobalPaymentConfigUpdateManyArgs>(args: SelectSubset<T, GlobalPaymentConfigUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends PaymentProviderUpdateManyArgs>(args: SelectSubset<T, PaymentProviderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one GlobalPaymentConfig.
-     * @param {GlobalPaymentConfigUpsertArgs} args - Arguments to update or create a GlobalPaymentConfig.
+     * Create or update one PaymentProvider.
+     * @param {PaymentProviderUpsertArgs} args - Arguments to update or create a PaymentProvider.
      * @example
-     * // Update or create a GlobalPaymentConfig
-     * const globalPaymentConfig = await prisma.globalPaymentConfig.upsert({
+     * // Update or create a PaymentProvider
+     * const paymentProvider = await prisma.paymentProvider.upsert({
      *   create: {
-     *     // ... data to create a GlobalPaymentConfig
+     *     // ... data to create a PaymentProvider
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the GlobalPaymentConfig we want to update
+     *     // ... the filter for the PaymentProvider we want to update
      *   }
      * })
      */
-    upsert<T extends GlobalPaymentConfigUpsertArgs>(args: SelectSubset<T, GlobalPaymentConfigUpsertArgs<ExtArgs>>): Prisma__GlobalPaymentConfigClient<$Result.GetResult<Prisma.$GlobalPaymentConfigPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends PaymentProviderUpsertArgs>(args: SelectSubset<T, PaymentProviderUpsertArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of GlobalPaymentConfigs.
+     * Count the number of PaymentProviders.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GlobalPaymentConfigCountArgs} args - Arguments to filter GlobalPaymentConfigs to count.
+     * @param {PaymentProviderCountArgs} args - Arguments to filter PaymentProviders to count.
      * @example
-     * // Count the number of GlobalPaymentConfigs
-     * const count = await prisma.globalPaymentConfig.count({
+     * // Count the number of PaymentProviders
+     * const count = await prisma.paymentProvider.count({
      *   where: {
-     *     // ... the filter for the GlobalPaymentConfigs we want to count
+     *     // ... the filter for the PaymentProviders we want to count
      *   }
      * })
     **/
-    count<T extends GlobalPaymentConfigCountArgs>(
-      args?: Subset<T, GlobalPaymentConfigCountArgs>,
+    count<T extends PaymentProviderCountArgs>(
+      args?: Subset<T, PaymentProviderCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], GlobalPaymentConfigCountAggregateOutputType>
+          : GetScalarType<T['select'], PaymentProviderCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a GlobalPaymentConfig.
+     * Allows you to perform aggregations operations on a PaymentProvider.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GlobalPaymentConfigAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {PaymentProviderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -10270,13 +10432,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends GlobalPaymentConfigAggregateArgs>(args: Subset<T, GlobalPaymentConfigAggregateArgs>): Prisma.PrismaPromise<GetGlobalPaymentConfigAggregateType<T>>
+    aggregate<T extends PaymentProviderAggregateArgs>(args: Subset<T, PaymentProviderAggregateArgs>): Prisma.PrismaPromise<GetPaymentProviderAggregateType<T>>
 
     /**
-     * Group by GlobalPaymentConfig.
+     * Group by PaymentProvider.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GlobalPaymentConfigGroupByArgs} args - Group by arguments.
+     * @param {PaymentProviderGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -10291,14 +10453,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends GlobalPaymentConfigGroupByArgs,
+      T extends PaymentProviderGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: GlobalPaymentConfigGroupByArgs['orderBy'] }
-        : { orderBy?: GlobalPaymentConfigGroupByArgs['orderBy'] },
+        ? { orderBy: PaymentProviderGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentProviderGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -10347,21 +10509,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, GlobalPaymentConfigGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGlobalPaymentConfigGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, PaymentProviderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentProviderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the GlobalPaymentConfig model
+   * Fields of the PaymentProvider model
    */
-  readonly fields: GlobalPaymentConfigFieldRefs;
+  readonly fields: PaymentProviderFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for GlobalPaymentConfig.
+   * The delegate class that acts as a "Promise-like" for PaymentProvider.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__GlobalPaymentConfigClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__PaymentProviderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    paymentMethods<T extends PaymentProvider$paymentMethodsArgs<ExtArgs> = {}>(args?: Subset<T, PaymentProvider$paymentMethodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10388,344 +10551,1480 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the GlobalPaymentConfig model
+   * Fields of the PaymentProvider model
    */
-  interface GlobalPaymentConfigFieldRefs {
-    readonly id: FieldRef<"GlobalPaymentConfig", 'String'>
-    readonly defaultPlatformFeePercent: FieldRef<"GlobalPaymentConfig", 'Decimal'>
-    readonly defaultPlatformFeeFixed: FieldRef<"GlobalPaymentConfig", 'Decimal'>
-    readonly defaultServiceFeePercent: FieldRef<"GlobalPaymentConfig", 'Decimal'>
-    readonly defaultServiceFeeFixed: FieldRef<"GlobalPaymentConfig", 'Decimal'>
-    readonly defaultServiceFeePayerType: FieldRef<"GlobalPaymentConfig", 'String'>
-    readonly acceptCreditCard: FieldRef<"GlobalPaymentConfig", 'Boolean'>
-    readonly acceptDebitCard: FieldRef<"GlobalPaymentConfig", 'Boolean'>
-    readonly acceptPix: FieldRef<"GlobalPaymentConfig", 'Boolean'>
-    readonly acceptBoleto: FieldRef<"GlobalPaymentConfig", 'Boolean'>
-    readonly maxInstallments: FieldRef<"GlobalPaymentConfig", 'Int'>
-    readonly minInstallmentValue: FieldRef<"GlobalPaymentConfig", 'Decimal'>
-    readonly interestFree: FieldRef<"GlobalPaymentConfig", 'Int'>
-    readonly allowRefunds: FieldRef<"GlobalPaymentConfig", 'Boolean'>
-    readonly refundDeadlineDays: FieldRef<"GlobalPaymentConfig", 'Int'>
-    readonly createdAt: FieldRef<"GlobalPaymentConfig", 'DateTime'>
-    readonly updatedAt: FieldRef<"GlobalPaymentConfig", 'DateTime'>
+  interface PaymentProviderFieldRefs {
+    readonly id: FieldRef<"PaymentProvider", 'String'>
+    readonly slug: FieldRef<"PaymentProvider", 'String'>
+    readonly isActive: FieldRef<"PaymentProvider", 'Boolean'>
+    readonly platformFeePercent: FieldRef<"PaymentProvider", 'Decimal'>
+    readonly platformCoustPercent: FieldRef<"PaymentProvider", 'Decimal'>
+    readonly createdAt: FieldRef<"PaymentProvider", 'DateTime'>
+    readonly updatedAt: FieldRef<"PaymentProvider", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * GlobalPaymentConfig findUnique
+   * PaymentProvider findUnique
    */
-  export type GlobalPaymentConfigFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * Filter, which GlobalPaymentConfig to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: GlobalPaymentConfigWhereUniqueInput
+    include?: PaymentProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentProvider to fetch.
+     */
+    where: PaymentProviderWhereUniqueInput
   }
 
   /**
-   * GlobalPaymentConfig findUniqueOrThrow
+   * PaymentProvider findUniqueOrThrow
    */
-  export type GlobalPaymentConfigFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * Filter, which GlobalPaymentConfig to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: GlobalPaymentConfigWhereUniqueInput
+    include?: PaymentProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentProvider to fetch.
+     */
+    where: PaymentProviderWhereUniqueInput
   }
 
   /**
-   * GlobalPaymentConfig findFirst
+   * PaymentProvider findFirst
    */
-  export type GlobalPaymentConfigFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * Filter, which GlobalPaymentConfig to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: GlobalPaymentConfigWhereInput
+    include?: PaymentProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentProvider to fetch.
+     */
+    where?: PaymentProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GlobalPaymentConfigs to fetch.
+     * Determine the order of PaymentProviders to fetch.
      */
-    orderBy?: GlobalPaymentConfigOrderByWithRelationInput | GlobalPaymentConfigOrderByWithRelationInput[]
+    orderBy?: PaymentProviderOrderByWithRelationInput | PaymentProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for GlobalPaymentConfigs.
+     * Sets the position for searching for PaymentProviders.
      */
-    cursor?: GlobalPaymentConfigWhereUniqueInput
+    cursor?: PaymentProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GlobalPaymentConfigs from the position of the cursor.
+     * Take `±n` PaymentProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GlobalPaymentConfigs.
+     * Skip the first `n` PaymentProviders.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of GlobalPaymentConfigs.
+     * Filter by unique combinations of PaymentProviders.
      */
-    distinct?: GlobalPaymentConfigScalarFieldEnum | GlobalPaymentConfigScalarFieldEnum[]
+    distinct?: PaymentProviderScalarFieldEnum | PaymentProviderScalarFieldEnum[]
   }
 
   /**
-   * GlobalPaymentConfig findFirstOrThrow
+   * PaymentProvider findFirstOrThrow
    */
-  export type GlobalPaymentConfigFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * Filter, which GlobalPaymentConfig to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: GlobalPaymentConfigWhereInput
+    include?: PaymentProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentProvider to fetch.
+     */
+    where?: PaymentProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GlobalPaymentConfigs to fetch.
+     * Determine the order of PaymentProviders to fetch.
      */
-    orderBy?: GlobalPaymentConfigOrderByWithRelationInput | GlobalPaymentConfigOrderByWithRelationInput[]
+    orderBy?: PaymentProviderOrderByWithRelationInput | PaymentProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for GlobalPaymentConfigs.
+     * Sets the position for searching for PaymentProviders.
      */
-    cursor?: GlobalPaymentConfigWhereUniqueInput
+    cursor?: PaymentProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GlobalPaymentConfigs from the position of the cursor.
+     * Take `±n` PaymentProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GlobalPaymentConfigs.
+     * Skip the first `n` PaymentProviders.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of GlobalPaymentConfigs.
+     * Filter by unique combinations of PaymentProviders.
      */
-    distinct?: GlobalPaymentConfigScalarFieldEnum | GlobalPaymentConfigScalarFieldEnum[]
+    distinct?: PaymentProviderScalarFieldEnum | PaymentProviderScalarFieldEnum[]
   }
 
   /**
-   * GlobalPaymentConfig findMany
+   * PaymentProvider findMany
    */
-  export type GlobalPaymentConfigFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * Filter, which GlobalPaymentConfigs to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: GlobalPaymentConfigWhereInput
+    include?: PaymentProviderInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentProviders to fetch.
+     */
+    where?: PaymentProviderWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of GlobalPaymentConfigs to fetch.
+     * Determine the order of PaymentProviders to fetch.
      */
-    orderBy?: GlobalPaymentConfigOrderByWithRelationInput | GlobalPaymentConfigOrderByWithRelationInput[]
+    orderBy?: PaymentProviderOrderByWithRelationInput | PaymentProviderOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing GlobalPaymentConfigs.
+     * Sets the position for listing PaymentProviders.
      */
-    cursor?: GlobalPaymentConfigWhereUniqueInput
+    cursor?: PaymentProviderWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` GlobalPaymentConfigs from the position of the cursor.
+     * Take `±n` PaymentProviders from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` GlobalPaymentConfigs.
+     * Skip the first `n` PaymentProviders.
      */
     skip?: number
-    distinct?: GlobalPaymentConfigScalarFieldEnum | GlobalPaymentConfigScalarFieldEnum[]
+    distinct?: PaymentProviderScalarFieldEnum | PaymentProviderScalarFieldEnum[]
   }
 
   /**
-   * GlobalPaymentConfig create
+   * PaymentProvider create
    */
-  export type GlobalPaymentConfigCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * The data needed to create a GlobalPaymentConfig.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<GlobalPaymentConfigCreateInput, GlobalPaymentConfigUncheckedCreateInput>
+    include?: PaymentProviderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentProvider.
+     */
+    data: XOR<PaymentProviderCreateInput, PaymentProviderUncheckedCreateInput>
   }
 
   /**
-   * GlobalPaymentConfig createMany
+   * PaymentProvider createMany
    */
-  export type GlobalPaymentConfigCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many GlobalPaymentConfigs.
+     * The data used to create many PaymentProviders.
      */
-    data: GlobalPaymentConfigCreateManyInput | GlobalPaymentConfigCreateManyInput[]
+    data: PaymentProviderCreateManyInput | PaymentProviderCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * GlobalPaymentConfig update
+   * PaymentProvider update
    */
-  export type GlobalPaymentConfigUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * The data needed to update a GlobalPaymentConfig.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<GlobalPaymentConfigUpdateInput, GlobalPaymentConfigUncheckedUpdateInput>
+    include?: PaymentProviderInclude<ExtArgs> | null
     /**
-     * Choose, which GlobalPaymentConfig to update.
+     * The data needed to update a PaymentProvider.
      */
-    where: GlobalPaymentConfigWhereUniqueInput
+    data: XOR<PaymentProviderUpdateInput, PaymentProviderUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentProvider to update.
+     */
+    where: PaymentProviderWhereUniqueInput
   }
 
   /**
-   * GlobalPaymentConfig updateMany
+   * PaymentProvider updateMany
    */
-  export type GlobalPaymentConfigUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update GlobalPaymentConfigs.
+     * The data used to update PaymentProviders.
      */
-    data: XOR<GlobalPaymentConfigUpdateManyMutationInput, GlobalPaymentConfigUncheckedUpdateManyInput>
+    data: XOR<PaymentProviderUpdateManyMutationInput, PaymentProviderUncheckedUpdateManyInput>
     /**
-     * Filter which GlobalPaymentConfigs to update
+     * Filter which PaymentProviders to update
      */
-    where?: GlobalPaymentConfigWhereInput
+    where?: PaymentProviderWhereInput
     /**
-     * Limit how many GlobalPaymentConfigs to update.
+     * Limit how many PaymentProviders to update.
      */
     limit?: number
   }
 
   /**
-   * GlobalPaymentConfig upsert
+   * PaymentProvider upsert
    */
-  export type GlobalPaymentConfigUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * The filter to search for the GlobalPaymentConfig to update in case it exists.
+     * Choose, which related nodes to fetch as well
      */
-    where: GlobalPaymentConfigWhereUniqueInput
+    include?: PaymentProviderInclude<ExtArgs> | null
     /**
-     * In case the GlobalPaymentConfig found by the `where` argument doesn't exist, create a new GlobalPaymentConfig with this data.
+     * The filter to search for the PaymentProvider to update in case it exists.
      */
-    create: XOR<GlobalPaymentConfigCreateInput, GlobalPaymentConfigUncheckedCreateInput>
+    where: PaymentProviderWhereUniqueInput
     /**
-     * In case the GlobalPaymentConfig was found with the provided `where` argument, update it with this data.
+     * In case the PaymentProvider found by the `where` argument doesn't exist, create a new PaymentProvider with this data.
      */
-    update: XOR<GlobalPaymentConfigUpdateInput, GlobalPaymentConfigUncheckedUpdateInput>
+    create: XOR<PaymentProviderCreateInput, PaymentProviderUncheckedCreateInput>
+    /**
+     * In case the PaymentProvider was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentProviderUpdateInput, PaymentProviderUncheckedUpdateInput>
   }
 
   /**
-   * GlobalPaymentConfig delete
+   * PaymentProvider delete
    */
-  export type GlobalPaymentConfigDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentProvider
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentProviderSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentProvider
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentProviderOmit<ExtArgs> | null
     /**
-     * Filter which GlobalPaymentConfig to delete.
+     * Choose, which related nodes to fetch as well
      */
-    where: GlobalPaymentConfigWhereUniqueInput
+    include?: PaymentProviderInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentProvider to delete.
+     */
+    where: PaymentProviderWhereUniqueInput
   }
 
   /**
-   * GlobalPaymentConfig deleteMany
+   * PaymentProvider deleteMany
    */
-  export type GlobalPaymentConfigDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProviderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which GlobalPaymentConfigs to delete
+     * Filter which PaymentProviders to delete
      */
-    where?: GlobalPaymentConfigWhereInput
+    where?: PaymentProviderWhereInput
     /**
-     * Limit how many GlobalPaymentConfigs to delete.
+     * Limit how many PaymentProviders to delete.
      */
     limit?: number
   }
 
   /**
-   * GlobalPaymentConfig without action
+   * PaymentProvider.paymentMethods
    */
-  export type GlobalPaymentConfigDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentProvider$paymentMethodsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GlobalPaymentConfig
+     * Select specific fields to fetch from the PaymentMethod
      */
-    select?: GlobalPaymentConfigSelect<ExtArgs> | null
+    select?: PaymentMethodSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the GlobalPaymentConfig
+     * Omit specific fields from the PaymentMethod
      */
-    omit?: GlobalPaymentConfigOmit<ExtArgs> | null
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    where?: PaymentMethodWhereInput
+    orderBy?: PaymentMethodOrderByWithRelationInput | PaymentMethodOrderByWithRelationInput[]
+    cursor?: PaymentMethodWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentMethodScalarFieldEnum | PaymentMethodScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentProvider without action
+   */
+  export type PaymentProviderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentProvider
+     */
+    select?: PaymentProviderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentProvider
+     */
+    omit?: PaymentProviderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentProviderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PaymentMethod
+   */
+
+  export type AggregatePaymentMethod = {
+    _count: PaymentMethodCountAggregateOutputType | null
+    _avg: PaymentMethodAvgAggregateOutputType | null
+    _sum: PaymentMethodSumAggregateOutputType | null
+    _min: PaymentMethodMinAggregateOutputType | null
+    _max: PaymentMethodMaxAggregateOutputType | null
+  }
+
+  export type PaymentMethodAvgAggregateOutputType = {
+    gatewayFeePercent: Decimal | null
+    gatewayFeeFixed: Decimal | null
+    maxInstallments: number | null
+    minInstallmentValue: Decimal | null
+    interestFree: number | null
+    interestRate: Decimal | null
+  }
+
+  export type PaymentMethodSumAggregateOutputType = {
+    gatewayFeePercent: Decimal | null
+    gatewayFeeFixed: Decimal | null
+    maxInstallments: number | null
+    minInstallmentValue: Decimal | null
+    interestFree: number | null
+    interestRate: Decimal | null
+  }
+
+  export type PaymentMethodMinAggregateOutputType = {
+    id: string | null
+    providerId: string | null
+    slug: string | null
+    name: string | null
+    gatewayFeePercent: Decimal | null
+    gatewayFeeFixed: Decimal | null
+    allowInstallments: boolean | null
+    maxInstallments: number | null
+    minInstallmentValue: Decimal | null
+    interestFree: number | null
+    interestRate: Decimal | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMethodMaxAggregateOutputType = {
+    id: string | null
+    providerId: string | null
+    slug: string | null
+    name: string | null
+    gatewayFeePercent: Decimal | null
+    gatewayFeeFixed: Decimal | null
+    allowInstallments: boolean | null
+    maxInstallments: number | null
+    minInstallmentValue: Decimal | null
+    interestFree: number | null
+    interestRate: Decimal | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMethodCountAggregateOutputType = {
+    id: number
+    providerId: number
+    slug: number
+    name: number
+    gatewayFeePercent: number
+    gatewayFeeFixed: number
+    allowInstallments: number
+    maxInstallments: number
+    minInstallmentValue: number
+    interestFree: number
+    interestRate: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PaymentMethodAvgAggregateInputType = {
+    gatewayFeePercent?: true
+    gatewayFeeFixed?: true
+    maxInstallments?: true
+    minInstallmentValue?: true
+    interestFree?: true
+    interestRate?: true
+  }
+
+  export type PaymentMethodSumAggregateInputType = {
+    gatewayFeePercent?: true
+    gatewayFeeFixed?: true
+    maxInstallments?: true
+    minInstallmentValue?: true
+    interestFree?: true
+    interestRate?: true
+  }
+
+  export type PaymentMethodMinAggregateInputType = {
+    id?: true
+    providerId?: true
+    slug?: true
+    name?: true
+    gatewayFeePercent?: true
+    gatewayFeeFixed?: true
+    allowInstallments?: true
+    maxInstallments?: true
+    minInstallmentValue?: true
+    interestFree?: true
+    interestRate?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMethodMaxAggregateInputType = {
+    id?: true
+    providerId?: true
+    slug?: true
+    name?: true
+    gatewayFeePercent?: true
+    gatewayFeeFixed?: true
+    allowInstallments?: true
+    maxInstallments?: true
+    minInstallmentValue?: true
+    interestFree?: true
+    interestRate?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMethodCountAggregateInputType = {
+    id?: true
+    providerId?: true
+    slug?: true
+    name?: true
+    gatewayFeePercent?: true
+    gatewayFeeFixed?: true
+    allowInstallments?: true
+    maxInstallments?: true
+    minInstallmentValue?: true
+    interestFree?: true
+    interestRate?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PaymentMethodAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentMethod to aggregate.
+     */
+    where?: PaymentMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMethods to fetch.
+     */
+    orderBy?: PaymentMethodOrderByWithRelationInput | PaymentMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMethods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentMethods
+    **/
+    _count?: true | PaymentMethodCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentMethodAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentMethodSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentMethodMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentMethodMaxAggregateInputType
+  }
+
+  export type GetPaymentMethodAggregateType<T extends PaymentMethodAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentMethod]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentMethod[P]>
+      : GetScalarType<T[P], AggregatePaymentMethod[P]>
+  }
+
+
+
+
+  export type PaymentMethodGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentMethodWhereInput
+    orderBy?: PaymentMethodOrderByWithAggregationInput | PaymentMethodOrderByWithAggregationInput[]
+    by: PaymentMethodScalarFieldEnum[] | PaymentMethodScalarFieldEnum
+    having?: PaymentMethodScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentMethodCountAggregateInputType | true
+    _avg?: PaymentMethodAvgAggregateInputType
+    _sum?: PaymentMethodSumAggregateInputType
+    _min?: PaymentMethodMinAggregateInputType
+    _max?: PaymentMethodMaxAggregateInputType
+  }
+
+  export type PaymentMethodGroupByOutputType = {
+    id: string
+    providerId: string
+    slug: string
+    name: string
+    gatewayFeePercent: Decimal
+    gatewayFeeFixed: Decimal
+    allowInstallments: boolean
+    maxInstallments: number
+    minInstallmentValue: Decimal
+    interestFree: number
+    interestRate: Decimal
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentMethodCountAggregateOutputType | null
+    _avg: PaymentMethodAvgAggregateOutputType | null
+    _sum: PaymentMethodSumAggregateOutputType | null
+    _min: PaymentMethodMinAggregateOutputType | null
+    _max: PaymentMethodMaxAggregateOutputType | null
+  }
+
+  type GetPaymentMethodGroupByPayload<T extends PaymentMethodGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentMethodGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentMethodGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentMethodGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentMethodGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentMethodSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    providerId?: boolean
+    slug?: boolean
+    name?: boolean
+    gatewayFeePercent?: boolean
+    gatewayFeeFixed?: boolean
+    allowInstallments?: boolean
+    maxInstallments?: boolean
+    minInstallmentValue?: boolean
+    interestFree?: boolean
+    interestRate?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    provider?: boolean | PaymentProviderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentMethod"]>
+
+
+
+  export type PaymentMethodSelectScalar = {
+    id?: boolean
+    providerId?: boolean
+    slug?: boolean
+    name?: boolean
+    gatewayFeePercent?: boolean
+    gatewayFeeFixed?: boolean
+    allowInstallments?: boolean
+    maxInstallments?: boolean
+    minInstallmentValue?: boolean
+    interestFree?: boolean
+    interestRate?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PaymentMethodOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "providerId" | "slug" | "name" | "gatewayFeePercent" | "gatewayFeeFixed" | "allowInstallments" | "maxInstallments" | "minInstallmentValue" | "interestFree" | "interestRate" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["paymentMethod"]>
+  export type PaymentMethodInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    provider?: boolean | PaymentProviderDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentMethodPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentMethod"
+    objects: {
+      provider: Prisma.$PaymentProviderPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      providerId: string
+      slug: string
+      name: string
+      gatewayFeePercent: Prisma.Decimal
+      gatewayFeeFixed: Prisma.Decimal
+      allowInstallments: boolean
+      maxInstallments: number
+      minInstallmentValue: Prisma.Decimal
+      interestFree: number
+      interestRate: Prisma.Decimal
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["paymentMethod"]>
+    composites: {}
+  }
+
+  type PaymentMethodGetPayload<S extends boolean | null | undefined | PaymentMethodDefaultArgs> = $Result.GetResult<Prisma.$PaymentMethodPayload, S>
+
+  type PaymentMethodCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PaymentMethodFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PaymentMethodCountAggregateInputType | true
+    }
+
+  export interface PaymentMethodDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentMethod'], meta: { name: 'PaymentMethod' } }
+    /**
+     * Find zero or one PaymentMethod that matches the filter.
+     * @param {PaymentMethodFindUniqueArgs} args - Arguments to find a PaymentMethod
+     * @example
+     * // Get one PaymentMethod
+     * const paymentMethod = await prisma.paymentMethod.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentMethodFindUniqueArgs>(args: SelectSubset<T, PaymentMethodFindUniqueArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PaymentMethod that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PaymentMethodFindUniqueOrThrowArgs} args - Arguments to find a PaymentMethod
+     * @example
+     * // Get one PaymentMethod
+     * const paymentMethod = await prisma.paymentMethod.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentMethodFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentMethodFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PaymentMethod that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMethodFindFirstArgs} args - Arguments to find a PaymentMethod
+     * @example
+     * // Get one PaymentMethod
+     * const paymentMethod = await prisma.paymentMethod.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentMethodFindFirstArgs>(args?: SelectSubset<T, PaymentMethodFindFirstArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PaymentMethod that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMethodFindFirstOrThrowArgs} args - Arguments to find a PaymentMethod
+     * @example
+     * // Get one PaymentMethod
+     * const paymentMethod = await prisma.paymentMethod.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentMethodFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentMethodFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PaymentMethods that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMethodFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentMethods
+     * const paymentMethods = await prisma.paymentMethod.findMany()
+     * 
+     * // Get first 10 PaymentMethods
+     * const paymentMethods = await prisma.paymentMethod.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentMethodWithIdOnly = await prisma.paymentMethod.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentMethodFindManyArgs>(args?: SelectSubset<T, PaymentMethodFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PaymentMethod.
+     * @param {PaymentMethodCreateArgs} args - Arguments to create a PaymentMethod.
+     * @example
+     * // Create one PaymentMethod
+     * const PaymentMethod = await prisma.paymentMethod.create({
+     *   data: {
+     *     // ... data to create a PaymentMethod
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentMethodCreateArgs>(args: SelectSubset<T, PaymentMethodCreateArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PaymentMethods.
+     * @param {PaymentMethodCreateManyArgs} args - Arguments to create many PaymentMethods.
+     * @example
+     * // Create many PaymentMethods
+     * const paymentMethod = await prisma.paymentMethod.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentMethodCreateManyArgs>(args?: SelectSubset<T, PaymentMethodCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a PaymentMethod.
+     * @param {PaymentMethodDeleteArgs} args - Arguments to delete one PaymentMethod.
+     * @example
+     * // Delete one PaymentMethod
+     * const PaymentMethod = await prisma.paymentMethod.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentMethod
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentMethodDeleteArgs>(args: SelectSubset<T, PaymentMethodDeleteArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PaymentMethod.
+     * @param {PaymentMethodUpdateArgs} args - Arguments to update one PaymentMethod.
+     * @example
+     * // Update one PaymentMethod
+     * const paymentMethod = await prisma.paymentMethod.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentMethodUpdateArgs>(args: SelectSubset<T, PaymentMethodUpdateArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PaymentMethods.
+     * @param {PaymentMethodDeleteManyArgs} args - Arguments to filter PaymentMethods to delete.
+     * @example
+     * // Delete a few PaymentMethods
+     * const { count } = await prisma.paymentMethod.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentMethodDeleteManyArgs>(args?: SelectSubset<T, PaymentMethodDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentMethods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMethodUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentMethods
+     * const paymentMethod = await prisma.paymentMethod.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentMethodUpdateManyArgs>(args: SelectSubset<T, PaymentMethodUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentMethod.
+     * @param {PaymentMethodUpsertArgs} args - Arguments to update or create a PaymentMethod.
+     * @example
+     * // Update or create a PaymentMethod
+     * const paymentMethod = await prisma.paymentMethod.upsert({
+     *   create: {
+     *     // ... data to create a PaymentMethod
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentMethod we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentMethodUpsertArgs>(args: SelectSubset<T, PaymentMethodUpsertArgs<ExtArgs>>): Prisma__PaymentMethodClient<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PaymentMethods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMethodCountArgs} args - Arguments to filter PaymentMethods to count.
+     * @example
+     * // Count the number of PaymentMethods
+     * const count = await prisma.paymentMethod.count({
+     *   where: {
+     *     // ... the filter for the PaymentMethods we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentMethodCountArgs>(
+      args?: Subset<T, PaymentMethodCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentMethodCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentMethod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMethodAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentMethodAggregateArgs>(args: Subset<T, PaymentMethodAggregateArgs>): Prisma.PrismaPromise<GetPaymentMethodAggregateType<T>>
+
+    /**
+     * Group by PaymentMethod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMethodGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentMethodGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentMethodGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentMethodGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentMethodGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentMethodGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentMethod model
+   */
+  readonly fields: PaymentMethodFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentMethod.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentMethodClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    provider<T extends PaymentProviderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PaymentProviderDefaultArgs<ExtArgs>>): Prisma__PaymentProviderClient<$Result.GetResult<Prisma.$PaymentProviderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentMethod model
+   */
+  interface PaymentMethodFieldRefs {
+    readonly id: FieldRef<"PaymentMethod", 'String'>
+    readonly providerId: FieldRef<"PaymentMethod", 'String'>
+    readonly slug: FieldRef<"PaymentMethod", 'String'>
+    readonly name: FieldRef<"PaymentMethod", 'String'>
+    readonly gatewayFeePercent: FieldRef<"PaymentMethod", 'Decimal'>
+    readonly gatewayFeeFixed: FieldRef<"PaymentMethod", 'Decimal'>
+    readonly allowInstallments: FieldRef<"PaymentMethod", 'Boolean'>
+    readonly maxInstallments: FieldRef<"PaymentMethod", 'Int'>
+    readonly minInstallmentValue: FieldRef<"PaymentMethod", 'Decimal'>
+    readonly interestFree: FieldRef<"PaymentMethod", 'Int'>
+    readonly interestRate: FieldRef<"PaymentMethod", 'Decimal'>
+    readonly isActive: FieldRef<"PaymentMethod", 'Boolean'>
+    readonly createdAt: FieldRef<"PaymentMethod", 'DateTime'>
+    readonly updatedAt: FieldRef<"PaymentMethod", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentMethod findUnique
+   */
+  export type PaymentMethodFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentMethod to fetch.
+     */
+    where: PaymentMethodWhereUniqueInput
+  }
+
+  /**
+   * PaymentMethod findUniqueOrThrow
+   */
+  export type PaymentMethodFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentMethod to fetch.
+     */
+    where: PaymentMethodWhereUniqueInput
+  }
+
+  /**
+   * PaymentMethod findFirst
+   */
+  export type PaymentMethodFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentMethod to fetch.
+     */
+    where?: PaymentMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMethods to fetch.
+     */
+    orderBy?: PaymentMethodOrderByWithRelationInput | PaymentMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentMethods.
+     */
+    cursor?: PaymentMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMethods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentMethods.
+     */
+    distinct?: PaymentMethodScalarFieldEnum | PaymentMethodScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMethod findFirstOrThrow
+   */
+  export type PaymentMethodFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentMethod to fetch.
+     */
+    where?: PaymentMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMethods to fetch.
+     */
+    orderBy?: PaymentMethodOrderByWithRelationInput | PaymentMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentMethods.
+     */
+    cursor?: PaymentMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMethods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentMethods.
+     */
+    distinct?: PaymentMethodScalarFieldEnum | PaymentMethodScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMethod findMany
+   */
+  export type PaymentMethodFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentMethods to fetch.
+     */
+    where?: PaymentMethodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMethods to fetch.
+     */
+    orderBy?: PaymentMethodOrderByWithRelationInput | PaymentMethodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentMethods.
+     */
+    cursor?: PaymentMethodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMethods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMethods.
+     */
+    skip?: number
+    distinct?: PaymentMethodScalarFieldEnum | PaymentMethodScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMethod create
+   */
+  export type PaymentMethodCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentMethod.
+     */
+    data: XOR<PaymentMethodCreateInput, PaymentMethodUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentMethod createMany
+   */
+  export type PaymentMethodCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentMethods.
+     */
+    data: PaymentMethodCreateManyInput | PaymentMethodCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentMethod update
+   */
+  export type PaymentMethodUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentMethod.
+     */
+    data: XOR<PaymentMethodUpdateInput, PaymentMethodUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentMethod to update.
+     */
+    where: PaymentMethodWhereUniqueInput
+  }
+
+  /**
+   * PaymentMethod updateMany
+   */
+  export type PaymentMethodUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentMethods.
+     */
+    data: XOR<PaymentMethodUpdateManyMutationInput, PaymentMethodUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentMethods to update
+     */
+    where?: PaymentMethodWhereInput
+    /**
+     * Limit how many PaymentMethods to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PaymentMethod upsert
+   */
+  export type PaymentMethodUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentMethod to update in case it exists.
+     */
+    where: PaymentMethodWhereUniqueInput
+    /**
+     * In case the PaymentMethod found by the `where` argument doesn't exist, create a new PaymentMethod with this data.
+     */
+    create: XOR<PaymentMethodCreateInput, PaymentMethodUncheckedCreateInput>
+    /**
+     * In case the PaymentMethod was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentMethodUpdateInput, PaymentMethodUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentMethod delete
+   */
+  export type PaymentMethodDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentMethod to delete.
+     */
+    where: PaymentMethodWhereUniqueInput
+  }
+
+  /**
+   * PaymentMethod deleteMany
+   */
+  export type PaymentMethodDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentMethods to delete
+     */
+    where?: PaymentMethodWhereInput
+    /**
+     * Limit how many PaymentMethods to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PaymentMethod without action
+   */
+  export type PaymentMethodDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMethod
+     */
+    select?: PaymentMethodSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentMethod
+     */
+    omit?: PaymentMethodOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentMethodInclude<ExtArgs> | null
   }
 
 
@@ -11810,7 +13109,7 @@ export namespace Prisma {
     serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
-    stripeApplicationFee: number | null
+    stripeApplicationFee: Decimal | null
   }
 
   export type OrderSumAggregateOutputType = {
@@ -11818,25 +13117,24 @@ export namespace Prisma {
     serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
-    stripeApplicationFee: number | null
+    stripeApplicationFee: Decimal | null
   }
 
   export type OrderMinAggregateOutputType = {
     id: string | null
     tenantId: string | null
-    eventId: string | null
+    reservationId: string | null
     userId: string | null
     subtotal: Decimal | null
     serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
     status: $Enums.OrderStatus | null
-    paymentMethod: $Enums.PaymentMethod | null
+    paymentMethod: $Enums.PaymentMethodTypes | null
     paymentProvider: string | null
-    stripePaymentIntentId: string | null
-    stripeClientSecret: string | null
+    stripeCheckoutSessionId: string | null
     stripeTransferId: string | null
-    stripeApplicationFee: number | null
+    stripeApplicationFee: Decimal | null
     paymentUrl: string | null
     qrCodeData: string | null
     boletoBarcode: string | null
@@ -11854,19 +13152,18 @@ export namespace Prisma {
   export type OrderMaxAggregateOutputType = {
     id: string | null
     tenantId: string | null
-    eventId: string | null
+    reservationId: string | null
     userId: string | null
     subtotal: Decimal | null
     serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
     status: $Enums.OrderStatus | null
-    paymentMethod: $Enums.PaymentMethod | null
+    paymentMethod: $Enums.PaymentMethodTypes | null
     paymentProvider: string | null
-    stripePaymentIntentId: string | null
-    stripeClientSecret: string | null
+    stripeCheckoutSessionId: string | null
     stripeTransferId: string | null
-    stripeApplicationFee: number | null
+    stripeApplicationFee: Decimal | null
     paymentUrl: string | null
     qrCodeData: string | null
     boletoBarcode: string | null
@@ -11884,7 +13181,7 @@ export namespace Prisma {
   export type OrderCountAggregateOutputType = {
     id: number
     tenantId: number
-    eventId: number
+    reservationId: number
     userId: number
     subtotal: number
     serviceFee: number
@@ -11893,8 +13190,7 @@ export namespace Prisma {
     status: number
     paymentMethod: number
     paymentProvider: number
-    stripePaymentIntentId: number
-    stripeClientSecret: number
+    stripeCheckoutSessionId: number
     stripeTransferId: number
     stripeApplicationFee: number
     paymentUrl: number
@@ -11932,7 +13228,7 @@ export namespace Prisma {
   export type OrderMinAggregateInputType = {
     id?: true
     tenantId?: true
-    eventId?: true
+    reservationId?: true
     userId?: true
     subtotal?: true
     serviceFee?: true
@@ -11941,8 +13237,7 @@ export namespace Prisma {
     status?: true
     paymentMethod?: true
     paymentProvider?: true
-    stripePaymentIntentId?: true
-    stripeClientSecret?: true
+    stripeCheckoutSessionId?: true
     stripeTransferId?: true
     stripeApplicationFee?: true
     paymentUrl?: true
@@ -11962,7 +13257,7 @@ export namespace Prisma {
   export type OrderMaxAggregateInputType = {
     id?: true
     tenantId?: true
-    eventId?: true
+    reservationId?: true
     userId?: true
     subtotal?: true
     serviceFee?: true
@@ -11971,8 +13266,7 @@ export namespace Prisma {
     status?: true
     paymentMethod?: true
     paymentProvider?: true
-    stripePaymentIntentId?: true
-    stripeClientSecret?: true
+    stripeCheckoutSessionId?: true
     stripeTransferId?: true
     stripeApplicationFee?: true
     paymentUrl?: true
@@ -11992,7 +13286,7 @@ export namespace Prisma {
   export type OrderCountAggregateInputType = {
     id?: true
     tenantId?: true
-    eventId?: true
+    reservationId?: true
     userId?: true
     subtotal?: true
     serviceFee?: true
@@ -12001,8 +13295,7 @@ export namespace Prisma {
     status?: true
     paymentMethod?: true
     paymentProvider?: true
-    stripePaymentIntentId?: true
-    stripeClientSecret?: true
+    stripeCheckoutSessionId?: true
     stripeTransferId?: true
     stripeApplicationFee?: true
     paymentUrl?: true
@@ -12109,19 +13402,18 @@ export namespace Prisma {
   export type OrderGroupByOutputType = {
     id: string
     tenantId: string
-    eventId: string
+    reservationId: string
     userId: string
     subtotal: Decimal
     serviceFee: Decimal
     platformFee: Decimal
     total: Decimal
     status: $Enums.OrderStatus
-    paymentMethod: $Enums.PaymentMethod | null
+    paymentMethod: $Enums.PaymentMethodTypes | null
     paymentProvider: string | null
-    stripePaymentIntentId: string | null
-    stripeClientSecret: string | null
+    stripeCheckoutSessionId: string | null
     stripeTransferId: string | null
-    stripeApplicationFee: number | null
+    stripeApplicationFee: Decimal | null
     paymentUrl: string | null
     qrCodeData: string | null
     boletoBarcode: string | null
@@ -12158,7 +13450,7 @@ export namespace Prisma {
   export type OrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tenantId?: boolean
-    eventId?: boolean
+    reservationId?: boolean
     userId?: boolean
     subtotal?: boolean
     serviceFee?: boolean
@@ -12167,8 +13459,7 @@ export namespace Prisma {
     status?: boolean
     paymentMethod?: boolean
     paymentProvider?: boolean
-    stripePaymentIntentId?: boolean
-    stripeClientSecret?: boolean
+    stripeCheckoutSessionId?: boolean
     stripeTransferId?: boolean
     stripeApplicationFee?: boolean
     paymentUrl?: boolean
@@ -12184,7 +13475,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     tenant?: boolean | tenantsDefaultArgs<ExtArgs>
-    event?: boolean | eventosDefaultArgs<ExtArgs>
+    reservation?: boolean | Order$reservationArgs<ExtArgs>
     usuario?: boolean | usuariosDefaultArgs<ExtArgs>
     tickets?: boolean | Order$ticketsArgs<ExtArgs>
     orderItems?: boolean | Order$orderItemsArgs<ExtArgs>
@@ -12196,7 +13487,7 @@ export namespace Prisma {
   export type OrderSelectScalar = {
     id?: boolean
     tenantId?: boolean
-    eventId?: boolean
+    reservationId?: boolean
     userId?: boolean
     subtotal?: boolean
     serviceFee?: boolean
@@ -12205,8 +13496,7 @@ export namespace Prisma {
     status?: boolean
     paymentMethod?: boolean
     paymentProvider?: boolean
-    stripePaymentIntentId?: boolean
-    stripeClientSecret?: boolean
+    stripeCheckoutSessionId?: boolean
     stripeTransferId?: boolean
     stripeApplicationFee?: boolean
     paymentUrl?: boolean
@@ -12223,10 +13513,10 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "eventId" | "userId" | "subtotal" | "serviceFee" | "platformFee" | "total" | "status" | "paymentMethod" | "paymentProvider" | "stripePaymentIntentId" | "stripeClientSecret" | "stripeTransferId" | "stripeApplicationFee" | "paymentUrl" | "qrCodeData" | "boletoBarcode" | "paidAt" | "confirmedAt" | "canceledAt" | "refundedAt" | "expiresAt" | "notes" | "cancelReason" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "reservationId" | "userId" | "subtotal" | "serviceFee" | "platformFee" | "total" | "status" | "paymentMethod" | "paymentProvider" | "stripeCheckoutSessionId" | "stripeTransferId" | "stripeApplicationFee" | "paymentUrl" | "qrCodeData" | "boletoBarcode" | "paidAt" | "confirmedAt" | "canceledAt" | "refundedAt" | "expiresAt" | "notes" | "cancelReason" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | tenantsDefaultArgs<ExtArgs>
-    event?: boolean | eventosDefaultArgs<ExtArgs>
+    reservation?: boolean | Order$reservationArgs<ExtArgs>
     usuario?: boolean | usuariosDefaultArgs<ExtArgs>
     tickets?: boolean | Order$ticketsArgs<ExtArgs>
     orderItems?: boolean | Order$orderItemsArgs<ExtArgs>
@@ -12237,7 +13527,7 @@ export namespace Prisma {
     name: "Order"
     objects: {
       tenant: Prisma.$tenantsPayload<ExtArgs>
-      event: Prisma.$eventosPayload<ExtArgs>
+      reservation: Prisma.$ReservationPayload<ExtArgs> | null
       usuario: Prisma.$usuariosPayload<ExtArgs>
       tickets: Prisma.$TicketPayload<ExtArgs>[]
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
@@ -12245,19 +13535,18 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       tenantId: string
-      eventId: string
+      reservationId: string
       userId: string
       subtotal: Prisma.Decimal
       serviceFee: Prisma.Decimal
       platformFee: Prisma.Decimal
       total: Prisma.Decimal
       status: $Enums.OrderStatus
-      paymentMethod: $Enums.PaymentMethod | null
+      paymentMethod: $Enums.PaymentMethodTypes | null
       paymentProvider: string | null
-      stripePaymentIntentId: string | null
-      stripeClientSecret: string | null
+      stripeCheckoutSessionId: string | null
       stripeTransferId: string | null
-      stripeApplicationFee: number | null
+      stripeApplicationFee: Prisma.Decimal | null
       paymentUrl: string | null
       qrCodeData: string | null
       boletoBarcode: string | null
@@ -12611,7 +13900,7 @@ export namespace Prisma {
   export interface Prisma__OrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tenant<T extends tenantsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tenantsDefaultArgs<ExtArgs>>): Prisma__tenantsClient<$Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    event<T extends eventosDefaultArgs<ExtArgs> = {}>(args?: Subset<T, eventosDefaultArgs<ExtArgs>>): Prisma__eventosClient<$Result.GetResult<Prisma.$eventosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    reservation<T extends Order$reservationArgs<ExtArgs> = {}>(args?: Subset<T, Order$reservationArgs<ExtArgs>>): Prisma__ReservationClient<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     usuario<T extends usuariosDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usuariosDefaultArgs<ExtArgs>>): Prisma__usuariosClient<$Result.GetResult<Prisma.$usuariosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tickets<T extends Order$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Order$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orderItems<T extends Order$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Order$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -12646,19 +13935,18 @@ export namespace Prisma {
   interface OrderFieldRefs {
     readonly id: FieldRef<"Order", 'String'>
     readonly tenantId: FieldRef<"Order", 'String'>
-    readonly eventId: FieldRef<"Order", 'String'>
+    readonly reservationId: FieldRef<"Order", 'String'>
     readonly userId: FieldRef<"Order", 'String'>
     readonly subtotal: FieldRef<"Order", 'Decimal'>
     readonly serviceFee: FieldRef<"Order", 'Decimal'>
     readonly platformFee: FieldRef<"Order", 'Decimal'>
     readonly total: FieldRef<"Order", 'Decimal'>
     readonly status: FieldRef<"Order", 'OrderStatus'>
-    readonly paymentMethod: FieldRef<"Order", 'PaymentMethod'>
+    readonly paymentMethod: FieldRef<"Order", 'PaymentMethodTypes'>
     readonly paymentProvider: FieldRef<"Order", 'String'>
-    readonly stripePaymentIntentId: FieldRef<"Order", 'String'>
-    readonly stripeClientSecret: FieldRef<"Order", 'String'>
+    readonly stripeCheckoutSessionId: FieldRef<"Order", 'String'>
     readonly stripeTransferId: FieldRef<"Order", 'String'>
-    readonly stripeApplicationFee: FieldRef<"Order", 'Int'>
+    readonly stripeApplicationFee: FieldRef<"Order", 'Decimal'>
     readonly paymentUrl: FieldRef<"Order", 'String'>
     readonly qrCodeData: FieldRef<"Order", 'String'>
     readonly boletoBarcode: FieldRef<"Order", 'String'>
@@ -13011,6 +14299,25 @@ export namespace Prisma {
      * Limit how many Orders to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Order.reservation
+   */
+  export type Order$reservationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reservation
+     */
+    select?: ReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reservation
+     */
+    omit?: ReservationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationInclude<ExtArgs> | null
+    where?: ReservationWhereInput
   }
 
   /**
@@ -14116,25 +15423,14 @@ export namespace Prisma {
 
   export type AggregateReservation = {
     _count: ReservationCountAggregateOutputType | null
-    _avg: ReservationAvgAggregateOutputType | null
-    _sum: ReservationSumAggregateOutputType | null
     _min: ReservationMinAggregateOutputType | null
     _max: ReservationMaxAggregateOutputType | null
   }
 
-  export type ReservationAvgAggregateOutputType = {
-    quantity: number | null
-  }
-
-  export type ReservationSumAggregateOutputType = {
-    quantity: number | null
-  }
-
   export type ReservationMinAggregateOutputType = {
     id: string | null
-    batchTicketId: string | null
     userId: string | null
-    quantity: number | null
+    tenantId: string | null
     expiresAt: Date | null
     status: $Enums.ReservationStatus | null
     ipAddress: string | null
@@ -14145,9 +15441,8 @@ export namespace Prisma {
 
   export type ReservationMaxAggregateOutputType = {
     id: string | null
-    batchTicketId: string | null
     userId: string | null
-    quantity: number | null
+    tenantId: string | null
     expiresAt: Date | null
     status: $Enums.ReservationStatus | null
     ipAddress: string | null
@@ -14158,9 +15453,8 @@ export namespace Prisma {
 
   export type ReservationCountAggregateOutputType = {
     id: number
-    batchTicketId: number
     userId: number
-    quantity: number
+    tenantId: number
     expiresAt: number
     status: number
     ipAddress: number
@@ -14171,19 +15465,10 @@ export namespace Prisma {
   }
 
 
-  export type ReservationAvgAggregateInputType = {
-    quantity?: true
-  }
-
-  export type ReservationSumAggregateInputType = {
-    quantity?: true
-  }
-
   export type ReservationMinAggregateInputType = {
     id?: true
-    batchTicketId?: true
     userId?: true
-    quantity?: true
+    tenantId?: true
     expiresAt?: true
     status?: true
     ipAddress?: true
@@ -14194,9 +15479,8 @@ export namespace Prisma {
 
   export type ReservationMaxAggregateInputType = {
     id?: true
-    batchTicketId?: true
     userId?: true
-    quantity?: true
+    tenantId?: true
     expiresAt?: true
     status?: true
     ipAddress?: true
@@ -14207,9 +15491,8 @@ export namespace Prisma {
 
   export type ReservationCountAggregateInputType = {
     id?: true
-    batchTicketId?: true
     userId?: true
-    quantity?: true
+    tenantId?: true
     expiresAt?: true
     status?: true
     ipAddress?: true
@@ -14257,18 +15540,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: ReservationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ReservationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: ReservationMinAggregateInputType
@@ -14299,17 +15570,14 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ReservationCountAggregateInputType | true
-    _avg?: ReservationAvgAggregateInputType
-    _sum?: ReservationSumAggregateInputType
     _min?: ReservationMinAggregateInputType
     _max?: ReservationMaxAggregateInputType
   }
 
   export type ReservationGroupByOutputType = {
     id: string
-    batchTicketId: string
     userId: string
-    quantity: number
+    tenantId: string
     expiresAt: Date
     status: $Enums.ReservationStatus
     ipAddress: string | null
@@ -14317,8 +15585,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: ReservationCountAggregateOutputType | null
-    _avg: ReservationAvgAggregateOutputType | null
-    _sum: ReservationSumAggregateOutputType | null
     _min: ReservationMinAggregateOutputType | null
     _max: ReservationMaxAggregateOutputType | null
   }
@@ -14339,25 +15605,27 @@ export namespace Prisma {
 
   export type ReservationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    batchTicketId?: boolean
     userId?: boolean
-    quantity?: boolean
+    tenantId?: boolean
     expiresAt?: boolean
     status?: boolean
     ipAddress?: boolean
     userAgent?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    batchTicket?: boolean | BatchTicketDefaultArgs<ExtArgs>
+    usuario?: boolean | usuariosDefaultArgs<ExtArgs>
+    tickets?: boolean | Reservation$ticketsArgs<ExtArgs>
+    orders?: boolean | Reservation$ordersArgs<ExtArgs>
+    tenant?: boolean | tenantsDefaultArgs<ExtArgs>
+    _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
 
 
   export type ReservationSelectScalar = {
     id?: boolean
-    batchTicketId?: boolean
     userId?: boolean
-    quantity?: boolean
+    tenantId?: boolean
     expiresAt?: boolean
     status?: boolean
     ipAddress?: boolean
@@ -14366,21 +15634,27 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "batchTicketId" | "userId" | "quantity" | "expiresAt" | "status" | "ipAddress" | "userAgent" | "createdAt" | "updatedAt", ExtArgs["result"]["reservation"]>
+  export type ReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "tenantId" | "expiresAt" | "status" | "ipAddress" | "userAgent" | "createdAt" | "updatedAt", ExtArgs["result"]["reservation"]>
   export type ReservationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    batchTicket?: boolean | BatchTicketDefaultArgs<ExtArgs>
+    usuario?: boolean | usuariosDefaultArgs<ExtArgs>
+    tickets?: boolean | Reservation$ticketsArgs<ExtArgs>
+    orders?: boolean | Reservation$ordersArgs<ExtArgs>
+    tenant?: boolean | tenantsDefaultArgs<ExtArgs>
+    _count?: boolean | ReservationCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $ReservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Reservation"
     objects: {
-      batchTicket: Prisma.$BatchTicketPayload<ExtArgs>
+      usuario: Prisma.$usuariosPayload<ExtArgs>
+      tickets: Prisma.$ReservationTicketPayload<ExtArgs>[]
+      orders: Prisma.$OrderPayload<ExtArgs>[]
+      tenant: Prisma.$tenantsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      batchTicketId: string
       userId: string
-      quantity: number
+      tenantId: string
       expiresAt: Date
       status: $Enums.ReservationStatus
       ipAddress: string | null
@@ -14727,7 +16001,10 @@ export namespace Prisma {
    */
   export interface Prisma__ReservationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    batchTicket<T extends BatchTicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BatchTicketDefaultArgs<ExtArgs>>): Prisma__BatchTicketClient<$Result.GetResult<Prisma.$BatchTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usuario<T extends usuariosDefaultArgs<ExtArgs> = {}>(args?: Subset<T, usuariosDefaultArgs<ExtArgs>>): Prisma__usuariosClient<$Result.GetResult<Prisma.$usuariosPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tickets<T extends Reservation$ticketsArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orders<T extends Reservation$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    tenant<T extends tenantsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, tenantsDefaultArgs<ExtArgs>>): Prisma__tenantsClient<$Result.GetResult<Prisma.$tenantsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14758,9 +16035,8 @@ export namespace Prisma {
    */
   interface ReservationFieldRefs {
     readonly id: FieldRef<"Reservation", 'String'>
-    readonly batchTicketId: FieldRef<"Reservation", 'String'>
     readonly userId: FieldRef<"Reservation", 'String'>
-    readonly quantity: FieldRef<"Reservation", 'Int'>
+    readonly tenantId: FieldRef<"Reservation", 'String'>
     readonly expiresAt: FieldRef<"Reservation", 'DateTime'>
     readonly status: FieldRef<"Reservation", 'ReservationStatus'>
     readonly ipAddress: FieldRef<"Reservation", 'String'>
@@ -15110,6 +16386,54 @@ export namespace Prisma {
   }
 
   /**
+   * Reservation.tickets
+   */
+  export type Reservation$ticketsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    where?: ReservationTicketWhereInput
+    orderBy?: ReservationTicketOrderByWithRelationInput | ReservationTicketOrderByWithRelationInput[]
+    cursor?: ReservationTicketWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReservationTicketScalarFieldEnum | ReservationTicketScalarFieldEnum[]
+  }
+
+  /**
+   * Reservation.orders
+   */
+  export type Reservation$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
    * Reservation without action
    */
   export type ReservationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15125,6 +16449,984 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ReservationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReservationTicket
+   */
+
+  export type AggregateReservationTicket = {
+    _count: ReservationTicketCountAggregateOutputType | null
+    _avg: ReservationTicketAvgAggregateOutputType | null
+    _sum: ReservationTicketSumAggregateOutputType | null
+    _min: ReservationTicketMinAggregateOutputType | null
+    _max: ReservationTicketMaxAggregateOutputType | null
+  }
+
+  export type ReservationTicketAvgAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type ReservationTicketSumAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type ReservationTicketMinAggregateOutputType = {
+    id: string | null
+    reservationId: string | null
+    batchTicketId: string | null
+    quantity: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReservationTicketMaxAggregateOutputType = {
+    id: string | null
+    reservationId: string | null
+    batchTicketId: string | null
+    quantity: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ReservationTicketCountAggregateOutputType = {
+    id: number
+    reservationId: number
+    batchTicketId: number
+    quantity: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ReservationTicketAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type ReservationTicketSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type ReservationTicketMinAggregateInputType = {
+    id?: true
+    reservationId?: true
+    batchTicketId?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReservationTicketMaxAggregateInputType = {
+    id?: true
+    reservationId?: true
+    batchTicketId?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ReservationTicketCountAggregateInputType = {
+    id?: true
+    reservationId?: true
+    batchTicketId?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ReservationTicketAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReservationTicket to aggregate.
+     */
+    where?: ReservationTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationTickets to fetch.
+     */
+    orderBy?: ReservationTicketOrderByWithRelationInput | ReservationTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReservationTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReservationTickets
+    **/
+    _count?: true | ReservationTicketCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReservationTicketAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReservationTicketSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReservationTicketMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReservationTicketMaxAggregateInputType
+  }
+
+  export type GetReservationTicketAggregateType<T extends ReservationTicketAggregateArgs> = {
+        [P in keyof T & keyof AggregateReservationTicket]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReservationTicket[P]>
+      : GetScalarType<T[P], AggregateReservationTicket[P]>
+  }
+
+
+
+
+  export type ReservationTicketGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReservationTicketWhereInput
+    orderBy?: ReservationTicketOrderByWithAggregationInput | ReservationTicketOrderByWithAggregationInput[]
+    by: ReservationTicketScalarFieldEnum[] | ReservationTicketScalarFieldEnum
+    having?: ReservationTicketScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReservationTicketCountAggregateInputType | true
+    _avg?: ReservationTicketAvgAggregateInputType
+    _sum?: ReservationTicketSumAggregateInputType
+    _min?: ReservationTicketMinAggregateInputType
+    _max?: ReservationTicketMaxAggregateInputType
+  }
+
+  export type ReservationTicketGroupByOutputType = {
+    id: string
+    reservationId: string
+    batchTicketId: string
+    quantity: number
+    createdAt: Date
+    updatedAt: Date
+    _count: ReservationTicketCountAggregateOutputType | null
+    _avg: ReservationTicketAvgAggregateOutputType | null
+    _sum: ReservationTicketSumAggregateOutputType | null
+    _min: ReservationTicketMinAggregateOutputType | null
+    _max: ReservationTicketMaxAggregateOutputType | null
+  }
+
+  type GetReservationTicketGroupByPayload<T extends ReservationTicketGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReservationTicketGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReservationTicketGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReservationTicketGroupByOutputType[P]>
+            : GetScalarType<T[P], ReservationTicketGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReservationTicketSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reservationId?: boolean
+    batchTicketId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    batchTicket?: boolean | BatchTicketDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reservationTicket"]>
+
+
+
+  export type ReservationTicketSelectScalar = {
+    id?: boolean
+    reservationId?: boolean
+    batchTicketId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ReservationTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reservationId" | "batchTicketId" | "quantity" | "createdAt" | "updatedAt", ExtArgs["result"]["reservationTicket"]>
+  export type ReservationTicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reservation?: boolean | ReservationDefaultArgs<ExtArgs>
+    batchTicket?: boolean | BatchTicketDefaultArgs<ExtArgs>
+  }
+
+  export type $ReservationTicketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReservationTicket"
+    objects: {
+      reservation: Prisma.$ReservationPayload<ExtArgs>
+      batchTicket: Prisma.$BatchTicketPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      reservationId: string
+      batchTicketId: string
+      quantity: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["reservationTicket"]>
+    composites: {}
+  }
+
+  type ReservationTicketGetPayload<S extends boolean | null | undefined | ReservationTicketDefaultArgs> = $Result.GetResult<Prisma.$ReservationTicketPayload, S>
+
+  type ReservationTicketCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReservationTicketFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReservationTicketCountAggregateInputType | true
+    }
+
+  export interface ReservationTicketDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReservationTicket'], meta: { name: 'ReservationTicket' } }
+    /**
+     * Find zero or one ReservationTicket that matches the filter.
+     * @param {ReservationTicketFindUniqueArgs} args - Arguments to find a ReservationTicket
+     * @example
+     * // Get one ReservationTicket
+     * const reservationTicket = await prisma.reservationTicket.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReservationTicketFindUniqueArgs>(args: SelectSubset<T, ReservationTicketFindUniqueArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ReservationTicket that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReservationTicketFindUniqueOrThrowArgs} args - Arguments to find a ReservationTicket
+     * @example
+     * // Get one ReservationTicket
+     * const reservationTicket = await prisma.reservationTicket.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReservationTicketFindUniqueOrThrowArgs>(args: SelectSubset<T, ReservationTicketFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReservationTicket that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationTicketFindFirstArgs} args - Arguments to find a ReservationTicket
+     * @example
+     * // Get one ReservationTicket
+     * const reservationTicket = await prisma.reservationTicket.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReservationTicketFindFirstArgs>(args?: SelectSubset<T, ReservationTicketFindFirstArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ReservationTicket that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationTicketFindFirstOrThrowArgs} args - Arguments to find a ReservationTicket
+     * @example
+     * // Get one ReservationTicket
+     * const reservationTicket = await prisma.reservationTicket.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReservationTicketFindFirstOrThrowArgs>(args?: SelectSubset<T, ReservationTicketFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ReservationTickets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationTicketFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReservationTickets
+     * const reservationTickets = await prisma.reservationTicket.findMany()
+     * 
+     * // Get first 10 ReservationTickets
+     * const reservationTickets = await prisma.reservationTicket.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const reservationTicketWithIdOnly = await prisma.reservationTicket.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReservationTicketFindManyArgs>(args?: SelectSubset<T, ReservationTicketFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ReservationTicket.
+     * @param {ReservationTicketCreateArgs} args - Arguments to create a ReservationTicket.
+     * @example
+     * // Create one ReservationTicket
+     * const ReservationTicket = await prisma.reservationTicket.create({
+     *   data: {
+     *     // ... data to create a ReservationTicket
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReservationTicketCreateArgs>(args: SelectSubset<T, ReservationTicketCreateArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ReservationTickets.
+     * @param {ReservationTicketCreateManyArgs} args - Arguments to create many ReservationTickets.
+     * @example
+     * // Create many ReservationTickets
+     * const reservationTicket = await prisma.reservationTicket.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReservationTicketCreateManyArgs>(args?: SelectSubset<T, ReservationTicketCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ReservationTicket.
+     * @param {ReservationTicketDeleteArgs} args - Arguments to delete one ReservationTicket.
+     * @example
+     * // Delete one ReservationTicket
+     * const ReservationTicket = await prisma.reservationTicket.delete({
+     *   where: {
+     *     // ... filter to delete one ReservationTicket
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReservationTicketDeleteArgs>(args: SelectSubset<T, ReservationTicketDeleteArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ReservationTicket.
+     * @param {ReservationTicketUpdateArgs} args - Arguments to update one ReservationTicket.
+     * @example
+     * // Update one ReservationTicket
+     * const reservationTicket = await prisma.reservationTicket.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReservationTicketUpdateArgs>(args: SelectSubset<T, ReservationTicketUpdateArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ReservationTickets.
+     * @param {ReservationTicketDeleteManyArgs} args - Arguments to filter ReservationTickets to delete.
+     * @example
+     * // Delete a few ReservationTickets
+     * const { count } = await prisma.reservationTicket.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReservationTicketDeleteManyArgs>(args?: SelectSubset<T, ReservationTicketDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReservationTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationTicketUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReservationTickets
+     * const reservationTicket = await prisma.reservationTicket.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReservationTicketUpdateManyArgs>(args: SelectSubset<T, ReservationTicketUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ReservationTicket.
+     * @param {ReservationTicketUpsertArgs} args - Arguments to update or create a ReservationTicket.
+     * @example
+     * // Update or create a ReservationTicket
+     * const reservationTicket = await prisma.reservationTicket.upsert({
+     *   create: {
+     *     // ... data to create a ReservationTicket
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReservationTicket we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReservationTicketUpsertArgs>(args: SelectSubset<T, ReservationTicketUpsertArgs<ExtArgs>>): Prisma__ReservationTicketClient<$Result.GetResult<Prisma.$ReservationTicketPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ReservationTickets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationTicketCountArgs} args - Arguments to filter ReservationTickets to count.
+     * @example
+     * // Count the number of ReservationTickets
+     * const count = await prisma.reservationTicket.count({
+     *   where: {
+     *     // ... the filter for the ReservationTickets we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReservationTicketCountArgs>(
+      args?: Subset<T, ReservationTicketCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReservationTicketCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReservationTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationTicketAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReservationTicketAggregateArgs>(args: Subset<T, ReservationTicketAggregateArgs>): Prisma.PrismaPromise<GetReservationTicketAggregateType<T>>
+
+    /**
+     * Group by ReservationTicket.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReservationTicketGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReservationTicketGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReservationTicketGroupByArgs['orderBy'] }
+        : { orderBy?: ReservationTicketGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReservationTicketGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReservationTicketGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReservationTicket model
+   */
+  readonly fields: ReservationTicketFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReservationTicket.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReservationTicketClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    reservation<T extends ReservationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReservationDefaultArgs<ExtArgs>>): Prisma__ReservationClient<$Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    batchTicket<T extends BatchTicketDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BatchTicketDefaultArgs<ExtArgs>>): Prisma__BatchTicketClient<$Result.GetResult<Prisma.$BatchTicketPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReservationTicket model
+   */
+  interface ReservationTicketFieldRefs {
+    readonly id: FieldRef<"ReservationTicket", 'String'>
+    readonly reservationId: FieldRef<"ReservationTicket", 'String'>
+    readonly batchTicketId: FieldRef<"ReservationTicket", 'String'>
+    readonly quantity: FieldRef<"ReservationTicket", 'Int'>
+    readonly createdAt: FieldRef<"ReservationTicket", 'DateTime'>
+    readonly updatedAt: FieldRef<"ReservationTicket", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReservationTicket findUnique
+   */
+  export type ReservationTicketFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationTicket to fetch.
+     */
+    where: ReservationTicketWhereUniqueInput
+  }
+
+  /**
+   * ReservationTicket findUniqueOrThrow
+   */
+  export type ReservationTicketFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationTicket to fetch.
+     */
+    where: ReservationTicketWhereUniqueInput
+  }
+
+  /**
+   * ReservationTicket findFirst
+   */
+  export type ReservationTicketFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationTicket to fetch.
+     */
+    where?: ReservationTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationTickets to fetch.
+     */
+    orderBy?: ReservationTicketOrderByWithRelationInput | ReservationTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReservationTickets.
+     */
+    cursor?: ReservationTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReservationTickets.
+     */
+    distinct?: ReservationTicketScalarFieldEnum | ReservationTicketScalarFieldEnum[]
+  }
+
+  /**
+   * ReservationTicket findFirstOrThrow
+   */
+  export type ReservationTicketFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationTicket to fetch.
+     */
+    where?: ReservationTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationTickets to fetch.
+     */
+    orderBy?: ReservationTicketOrderByWithRelationInput | ReservationTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReservationTickets.
+     */
+    cursor?: ReservationTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationTickets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReservationTickets.
+     */
+    distinct?: ReservationTicketScalarFieldEnum | ReservationTicketScalarFieldEnum[]
+  }
+
+  /**
+   * ReservationTicket findMany
+   */
+  export type ReservationTicketFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * Filter, which ReservationTickets to fetch.
+     */
+    where?: ReservationTicketWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReservationTickets to fetch.
+     */
+    orderBy?: ReservationTicketOrderByWithRelationInput | ReservationTicketOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReservationTickets.
+     */
+    cursor?: ReservationTicketWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReservationTickets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReservationTickets.
+     */
+    skip?: number
+    distinct?: ReservationTicketScalarFieldEnum | ReservationTicketScalarFieldEnum[]
+  }
+
+  /**
+   * ReservationTicket create
+   */
+  export type ReservationTicketCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ReservationTicket.
+     */
+    data: XOR<ReservationTicketCreateInput, ReservationTicketUncheckedCreateInput>
+  }
+
+  /**
+   * ReservationTicket createMany
+   */
+  export type ReservationTicketCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReservationTickets.
+     */
+    data: ReservationTicketCreateManyInput | ReservationTicketCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReservationTicket update
+   */
+  export type ReservationTicketUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ReservationTicket.
+     */
+    data: XOR<ReservationTicketUpdateInput, ReservationTicketUncheckedUpdateInput>
+    /**
+     * Choose, which ReservationTicket to update.
+     */
+    where: ReservationTicketWhereUniqueInput
+  }
+
+  /**
+   * ReservationTicket updateMany
+   */
+  export type ReservationTicketUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReservationTickets.
+     */
+    data: XOR<ReservationTicketUpdateManyMutationInput, ReservationTicketUncheckedUpdateManyInput>
+    /**
+     * Filter which ReservationTickets to update
+     */
+    where?: ReservationTicketWhereInput
+    /**
+     * Limit how many ReservationTickets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReservationTicket upsert
+   */
+  export type ReservationTicketUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ReservationTicket to update in case it exists.
+     */
+    where: ReservationTicketWhereUniqueInput
+    /**
+     * In case the ReservationTicket found by the `where` argument doesn't exist, create a new ReservationTicket with this data.
+     */
+    create: XOR<ReservationTicketCreateInput, ReservationTicketUncheckedCreateInput>
+    /**
+     * In case the ReservationTicket was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReservationTicketUpdateInput, ReservationTicketUncheckedUpdateInput>
+  }
+
+  /**
+   * ReservationTicket delete
+   */
+  export type ReservationTicketDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
+    /**
+     * Filter which ReservationTicket to delete.
+     */
+    where: ReservationTicketWhereUniqueInput
+  }
+
+  /**
+   * ReservationTicket deleteMany
+   */
+  export type ReservationTicketDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReservationTickets to delete
+     */
+    where?: ReservationTicketWhereInput
+    /**
+     * Limit how many ReservationTickets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ReservationTicket without action
+   */
+  export type ReservationTicketDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReservationTicket
+     */
+    select?: ReservationTicketSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ReservationTicket
+     */
+    omit?: ReservationTicketOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReservationTicketInclude<ExtArgs> | null
   }
 
 
@@ -15183,7 +17485,6 @@ export namespace Prisma {
     startDate: 'startDate',
     endDate: 'endDate',
     isActive: 'isActive',
-    totalSold: 'totalSold',
     order: 'order',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -15223,11 +17524,9 @@ export namespace Prisma {
     id: 'id',
     orderId: 'orderId',
     eventId: 'eventId',
+    userId: 'userId',
     batchTicketId: 'batchTicketId',
     hash: 'hash',
-    ownerName: 'ownerName',
-    ownerEmail: 'ownerEmail',
-    ownerDocument: 'ownerDocument',
     price: 'price',
     status: 'status',
     checkedInAt: 'checkedInAt',
@@ -15253,27 +17552,37 @@ export namespace Prisma {
   export type UsuariosScalarFieldEnum = (typeof UsuariosScalarFieldEnum)[keyof typeof UsuariosScalarFieldEnum]
 
 
-  export const GlobalPaymentConfigScalarFieldEnum: {
+  export const PaymentProviderScalarFieldEnum: {
     id: 'id',
-    defaultPlatformFeePercent: 'defaultPlatformFeePercent',
-    defaultPlatformFeeFixed: 'defaultPlatformFeeFixed',
-    defaultServiceFeePercent: 'defaultServiceFeePercent',
-    defaultServiceFeeFixed: 'defaultServiceFeeFixed',
-    defaultServiceFeePayerType: 'defaultServiceFeePayerType',
-    acceptCreditCard: 'acceptCreditCard',
-    acceptDebitCard: 'acceptDebitCard',
-    acceptPix: 'acceptPix',
-    acceptBoleto: 'acceptBoleto',
-    maxInstallments: 'maxInstallments',
-    minInstallmentValue: 'minInstallmentValue',
-    interestFree: 'interestFree',
-    allowRefunds: 'allowRefunds',
-    refundDeadlineDays: 'refundDeadlineDays',
+    slug: 'slug',
+    isActive: 'isActive',
+    platformFeePercent: 'platformFeePercent',
+    platformCoustPercent: 'platformCoustPercent',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
-  export type GlobalPaymentConfigScalarFieldEnum = (typeof GlobalPaymentConfigScalarFieldEnum)[keyof typeof GlobalPaymentConfigScalarFieldEnum]
+  export type PaymentProviderScalarFieldEnum = (typeof PaymentProviderScalarFieldEnum)[keyof typeof PaymentProviderScalarFieldEnum]
+
+
+  export const PaymentMethodScalarFieldEnum: {
+    id: 'id',
+    providerId: 'providerId',
+    slug: 'slug',
+    name: 'name',
+    gatewayFeePercent: 'gatewayFeePercent',
+    gatewayFeeFixed: 'gatewayFeeFixed',
+    allowInstallments: 'allowInstallments',
+    maxInstallments: 'maxInstallments',
+    minInstallmentValue: 'minInstallmentValue',
+    interestFree: 'interestFree',
+    interestRate: 'interestRate',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PaymentMethodScalarFieldEnum = (typeof PaymentMethodScalarFieldEnum)[keyof typeof PaymentMethodScalarFieldEnum]
 
 
   export const StripeAccountScalarFieldEnum: {
@@ -15303,7 +17612,7 @@ export namespace Prisma {
   export const OrderScalarFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
-    eventId: 'eventId',
+    reservationId: 'reservationId',
     userId: 'userId',
     subtotal: 'subtotal',
     serviceFee: 'serviceFee',
@@ -15312,8 +17621,7 @@ export namespace Prisma {
     status: 'status',
     paymentMethod: 'paymentMethod',
     paymentProvider: 'paymentProvider',
-    stripePaymentIntentId: 'stripePaymentIntentId',
-    stripeClientSecret: 'stripeClientSecret',
+    stripeCheckoutSessionId: 'stripeCheckoutSessionId',
     stripeTransferId: 'stripeTransferId',
     stripeApplicationFee: 'stripeApplicationFee',
     paymentUrl: 'paymentUrl',
@@ -15351,9 +17659,8 @@ export namespace Prisma {
 
   export const ReservationScalarFieldEnum: {
     id: 'id',
-    batchTicketId: 'batchTicketId',
     userId: 'userId',
-    quantity: 'quantity',
+    tenantId: 'tenantId',
     expiresAt: 'expiresAt',
     status: 'status',
     ipAddress: 'ipAddress',
@@ -15363,6 +17670,18 @@ export namespace Prisma {
   };
 
   export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+  export const ReservationTicketScalarFieldEnum: {
+    id: 'id',
+    reservationId: 'reservationId',
+    batchTicketId: 'batchTicketId',
+    quantity: 'quantity',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ReservationTicketScalarFieldEnum = (typeof ReservationTicketScalarFieldEnum)[keyof typeof ReservationTicketScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -15446,11 +17765,9 @@ export namespace Prisma {
     id: 'id',
     orderId: 'orderId',
     eventId: 'eventId',
+    userId: 'userId',
     batchTicketId: 'batchTicketId',
     hash: 'hash',
-    ownerName: 'ownerName',
-    ownerEmail: 'ownerEmail',
-    ownerDocument: 'ownerDocument',
     checkedInBy: 'checkedInBy'
   };
 
@@ -15468,12 +17785,22 @@ export namespace Prisma {
   export type usuariosOrderByRelevanceFieldEnum = (typeof usuariosOrderByRelevanceFieldEnum)[keyof typeof usuariosOrderByRelevanceFieldEnum]
 
 
-  export const GlobalPaymentConfigOrderByRelevanceFieldEnum: {
+  export const PaymentProviderOrderByRelevanceFieldEnum: {
     id: 'id',
-    defaultServiceFeePayerType: 'defaultServiceFeePayerType'
+    slug: 'slug'
   };
 
-  export type GlobalPaymentConfigOrderByRelevanceFieldEnum = (typeof GlobalPaymentConfigOrderByRelevanceFieldEnum)[keyof typeof GlobalPaymentConfigOrderByRelevanceFieldEnum]
+  export type PaymentProviderOrderByRelevanceFieldEnum = (typeof PaymentProviderOrderByRelevanceFieldEnum)[keyof typeof PaymentProviderOrderByRelevanceFieldEnum]
+
+
+  export const PaymentMethodOrderByRelevanceFieldEnum: {
+    id: 'id',
+    providerId: 'providerId',
+    slug: 'slug',
+    name: 'name'
+  };
+
+  export type PaymentMethodOrderByRelevanceFieldEnum = (typeof PaymentMethodOrderByRelevanceFieldEnum)[keyof typeof PaymentMethodOrderByRelevanceFieldEnum]
 
 
   export const JsonNullValueFilter: {
@@ -15508,11 +17835,10 @@ export namespace Prisma {
   export const OrderOrderByRelevanceFieldEnum: {
     id: 'id',
     tenantId: 'tenantId',
-    eventId: 'eventId',
+    reservationId: 'reservationId',
     userId: 'userId',
     paymentProvider: 'paymentProvider',
-    stripePaymentIntentId: 'stripePaymentIntentId',
-    stripeClientSecret: 'stripeClientSecret',
+    stripeCheckoutSessionId: 'stripeCheckoutSessionId',
     stripeTransferId: 'stripeTransferId',
     paymentUrl: 'paymentUrl',
     qrCodeData: 'qrCodeData',
@@ -15537,13 +17863,22 @@ export namespace Prisma {
 
   export const ReservationOrderByRelevanceFieldEnum: {
     id: 'id',
-    batchTicketId: 'batchTicketId',
     userId: 'userId',
+    tenantId: 'tenantId',
     ipAddress: 'ipAddress',
     userAgent: 'userAgent'
   };
 
   export type ReservationOrderByRelevanceFieldEnum = (typeof ReservationOrderByRelevanceFieldEnum)[keyof typeof ReservationOrderByRelevanceFieldEnum]
+
+
+  export const ReservationTicketOrderByRelevanceFieldEnum: {
+    id: 'id',
+    reservationId: 'reservationId',
+    batchTicketId: 'batchTicketId'
+  };
+
+  export type ReservationTicketOrderByRelevanceFieldEnum = (typeof ReservationTicketOrderByRelevanceFieldEnum)[keyof typeof ReservationTicketOrderByRelevanceFieldEnum]
 
 
   /**
@@ -15657,9 +17992,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'PaymentMethod'
+   * Reference to a field of type 'PaymentMethodTypes'
    */
-  export type EnumPaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethod'>
+  export type EnumPaymentMethodTypesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentMethodTypes'>
     
 
 
@@ -15699,6 +18034,7 @@ export namespace Prisma {
     eventos?: EventosListRelationFilter
     stripeAccount?: XOR<StripeAccountNullableScalarRelationFilter, StripeAccountWhereInput> | null
     orders?: OrderListRelationFilter
+    reservations?: ReservationListRelationFilter
   }
 
   export type tenantsOrderByWithRelationInput = {
@@ -15717,6 +18053,7 @@ export namespace Prisma {
     eventos?: eventosOrderByRelationAggregateInput
     stripeAccount?: StripeAccountOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
+    reservations?: ReservationOrderByRelationAggregateInput
     _relevance?: tenantsOrderByRelevanceInput
   }
 
@@ -15739,6 +18076,7 @@ export namespace Prisma {
     eventos?: EventosListRelationFilter
     stripeAccount?: XOR<StripeAccountNullableScalarRelationFilter, StripeAccountWhereInput> | null
     orders?: OrderListRelationFilter
+    reservations?: ReservationListRelationFilter
   }, "id" | "cnpj" | "email" | "slug">
 
   export type tenantsOrderByWithAggregationInput = {
@@ -15792,7 +18130,6 @@ export namespace Prisma {
     tenant?: XOR<TenantsScalarRelationFilter, tenantsWhereInput>
     batches?: BatchListRelationFilter
     tickets?: TicketListRelationFilter
-    orders?: OrderListRelationFilter
   }
 
   export type eventosOrderByWithRelationInput = {
@@ -15809,7 +18146,6 @@ export namespace Prisma {
     tenant?: tenantsOrderByWithRelationInput
     batches?: BatchOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
-    orders?: OrderOrderByRelationAggregateInput
     _relevance?: eventosOrderByRelevanceInput
   }
 
@@ -15831,7 +18167,6 @@ export namespace Prisma {
     tenant?: XOR<TenantsScalarRelationFilter, tenantsWhereInput>
     batches?: BatchListRelationFilter
     tickets?: TicketListRelationFilter
-    orders?: OrderListRelationFilter
   }, "id" | "linkSlug" | "tenantId_linkSlug">
 
   export type eventosOrderByWithAggregationInput = {
@@ -15877,7 +18212,6 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Batch"> | Date | string
     endDate?: DateTimeFilter<"Batch"> | Date | string
     isActive?: BoolFilter<"Batch"> | boolean
-    totalSold?: IntFilter<"Batch"> | number
     order?: IntFilter<"Batch"> | number
     createdAt?: DateTimeFilter<"Batch"> | Date | string
     updatedAt?: DateTimeFilter<"Batch"> | Date | string
@@ -15893,7 +18227,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15913,7 +18246,6 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Batch"> | Date | string
     endDate?: DateTimeFilter<"Batch"> | Date | string
     isActive?: BoolFilter<"Batch"> | boolean
-    totalSold?: IntFilter<"Batch"> | number
     order?: IntFilter<"Batch"> | number
     createdAt?: DateTimeFilter<"Batch"> | Date | string
     updatedAt?: DateTimeFilter<"Batch"> | Date | string
@@ -15929,7 +18261,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15951,7 +18282,6 @@ export namespace Prisma {
     startDate?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
     isActive?: BoolWithAggregatesFilter<"Batch"> | boolean
-    totalSold?: IntWithAggregatesFilter<"Batch"> | number
     order?: IntWithAggregatesFilter<"Batch"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
@@ -16031,7 +18361,7 @@ export namespace Prisma {
     ticketType?: XOR<TicketTypeScalarRelationFilter, TicketTypeWhereInput>
     tickets?: TicketListRelationFilter
     orderItems?: OrderItemListRelationFilter
-    reservations?: ReservationListRelationFilter
+    reservationTickets?: ReservationTicketListRelationFilter
   }
 
   export type BatchTicketOrderByWithRelationInput = {
@@ -16049,7 +18379,7 @@ export namespace Prisma {
     ticketType?: TicketTypeOrderByWithRelationInput
     tickets?: TicketOrderByRelationAggregateInput
     orderItems?: OrderItemOrderByRelationAggregateInput
-    reservations?: ReservationOrderByRelationAggregateInput
+    reservationTickets?: ReservationTicketOrderByRelationAggregateInput
     _relevance?: BatchTicketOrderByRelevanceInput
   }
 
@@ -16072,7 +18402,7 @@ export namespace Prisma {
     ticketType?: XOR<TicketTypeScalarRelationFilter, TicketTypeWhereInput>
     tickets?: TicketListRelationFilter
     orderItems?: OrderItemListRelationFilter
-    reservations?: ReservationListRelationFilter
+    reservationTickets?: ReservationTicketListRelationFilter
   }, "id" | "batchId_ticketTypeId">
 
   export type BatchTicketOrderByWithAggregationInput = {
@@ -16116,11 +18446,9 @@ export namespace Prisma {
     id?: StringFilter<"Ticket"> | string
     orderId?: StringFilter<"Ticket"> | string
     eventId?: StringFilter<"Ticket"> | string
+    userId?: StringFilter<"Ticket"> | string
     batchTicketId?: StringFilter<"Ticket"> | string
     hash?: StringFilter<"Ticket"> | string
-    ownerName?: StringFilter<"Ticket"> | string
-    ownerEmail?: StringFilter<"Ticket"> | string
-    ownerDocument?: StringNullableFilter<"Ticket"> | string | null
     price?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     checkedInAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
@@ -16129,6 +18457,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
     event?: XOR<EventosScalarRelationFilter, eventosWhereInput>
+    usuario?: XOR<UsuariosScalarRelationFilter, usuariosWhereInput>
     batchTicket?: XOR<BatchTicketScalarRelationFilter, BatchTicketWhereInput>
     checkedInUser?: XOR<UsuariosNullableScalarRelationFilter, usuariosWhereInput> | null
   }
@@ -16137,11 +18466,9 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     eventId?: SortOrder
+    userId?: SortOrder
     batchTicketId?: SortOrder
     hash?: SortOrder
-    ownerName?: SortOrder
-    ownerEmail?: SortOrder
-    ownerDocument?: SortOrderInput | SortOrder
     price?: SortOrder
     status?: SortOrder
     checkedInAt?: SortOrderInput | SortOrder
@@ -16150,6 +18477,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     order?: OrderOrderByWithRelationInput
     event?: eventosOrderByWithRelationInput
+    usuario?: usuariosOrderByWithRelationInput
     batchTicket?: BatchTicketOrderByWithRelationInput
     checkedInUser?: usuariosOrderByWithRelationInput
     _relevance?: TicketOrderByRelevanceInput
@@ -16163,10 +18491,8 @@ export namespace Prisma {
     NOT?: TicketWhereInput | TicketWhereInput[]
     orderId?: StringFilter<"Ticket"> | string
     eventId?: StringFilter<"Ticket"> | string
+    userId?: StringFilter<"Ticket"> | string
     batchTicketId?: StringFilter<"Ticket"> | string
-    ownerName?: StringFilter<"Ticket"> | string
-    ownerEmail?: StringFilter<"Ticket"> | string
-    ownerDocument?: StringNullableFilter<"Ticket"> | string | null
     price?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     checkedInAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
@@ -16175,6 +18501,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
     event?: XOR<EventosScalarRelationFilter, eventosWhereInput>
+    usuario?: XOR<UsuariosScalarRelationFilter, usuariosWhereInput>
     batchTicket?: XOR<BatchTicketScalarRelationFilter, BatchTicketWhereInput>
     checkedInUser?: XOR<UsuariosNullableScalarRelationFilter, usuariosWhereInput> | null
   }, "id" | "hash">
@@ -16183,11 +18510,9 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     eventId?: SortOrder
+    userId?: SortOrder
     batchTicketId?: SortOrder
     hash?: SortOrder
-    ownerName?: SortOrder
-    ownerEmail?: SortOrder
-    ownerDocument?: SortOrderInput | SortOrder
     price?: SortOrder
     status?: SortOrder
     checkedInAt?: SortOrderInput | SortOrder
@@ -16208,11 +18533,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Ticket"> | string
     orderId?: StringWithAggregatesFilter<"Ticket"> | string
     eventId?: StringWithAggregatesFilter<"Ticket"> | string
+    userId?: StringWithAggregatesFilter<"Ticket"> | string
     batchTicketId?: StringWithAggregatesFilter<"Ticket"> | string
     hash?: StringWithAggregatesFilter<"Ticket"> | string
-    ownerName?: StringWithAggregatesFilter<"Ticket"> | string
-    ownerEmail?: StringWithAggregatesFilter<"Ticket"> | string
-    ownerDocument?: StringNullableWithAggregatesFilter<"Ticket"> | string | null
     price?: DecimalWithAggregatesFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusWithAggregatesFilter<"Ticket"> | $Enums.TicketStatus
     checkedInAt?: DateTimeNullableWithAggregatesFilter<"Ticket"> | Date | string | null
@@ -16235,7 +18558,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"usuarios"> | Date | string
     tenant?: XOR<TenantsNullableScalarRelationFilter, tenantsWhereInput> | null
     orders?: OrderListRelationFilter
+    checkedTickets?: TicketListRelationFilter
     tickets?: TicketListRelationFilter
+    reservations?: ReservationListRelationFilter
   }
 
   export type usuariosOrderByWithRelationInput = {
@@ -16249,7 +18574,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
     tenant?: tenantsOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
+    checkedTickets?: TicketOrderByRelationAggregateInput
     tickets?: TicketOrderByRelationAggregateInput
+    reservations?: ReservationOrderByRelationAggregateInput
     _relevance?: usuariosOrderByRelevanceInput
   }
 
@@ -16268,7 +18595,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"usuarios"> | Date | string
     tenant?: XOR<TenantsNullableScalarRelationFilter, tenantsWhereInput> | null
     orders?: OrderListRelationFilter
+    checkedTickets?: TicketListRelationFilter
     tickets?: TicketListRelationFilter
+    reservations?: ReservationListRelationFilter
   }, "id" | "tenantId_email">
 
   export type usuariosOrderByWithAggregationInput = {
@@ -16299,119 +18628,176 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"usuarios"> | Date | string
   }
 
-  export type GlobalPaymentConfigWhereInput = {
-    AND?: GlobalPaymentConfigWhereInput | GlobalPaymentConfigWhereInput[]
-    OR?: GlobalPaymentConfigWhereInput[]
-    NOT?: GlobalPaymentConfigWhereInput | GlobalPaymentConfigWhereInput[]
-    id?: StringFilter<"GlobalPaymentConfig"> | string
-    defaultPlatformFeePercent?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: StringFilter<"GlobalPaymentConfig"> | string
-    acceptCreditCard?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    acceptDebitCard?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    acceptPix?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    acceptBoleto?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    maxInstallments?: IntFilter<"GlobalPaymentConfig"> | number
-    minInstallmentValue?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    interestFree?: IntFilter<"GlobalPaymentConfig"> | number
-    allowRefunds?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    refundDeadlineDays?: IntFilter<"GlobalPaymentConfig"> | number
-    createdAt?: DateTimeFilter<"GlobalPaymentConfig"> | Date | string
-    updatedAt?: DateTimeFilter<"GlobalPaymentConfig"> | Date | string
+  export type PaymentProviderWhereInput = {
+    AND?: PaymentProviderWhereInput | PaymentProviderWhereInput[]
+    OR?: PaymentProviderWhereInput[]
+    NOT?: PaymentProviderWhereInput | PaymentProviderWhereInput[]
+    id?: StringFilter<"PaymentProvider"> | string
+    slug?: StringFilter<"PaymentProvider"> | string
+    isActive?: BoolFilter<"PaymentProvider"> | boolean
+    platformFeePercent?: DecimalFilter<"PaymentProvider"> | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFilter<"PaymentProvider"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"PaymentProvider"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentProvider"> | Date | string
+    paymentMethods?: PaymentMethodListRelationFilter
   }
 
-  export type GlobalPaymentConfigOrderByWithRelationInput = {
+  export type PaymentProviderOrderByWithRelationInput = {
     id?: SortOrder
-    defaultPlatformFeePercent?: SortOrder
-    defaultPlatformFeeFixed?: SortOrder
-    defaultServiceFeePercent?: SortOrder
-    defaultServiceFeeFixed?: SortOrder
-    defaultServiceFeePayerType?: SortOrder
-    acceptCreditCard?: SortOrder
-    acceptDebitCard?: SortOrder
-    acceptPix?: SortOrder
-    acceptBoleto?: SortOrder
-    maxInstallments?: SortOrder
-    minInstallmentValue?: SortOrder
-    interestFree?: SortOrder
-    allowRefunds?: SortOrder
-    refundDeadlineDays?: SortOrder
+    slug?: SortOrder
+    isActive?: SortOrder
+    platformFeePercent?: SortOrder
+    platformCoustPercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _relevance?: GlobalPaymentConfigOrderByRelevanceInput
+    paymentMethods?: PaymentMethodOrderByRelationAggregateInput
+    _relevance?: PaymentProviderOrderByRelevanceInput
   }
 
-  export type GlobalPaymentConfigWhereUniqueInput = Prisma.AtLeast<{
+  export type PaymentProviderWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: GlobalPaymentConfigWhereInput | GlobalPaymentConfigWhereInput[]
-    OR?: GlobalPaymentConfigWhereInput[]
-    NOT?: GlobalPaymentConfigWhereInput | GlobalPaymentConfigWhereInput[]
-    defaultPlatformFeePercent?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: StringFilter<"GlobalPaymentConfig"> | string
-    acceptCreditCard?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    acceptDebitCard?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    acceptPix?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    acceptBoleto?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    maxInstallments?: IntFilter<"GlobalPaymentConfig"> | number
-    minInstallmentValue?: DecimalFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    interestFree?: IntFilter<"GlobalPaymentConfig"> | number
-    allowRefunds?: BoolFilter<"GlobalPaymentConfig"> | boolean
-    refundDeadlineDays?: IntFilter<"GlobalPaymentConfig"> | number
-    createdAt?: DateTimeFilter<"GlobalPaymentConfig"> | Date | string
-    updatedAt?: DateTimeFilter<"GlobalPaymentConfig"> | Date | string
-  }, "id">
+    slug?: string
+    AND?: PaymentProviderWhereInput | PaymentProviderWhereInput[]
+    OR?: PaymentProviderWhereInput[]
+    NOT?: PaymentProviderWhereInput | PaymentProviderWhereInput[]
+    isActive?: BoolFilter<"PaymentProvider"> | boolean
+    platformFeePercent?: DecimalFilter<"PaymentProvider"> | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFilter<"PaymentProvider"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"PaymentProvider"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentProvider"> | Date | string
+    paymentMethods?: PaymentMethodListRelationFilter
+  }, "id" | "slug">
 
-  export type GlobalPaymentConfigOrderByWithAggregationInput = {
+  export type PaymentProviderOrderByWithAggregationInput = {
     id?: SortOrder
-    defaultPlatformFeePercent?: SortOrder
-    defaultPlatformFeeFixed?: SortOrder
-    defaultServiceFeePercent?: SortOrder
-    defaultServiceFeeFixed?: SortOrder
-    defaultServiceFeePayerType?: SortOrder
-    acceptCreditCard?: SortOrder
-    acceptDebitCard?: SortOrder
-    acceptPix?: SortOrder
-    acceptBoleto?: SortOrder
+    slug?: SortOrder
+    isActive?: SortOrder
+    platformFeePercent?: SortOrder
+    platformCoustPercent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentProviderCountOrderByAggregateInput
+    _avg?: PaymentProviderAvgOrderByAggregateInput
+    _max?: PaymentProviderMaxOrderByAggregateInput
+    _min?: PaymentProviderMinOrderByAggregateInput
+    _sum?: PaymentProviderSumOrderByAggregateInput
+  }
+
+  export type PaymentProviderScalarWhereWithAggregatesInput = {
+    AND?: PaymentProviderScalarWhereWithAggregatesInput | PaymentProviderScalarWhereWithAggregatesInput[]
+    OR?: PaymentProviderScalarWhereWithAggregatesInput[]
+    NOT?: PaymentProviderScalarWhereWithAggregatesInput | PaymentProviderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentProvider"> | string
+    slug?: StringWithAggregatesFilter<"PaymentProvider"> | string
+    isActive?: BoolWithAggregatesFilter<"PaymentProvider"> | boolean
+    platformFeePercent?: DecimalWithAggregatesFilter<"PaymentProvider"> | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalWithAggregatesFilter<"PaymentProvider"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentProvider"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PaymentProvider"> | Date | string
+  }
+
+  export type PaymentMethodWhereInput = {
+    AND?: PaymentMethodWhereInput | PaymentMethodWhereInput[]
+    OR?: PaymentMethodWhereInput[]
+    NOT?: PaymentMethodWhereInput | PaymentMethodWhereInput[]
+    id?: StringFilter<"PaymentMethod"> | string
+    providerId?: StringFilter<"PaymentMethod"> | string
+    slug?: StringFilter<"PaymentMethod"> | string
+    name?: StringFilter<"PaymentMethod"> | string
+    gatewayFeePercent?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFilter<"PaymentMethod"> | boolean
+    maxInstallments?: IntFilter<"PaymentMethod"> | number
+    minInstallmentValue?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    interestFree?: IntFilter<"PaymentMethod"> | number
+    interestRate?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFilter<"PaymentMethod"> | boolean
+    createdAt?: DateTimeFilter<"PaymentMethod"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentMethod"> | Date | string
+    provider?: XOR<PaymentProviderScalarRelationFilter, PaymentProviderWhereInput>
+  }
+
+  export type PaymentMethodOrderByWithRelationInput = {
+    id?: SortOrder
+    providerId?: SortOrder
+    slug?: SortOrder
+    name?: SortOrder
+    gatewayFeePercent?: SortOrder
+    gatewayFeeFixed?: SortOrder
+    allowInstallments?: SortOrder
     maxInstallments?: SortOrder
     minInstallmentValue?: SortOrder
     interestFree?: SortOrder
-    allowRefunds?: SortOrder
-    refundDeadlineDays?: SortOrder
+    interestRate?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: GlobalPaymentConfigCountOrderByAggregateInput
-    _avg?: GlobalPaymentConfigAvgOrderByAggregateInput
-    _max?: GlobalPaymentConfigMaxOrderByAggregateInput
-    _min?: GlobalPaymentConfigMinOrderByAggregateInput
-    _sum?: GlobalPaymentConfigSumOrderByAggregateInput
+    provider?: PaymentProviderOrderByWithRelationInput
+    _relevance?: PaymentMethodOrderByRelevanceInput
   }
 
-  export type GlobalPaymentConfigScalarWhereWithAggregatesInput = {
-    AND?: GlobalPaymentConfigScalarWhereWithAggregatesInput | GlobalPaymentConfigScalarWhereWithAggregatesInput[]
-    OR?: GlobalPaymentConfigScalarWhereWithAggregatesInput[]
-    NOT?: GlobalPaymentConfigScalarWhereWithAggregatesInput | GlobalPaymentConfigScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"GlobalPaymentConfig"> | string
-    defaultPlatformFeePercent?: DecimalWithAggregatesFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: DecimalWithAggregatesFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: DecimalWithAggregatesFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: DecimalWithAggregatesFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: StringWithAggregatesFilter<"GlobalPaymentConfig"> | string
-    acceptCreditCard?: BoolWithAggregatesFilter<"GlobalPaymentConfig"> | boolean
-    acceptDebitCard?: BoolWithAggregatesFilter<"GlobalPaymentConfig"> | boolean
-    acceptPix?: BoolWithAggregatesFilter<"GlobalPaymentConfig"> | boolean
-    acceptBoleto?: BoolWithAggregatesFilter<"GlobalPaymentConfig"> | boolean
-    maxInstallments?: IntWithAggregatesFilter<"GlobalPaymentConfig"> | number
-    minInstallmentValue?: DecimalWithAggregatesFilter<"GlobalPaymentConfig"> | Decimal | DecimalJsLike | number | string
-    interestFree?: IntWithAggregatesFilter<"GlobalPaymentConfig"> | number
-    allowRefunds?: BoolWithAggregatesFilter<"GlobalPaymentConfig"> | boolean
-    refundDeadlineDays?: IntWithAggregatesFilter<"GlobalPaymentConfig"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"GlobalPaymentConfig"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"GlobalPaymentConfig"> | Date | string
+  export type PaymentMethodWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    providerId_slug?: PaymentMethodProviderIdSlugCompoundUniqueInput
+    AND?: PaymentMethodWhereInput | PaymentMethodWhereInput[]
+    OR?: PaymentMethodWhereInput[]
+    NOT?: PaymentMethodWhereInput | PaymentMethodWhereInput[]
+    providerId?: StringFilter<"PaymentMethod"> | string
+    name?: StringFilter<"PaymentMethod"> | string
+    gatewayFeePercent?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFilter<"PaymentMethod"> | boolean
+    maxInstallments?: IntFilter<"PaymentMethod"> | number
+    minInstallmentValue?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    interestFree?: IntFilter<"PaymentMethod"> | number
+    interestRate?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFilter<"PaymentMethod"> | boolean
+    createdAt?: DateTimeFilter<"PaymentMethod"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentMethod"> | Date | string
+    provider?: XOR<PaymentProviderScalarRelationFilter, PaymentProviderWhereInput>
+  }, "id" | "slug" | "providerId_slug">
+
+  export type PaymentMethodOrderByWithAggregationInput = {
+    id?: SortOrder
+    providerId?: SortOrder
+    slug?: SortOrder
+    name?: SortOrder
+    gatewayFeePercent?: SortOrder
+    gatewayFeeFixed?: SortOrder
+    allowInstallments?: SortOrder
+    maxInstallments?: SortOrder
+    minInstallmentValue?: SortOrder
+    interestFree?: SortOrder
+    interestRate?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentMethodCountOrderByAggregateInput
+    _avg?: PaymentMethodAvgOrderByAggregateInput
+    _max?: PaymentMethodMaxOrderByAggregateInput
+    _min?: PaymentMethodMinOrderByAggregateInput
+    _sum?: PaymentMethodSumOrderByAggregateInput
+  }
+
+  export type PaymentMethodScalarWhereWithAggregatesInput = {
+    AND?: PaymentMethodScalarWhereWithAggregatesInput | PaymentMethodScalarWhereWithAggregatesInput[]
+    OR?: PaymentMethodScalarWhereWithAggregatesInput[]
+    NOT?: PaymentMethodScalarWhereWithAggregatesInput | PaymentMethodScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentMethod"> | string
+    providerId?: StringWithAggregatesFilter<"PaymentMethod"> | string
+    slug?: StringWithAggregatesFilter<"PaymentMethod"> | string
+    name?: StringWithAggregatesFilter<"PaymentMethod"> | string
+    gatewayFeePercent?: DecimalWithAggregatesFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalWithAggregatesFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolWithAggregatesFilter<"PaymentMethod"> | boolean
+    maxInstallments?: IntWithAggregatesFilter<"PaymentMethod"> | number
+    minInstallmentValue?: DecimalWithAggregatesFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    interestFree?: IntWithAggregatesFilter<"PaymentMethod"> | number
+    interestRate?: DecimalWithAggregatesFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    isActive?: BoolWithAggregatesFilter<"PaymentMethod"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentMethod"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PaymentMethod"> | Date | string
   }
 
   export type StripeAccountWhereInput = {
@@ -16541,19 +18927,18 @@ export namespace Prisma {
     NOT?: OrderWhereInput | OrderWhereInput[]
     id?: StringFilter<"Order"> | string
     tenantId?: StringFilter<"Order"> | string
-    eventId?: StringFilter<"Order"> | string
+    reservationId?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
     subtotal?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-    paymentMethod?: EnumPaymentMethodNullableFilter<"Order"> | $Enums.PaymentMethod | null
+    paymentMethod?: EnumPaymentMethodTypesNullableFilter<"Order"> | $Enums.PaymentMethodTypes | null
     paymentProvider?: StringNullableFilter<"Order"> | string | null
-    stripePaymentIntentId?: StringNullableFilter<"Order"> | string | null
-    stripeClientSecret?: StringNullableFilter<"Order"> | string | null
+    stripeCheckoutSessionId?: StringNullableFilter<"Order"> | string | null
     stripeTransferId?: StringNullableFilter<"Order"> | string | null
-    stripeApplicationFee?: IntNullableFilter<"Order"> | number | null
+    stripeApplicationFee?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: StringNullableFilter<"Order"> | string | null
     qrCodeData?: StringNullableFilter<"Order"> | string | null
     boletoBarcode?: StringNullableFilter<"Order"> | string | null
@@ -16567,7 +18952,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     tenant?: XOR<TenantsScalarRelationFilter, tenantsWhereInput>
-    event?: XOR<EventosScalarRelationFilter, eventosWhereInput>
+    reservation?: XOR<ReservationNullableScalarRelationFilter, ReservationWhereInput> | null
     usuario?: XOR<UsuariosScalarRelationFilter, usuariosWhereInput>
     tickets?: TicketListRelationFilter
     orderItems?: OrderItemListRelationFilter
@@ -16576,7 +18961,7 @@ export namespace Prisma {
   export type OrderOrderByWithRelationInput = {
     id?: SortOrder
     tenantId?: SortOrder
-    eventId?: SortOrder
+    reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
     serviceFee?: SortOrder
@@ -16585,8 +18970,7 @@ export namespace Prisma {
     status?: SortOrder
     paymentMethod?: SortOrderInput | SortOrder
     paymentProvider?: SortOrderInput | SortOrder
-    stripePaymentIntentId?: SortOrderInput | SortOrder
-    stripeClientSecret?: SortOrderInput | SortOrder
+    stripeCheckoutSessionId?: SortOrderInput | SortOrder
     stripeTransferId?: SortOrderInput | SortOrder
     stripeApplicationFee?: SortOrderInput | SortOrder
     paymentUrl?: SortOrderInput | SortOrder
@@ -16602,7 +18986,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     tenant?: tenantsOrderByWithRelationInput
-    event?: eventosOrderByWithRelationInput
+    reservation?: ReservationOrderByWithRelationInput
     usuario?: usuariosOrderByWithRelationInput
     tickets?: TicketOrderByRelationAggregateInput
     orderItems?: OrderItemOrderByRelationAggregateInput
@@ -16611,23 +18995,22 @@ export namespace Prisma {
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    stripePaymentIntentId?: string
+    stripeCheckoutSessionId?: string
     AND?: OrderWhereInput | OrderWhereInput[]
     OR?: OrderWhereInput[]
     NOT?: OrderWhereInput | OrderWhereInput[]
     tenantId?: StringFilter<"Order"> | string
-    eventId?: StringFilter<"Order"> | string
+    reservationId?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
     subtotal?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-    paymentMethod?: EnumPaymentMethodNullableFilter<"Order"> | $Enums.PaymentMethod | null
+    paymentMethod?: EnumPaymentMethodTypesNullableFilter<"Order"> | $Enums.PaymentMethodTypes | null
     paymentProvider?: StringNullableFilter<"Order"> | string | null
-    stripeClientSecret?: StringNullableFilter<"Order"> | string | null
     stripeTransferId?: StringNullableFilter<"Order"> | string | null
-    stripeApplicationFee?: IntNullableFilter<"Order"> | number | null
+    stripeApplicationFee?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: StringNullableFilter<"Order"> | string | null
     qrCodeData?: StringNullableFilter<"Order"> | string | null
     boletoBarcode?: StringNullableFilter<"Order"> | string | null
@@ -16641,16 +19024,16 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     tenant?: XOR<TenantsScalarRelationFilter, tenantsWhereInput>
-    event?: XOR<EventosScalarRelationFilter, eventosWhereInput>
+    reservation?: XOR<ReservationNullableScalarRelationFilter, ReservationWhereInput> | null
     usuario?: XOR<UsuariosScalarRelationFilter, usuariosWhereInput>
     tickets?: TicketListRelationFilter
     orderItems?: OrderItemListRelationFilter
-  }, "id" | "stripePaymentIntentId">
+  }, "id" | "stripeCheckoutSessionId">
 
   export type OrderOrderByWithAggregationInput = {
     id?: SortOrder
     tenantId?: SortOrder
-    eventId?: SortOrder
+    reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
     serviceFee?: SortOrder
@@ -16659,8 +19042,7 @@ export namespace Prisma {
     status?: SortOrder
     paymentMethod?: SortOrderInput | SortOrder
     paymentProvider?: SortOrderInput | SortOrder
-    stripePaymentIntentId?: SortOrderInput | SortOrder
-    stripeClientSecret?: SortOrderInput | SortOrder
+    stripeCheckoutSessionId?: SortOrderInput | SortOrder
     stripeTransferId?: SortOrderInput | SortOrder
     stripeApplicationFee?: SortOrderInput | SortOrder
     paymentUrl?: SortOrderInput | SortOrder
@@ -16688,19 +19070,18 @@ export namespace Prisma {
     NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Order"> | string
     tenantId?: StringWithAggregatesFilter<"Order"> | string
-    eventId?: StringWithAggregatesFilter<"Order"> | string
+    reservationId?: StringWithAggregatesFilter<"Order"> | string
     userId?: StringWithAggregatesFilter<"Order"> | string
     subtotal?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
-    paymentMethod?: EnumPaymentMethodNullableWithAggregatesFilter<"Order"> | $Enums.PaymentMethod | null
+    paymentMethod?: EnumPaymentMethodTypesNullableWithAggregatesFilter<"Order"> | $Enums.PaymentMethodTypes | null
     paymentProvider?: StringNullableWithAggregatesFilter<"Order"> | string | null
-    stripePaymentIntentId?: StringNullableWithAggregatesFilter<"Order"> | string | null
-    stripeClientSecret?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    stripeCheckoutSessionId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     stripeTransferId?: StringNullableWithAggregatesFilter<"Order"> | string | null
-    stripeApplicationFee?: IntNullableWithAggregatesFilter<"Order"> | number | null
+    stripeApplicationFee?: DecimalNullableWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: StringNullableWithAggregatesFilter<"Order"> | string | null
     qrCodeData?: StringNullableWithAggregatesFilter<"Order"> | string | null
     boletoBarcode?: StringNullableWithAggregatesFilter<"Order"> | string | null
@@ -16806,30 +19187,34 @@ export namespace Prisma {
     OR?: ReservationWhereInput[]
     NOT?: ReservationWhereInput | ReservationWhereInput[]
     id?: StringFilter<"Reservation"> | string
-    batchTicketId?: StringFilter<"Reservation"> | string
     userId?: StringFilter<"Reservation"> | string
-    quantity?: IntFilter<"Reservation"> | number
+    tenantId?: StringFilter<"Reservation"> | string
     expiresAt?: DateTimeFilter<"Reservation"> | Date | string
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     ipAddress?: StringNullableFilter<"Reservation"> | string | null
     userAgent?: StringNullableFilter<"Reservation"> | string | null
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
     updatedAt?: DateTimeFilter<"Reservation"> | Date | string
-    batchTicket?: XOR<BatchTicketScalarRelationFilter, BatchTicketWhereInput>
+    usuario?: XOR<UsuariosScalarRelationFilter, usuariosWhereInput>
+    tickets?: ReservationTicketListRelationFilter
+    orders?: OrderListRelationFilter
+    tenant?: XOR<TenantsScalarRelationFilter, tenantsWhereInput>
   }
 
   export type ReservationOrderByWithRelationInput = {
     id?: SortOrder
-    batchTicketId?: SortOrder
     userId?: SortOrder
-    quantity?: SortOrder
+    tenantId?: SortOrder
     expiresAt?: SortOrder
     status?: SortOrder
     ipAddress?: SortOrderInput | SortOrder
     userAgent?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    batchTicket?: BatchTicketOrderByWithRelationInput
+    usuario?: usuariosOrderByWithRelationInput
+    tickets?: ReservationTicketOrderByRelationAggregateInput
+    orders?: OrderOrderByRelationAggregateInput
+    tenant?: tenantsOrderByWithRelationInput
     _relevance?: ReservationOrderByRelevanceInput
   }
 
@@ -16838,23 +19223,24 @@ export namespace Prisma {
     AND?: ReservationWhereInput | ReservationWhereInput[]
     OR?: ReservationWhereInput[]
     NOT?: ReservationWhereInput | ReservationWhereInput[]
-    batchTicketId?: StringFilter<"Reservation"> | string
     userId?: StringFilter<"Reservation"> | string
-    quantity?: IntFilter<"Reservation"> | number
+    tenantId?: StringFilter<"Reservation"> | string
     expiresAt?: DateTimeFilter<"Reservation"> | Date | string
     status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
     ipAddress?: StringNullableFilter<"Reservation"> | string | null
     userAgent?: StringNullableFilter<"Reservation"> | string | null
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
     updatedAt?: DateTimeFilter<"Reservation"> | Date | string
-    batchTicket?: XOR<BatchTicketScalarRelationFilter, BatchTicketWhereInput>
+    usuario?: XOR<UsuariosScalarRelationFilter, usuariosWhereInput>
+    tickets?: ReservationTicketListRelationFilter
+    orders?: OrderListRelationFilter
+    tenant?: XOR<TenantsScalarRelationFilter, tenantsWhereInput>
   }, "id">
 
   export type ReservationOrderByWithAggregationInput = {
     id?: SortOrder
-    batchTicketId?: SortOrder
     userId?: SortOrder
-    quantity?: SortOrder
+    tenantId?: SortOrder
     expiresAt?: SortOrder
     status?: SortOrder
     ipAddress?: SortOrderInput | SortOrder
@@ -16862,10 +19248,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ReservationCountOrderByAggregateInput
-    _avg?: ReservationAvgOrderByAggregateInput
     _max?: ReservationMaxOrderByAggregateInput
     _min?: ReservationMinOrderByAggregateInput
-    _sum?: ReservationSumOrderByAggregateInput
   }
 
   export type ReservationScalarWhereWithAggregatesInput = {
@@ -16873,15 +19257,81 @@ export namespace Prisma {
     OR?: ReservationScalarWhereWithAggregatesInput[]
     NOT?: ReservationScalarWhereWithAggregatesInput | ReservationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Reservation"> | string
-    batchTicketId?: StringWithAggregatesFilter<"Reservation"> | string
     userId?: StringWithAggregatesFilter<"Reservation"> | string
-    quantity?: IntWithAggregatesFilter<"Reservation"> | number
+    tenantId?: StringWithAggregatesFilter<"Reservation"> | string
     expiresAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     status?: EnumReservationStatusWithAggregatesFilter<"Reservation"> | $Enums.ReservationStatus
     ipAddress?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     userAgent?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
+  }
+
+  export type ReservationTicketWhereInput = {
+    AND?: ReservationTicketWhereInput | ReservationTicketWhereInput[]
+    OR?: ReservationTicketWhereInput[]
+    NOT?: ReservationTicketWhereInput | ReservationTicketWhereInput[]
+    id?: StringFilter<"ReservationTicket"> | string
+    reservationId?: StringFilter<"ReservationTicket"> | string
+    batchTicketId?: StringFilter<"ReservationTicket"> | string
+    quantity?: IntFilter<"ReservationTicket"> | number
+    createdAt?: DateTimeFilter<"ReservationTicket"> | Date | string
+    updatedAt?: DateTimeFilter<"ReservationTicket"> | Date | string
+    reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
+    batchTicket?: XOR<BatchTicketScalarRelationFilter, BatchTicketWhereInput>
+  }
+
+  export type ReservationTicketOrderByWithRelationInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    batchTicketId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    reservation?: ReservationOrderByWithRelationInput
+    batchTicket?: BatchTicketOrderByWithRelationInput
+    _relevance?: ReservationTicketOrderByRelevanceInput
+  }
+
+  export type ReservationTicketWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    reservationId_batchTicketId?: ReservationTicketReservationIdBatchTicketIdCompoundUniqueInput
+    AND?: ReservationTicketWhereInput | ReservationTicketWhereInput[]
+    OR?: ReservationTicketWhereInput[]
+    NOT?: ReservationTicketWhereInput | ReservationTicketWhereInput[]
+    reservationId?: StringFilter<"ReservationTicket"> | string
+    batchTicketId?: StringFilter<"ReservationTicket"> | string
+    quantity?: IntFilter<"ReservationTicket"> | number
+    createdAt?: DateTimeFilter<"ReservationTicket"> | Date | string
+    updatedAt?: DateTimeFilter<"ReservationTicket"> | Date | string
+    reservation?: XOR<ReservationScalarRelationFilter, ReservationWhereInput>
+    batchTicket?: XOR<BatchTicketScalarRelationFilter, BatchTicketWhereInput>
+  }, "id" | "reservationId_batchTicketId">
+
+  export type ReservationTicketOrderByWithAggregationInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    batchTicketId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ReservationTicketCountOrderByAggregateInput
+    _avg?: ReservationTicketAvgOrderByAggregateInput
+    _max?: ReservationTicketMaxOrderByAggregateInput
+    _min?: ReservationTicketMinOrderByAggregateInput
+    _sum?: ReservationTicketSumOrderByAggregateInput
+  }
+
+  export type ReservationTicketScalarWhereWithAggregatesInput = {
+    AND?: ReservationTicketScalarWhereWithAggregatesInput | ReservationTicketScalarWhereWithAggregatesInput[]
+    OR?: ReservationTicketScalarWhereWithAggregatesInput[]
+    NOT?: ReservationTicketScalarWhereWithAggregatesInput | ReservationTicketScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReservationTicket"> | string
+    reservationId?: StringWithAggregatesFilter<"ReservationTicket"> | string
+    batchTicketId?: StringWithAggregatesFilter<"ReservationTicket"> | string
+    quantity?: IntWithAggregatesFilter<"ReservationTicket"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ReservationTicket"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ReservationTicket"> | Date | string
   }
 
   export type tenantsCreateInput = {
@@ -16900,6 +19350,7 @@ export namespace Prisma {
     eventos?: eventosCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountCreateNestedOneWithoutTenantInput
     orders?: OrderCreateNestedManyWithoutTenantInput
+    reservations?: ReservationCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsUncheckedCreateInput = {
@@ -16918,6 +19369,7 @@ export namespace Prisma {
     eventos?: eventosUncheckedCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountUncheckedCreateNestedOneWithoutTenantInput
     orders?: OrderUncheckedCreateNestedManyWithoutTenantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsUpdateInput = {
@@ -16936,6 +19388,7 @@ export namespace Prisma {
     eventos?: eventosUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUpdateOneWithoutTenantNestedInput
     orders?: OrderUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUpdateManyWithoutTenantNestedInput
   }
 
   export type tenantsUncheckedUpdateInput = {
@@ -16954,6 +19407,7 @@ export namespace Prisma {
     eventos?: eventosUncheckedUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUncheckedUpdateOneWithoutTenantNestedInput
     orders?: OrderUncheckedUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type tenantsCreateManyInput = {
@@ -17011,7 +19465,6 @@ export namespace Prisma {
     tenant: tenantsCreateNestedOneWithoutEventosInput
     batches?: BatchCreateNestedManyWithoutEventInput
     tickets?: TicketCreateNestedManyWithoutEventInput
-    orders?: OrderCreateNestedManyWithoutEventInput
   }
 
   export type eventosUncheckedCreateInput = {
@@ -17027,7 +19480,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     batches?: BatchUncheckedCreateNestedManyWithoutEventInput
     tickets?: TicketUncheckedCreateNestedManyWithoutEventInput
-    orders?: OrderUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type eventosUpdateInput = {
@@ -17043,7 +19495,6 @@ export namespace Prisma {
     tenant?: tenantsUpdateOneRequiredWithoutEventosNestedInput
     batches?: BatchUpdateManyWithoutEventNestedInput
     tickets?: TicketUpdateManyWithoutEventNestedInput
-    orders?: OrderUpdateManyWithoutEventNestedInput
   }
 
   export type eventosUncheckedUpdateInput = {
@@ -17059,7 +19510,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     batches?: BatchUncheckedUpdateManyWithoutEventNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutEventNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutEventNestedInput
   }
 
   export type eventosCreateManyInput = {
@@ -17107,7 +19557,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17123,7 +19572,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17137,7 +19585,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17153,7 +19600,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17168,7 +19614,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17181,7 +19626,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17195,7 +19639,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17274,7 +19717,7 @@ export namespace Prisma {
     ticketType: TicketTypeCreateNestedOneWithoutBatchTicketsInput
     tickets?: TicketCreateNestedManyWithoutBatchTicketInput
     orderItems?: OrderItemCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketUncheckedCreateInput = {
@@ -17290,7 +19733,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutBatchTicketInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationUncheckedCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketUncheckedCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketUpdateInput = {
@@ -17306,7 +19749,7 @@ export namespace Prisma {
     ticketType?: TicketTypeUpdateOneRequiredWithoutBatchTicketsNestedInput
     tickets?: TicketUpdateManyWithoutBatchTicketNestedInput
     orderItems?: OrderItemUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketUncheckedUpdateInput = {
@@ -17322,7 +19765,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutBatchTicketNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUncheckedUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketCreateManyInput = {
@@ -17365,9 +19808,6 @@ export namespace Prisma {
   export type TicketCreateInput = {
     id?: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -17375,19 +19815,18 @@ export namespace Prisma {
     updatedAt?: Date | string
     order: OrderCreateNestedOneWithoutTicketsInput
     event: eventosCreateNestedOneWithoutTicketsInput
+    usuario: usuariosCreateNestedOneWithoutTicketsInput
     batchTicket: BatchTicketCreateNestedOneWithoutTicketsInput
-    checkedInUser?: usuariosCreateNestedOneWithoutTicketsInput
+    checkedInUser?: usuariosCreateNestedOneWithoutCheckedTicketsInput
   }
 
   export type TicketUncheckedCreateInput = {
     id?: string
     orderId: string
     eventId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -17399,9 +19838,6 @@ export namespace Prisma {
   export type TicketUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17409,19 +19845,18 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     order?: OrderUpdateOneRequiredWithoutTicketsNestedInput
     event?: eventosUpdateOneRequiredWithoutTicketsNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutTicketsNestedInput
     batchTicket?: BatchTicketUpdateOneRequiredWithoutTicketsNestedInput
-    checkedInUser?: usuariosUpdateOneWithoutTicketsNestedInput
+    checkedInUser?: usuariosUpdateOneWithoutCheckedTicketsNestedInput
   }
 
   export type TicketUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17434,11 +19869,9 @@ export namespace Prisma {
     id?: string
     orderId: string
     eventId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -17450,9 +19883,6 @@ export namespace Prisma {
   export type TicketUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17464,11 +19894,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17487,7 +19915,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant?: tenantsCreateNestedOneWithoutUsuariosInput
     orders?: OrderCreateNestedManyWithoutUsuarioInput
-    tickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    checkedTickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationCreateNestedManyWithoutUsuarioInput
   }
 
   export type usuariosUncheckedCreateInput = {
@@ -17500,7 +19930,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutUsuarioInput
-    tickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    checkedTickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type usuariosUpdateInput = {
@@ -17513,7 +19945,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneWithoutUsuariosNestedInput
     orders?: OrderUpdateManyWithoutUsuarioNestedInput
-    tickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    checkedTickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUpdateManyWithoutUsuarioNestedInput
   }
 
   export type usuariosUncheckedUpdateInput = {
@@ -17526,7 +19960,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutUsuarioNestedInput
-    tickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    checkedTickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type usuariosCreateManyInput = {
@@ -17561,142 +19997,194 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GlobalPaymentConfigCreateInput = {
+  export type PaymentProviderCreateInput = {
     id?: string
-    defaultPlatformFeePercent?: Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: string
-    acceptCreditCard?: boolean
-    acceptDebitCard?: boolean
-    acceptPix?: boolean
-    acceptBoleto?: boolean
-    maxInstallments?: number
-    minInstallmentValue?: Decimal | DecimalJsLike | number | string
-    interestFree?: number
-    allowRefunds?: boolean
-    refundDeadlineDays?: number
+    slug: string
+    isActive?: boolean
+    platformFeePercent?: Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paymentMethods?: PaymentMethodCreateNestedManyWithoutProviderInput
+  }
+
+  export type PaymentProviderUncheckedCreateInput = {
+    id?: string
+    slug: string
+    isActive?: boolean
+    platformFeePercent?: Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutProviderInput
+  }
+
+  export type PaymentProviderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    platformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paymentMethods?: PaymentMethodUpdateManyWithoutProviderNestedInput
+  }
+
+  export type PaymentProviderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    platformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutProviderNestedInput
+  }
+
+  export type PaymentProviderCreateManyInput = {
+    id?: string
+    slug: string
+    isActive?: boolean
+    platformFeePercent?: Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type GlobalPaymentConfigUncheckedCreateInput = {
+  export type PaymentProviderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    platformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentProviderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    platformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMethodCreateInput = {
     id?: string
-    defaultPlatformFeePercent?: Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: string
-    acceptCreditCard?: boolean
-    acceptDebitCard?: boolean
-    acceptPix?: boolean
-    acceptBoleto?: boolean
+    slug: string
+    name: string
+    gatewayFeePercent: Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed: Decimal | DecimalJsLike | number | string
+    allowInstallments?: boolean
     maxInstallments?: number
     minInstallmentValue?: Decimal | DecimalJsLike | number | string
     interestFree?: number
-    allowRefunds?: boolean
-    refundDeadlineDays?: number
+    interestRate?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    provider: PaymentProviderCreateNestedOneWithoutPaymentMethodsInput
+  }
+
+  export type PaymentMethodUncheckedCreateInput = {
+    id?: string
+    providerId: string
+    slug: string
+    name: string
+    gatewayFeePercent: Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed: Decimal | DecimalJsLike | number | string
+    allowInstallments?: boolean
+    maxInstallments?: number
+    minInstallmentValue?: Decimal | DecimalJsLike | number | string
+    interestFree?: number
+    interestRate?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type GlobalPaymentConfigUpdateInput = {
+  export type PaymentMethodUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    defaultPlatformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: StringFieldUpdateOperationsInput | string
-    acceptCreditCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptDebitCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptPix?: BoolFieldUpdateOperationsInput | boolean
-    acceptBoleto?: BoolFieldUpdateOperationsInput | boolean
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gatewayFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFieldUpdateOperationsInput | boolean
     maxInstallments?: IntFieldUpdateOperationsInput | number
     minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestFree?: IntFieldUpdateOperationsInput | number
-    allowRefunds?: BoolFieldUpdateOperationsInput | boolean
-    refundDeadlineDays?: IntFieldUpdateOperationsInput | number
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    provider?: PaymentProviderUpdateOneRequiredWithoutPaymentMethodsNestedInput
+  }
+
+  export type PaymentMethodUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gatewayFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFieldUpdateOperationsInput | boolean
+    maxInstallments?: IntFieldUpdateOperationsInput | number
+    minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestFree?: IntFieldUpdateOperationsInput | number
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GlobalPaymentConfigUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    defaultPlatformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: StringFieldUpdateOperationsInput | string
-    acceptCreditCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptDebitCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptPix?: BoolFieldUpdateOperationsInput | boolean
-    acceptBoleto?: BoolFieldUpdateOperationsInput | boolean
-    maxInstallments?: IntFieldUpdateOperationsInput | number
-    minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    interestFree?: IntFieldUpdateOperationsInput | number
-    allowRefunds?: BoolFieldUpdateOperationsInput | boolean
-    refundDeadlineDays?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type GlobalPaymentConfigCreateManyInput = {
+  export type PaymentMethodCreateManyInput = {
     id?: string
-    defaultPlatformFeePercent?: Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: string
-    acceptCreditCard?: boolean
-    acceptDebitCard?: boolean
-    acceptPix?: boolean
-    acceptBoleto?: boolean
+    providerId: string
+    slug: string
+    name: string
+    gatewayFeePercent: Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed: Decimal | DecimalJsLike | number | string
+    allowInstallments?: boolean
     maxInstallments?: number
     minInstallmentValue?: Decimal | DecimalJsLike | number | string
     interestFree?: number
-    allowRefunds?: boolean
-    refundDeadlineDays?: number
+    interestRate?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type GlobalPaymentConfigUpdateManyMutationInput = {
+  export type PaymentMethodUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    defaultPlatformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: StringFieldUpdateOperationsInput | string
-    acceptCreditCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptDebitCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptPix?: BoolFieldUpdateOperationsInput | boolean
-    acceptBoleto?: BoolFieldUpdateOperationsInput | boolean
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gatewayFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFieldUpdateOperationsInput | boolean
     maxInstallments?: IntFieldUpdateOperationsInput | number
     minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestFree?: IntFieldUpdateOperationsInput | number
-    allowRefunds?: BoolFieldUpdateOperationsInput | boolean
-    refundDeadlineDays?: IntFieldUpdateOperationsInput | number
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type GlobalPaymentConfigUncheckedUpdateManyInput = {
+  export type PaymentMethodUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    defaultPlatformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultPlatformFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    defaultServiceFeePayerType?: StringFieldUpdateOperationsInput | string
-    acceptCreditCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptDebitCard?: BoolFieldUpdateOperationsInput | boolean
-    acceptPix?: BoolFieldUpdateOperationsInput | boolean
-    acceptBoleto?: BoolFieldUpdateOperationsInput | boolean
+    providerId?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gatewayFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFieldUpdateOperationsInput | boolean
     maxInstallments?: IntFieldUpdateOperationsInput | number
     minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     interestFree?: IntFieldUpdateOperationsInput | number
-    allowRefunds?: BoolFieldUpdateOperationsInput | boolean
-    refundDeadlineDays?: IntFieldUpdateOperationsInput | number
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17854,12 +20342,11 @@ export namespace Prisma {
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -17873,7 +20360,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: tenantsCreateNestedOneWithoutOrdersInput
-    event: eventosCreateNestedOneWithoutOrdersInput
+    reservation?: ReservationCreateNestedOneWithoutOrdersInput
     usuario: usuariosCreateNestedOneWithoutOrdersInput
     tickets?: TicketCreateNestedManyWithoutOrderInput
     orderItems?: OrderItemCreateNestedManyWithoutOrderInput
@@ -17882,19 +20369,18 @@ export namespace Prisma {
   export type OrderUncheckedCreateInput = {
     id?: string
     tenantId: string
-    eventId: string
+    reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -17918,12 +20404,11 @@ export namespace Prisma {
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17937,7 +20422,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneRequiredWithoutOrdersNestedInput
-    event?: eventosUpdateOneRequiredWithoutOrdersNestedInput
+    reservation?: ReservationUpdateOneWithoutOrdersNestedInput
     usuario?: usuariosUpdateOneRequiredWithoutOrdersNestedInput
     tickets?: TicketUpdateManyWithoutOrderNestedInput
     orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
@@ -17946,19 +20431,18 @@ export namespace Prisma {
   export type OrderUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17978,19 +20462,18 @@ export namespace Prisma {
   export type OrderCreateManyInput = {
     id?: string
     tenantId: string
-    eventId: string
+    reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -18012,12 +20495,11 @@ export namespace Prisma {
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18035,19 +20517,18 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18153,61 +20634,64 @@ export namespace Prisma {
 
   export type ReservationCreateInput = {
     id?: string
-    userId: string
-    quantity: number
     expiresAt: Date | string
     status?: $Enums.ReservationStatus
     ipAddress?: string | null
     userAgent?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    batchTicket: BatchTicketCreateNestedOneWithoutReservationsInput
+    usuario: usuariosCreateNestedOneWithoutReservationsInput
+    tickets?: ReservationTicketCreateNestedManyWithoutReservationInput
+    orders?: OrderCreateNestedManyWithoutReservationInput
+    tenant: tenantsCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateInput = {
     id?: string
-    batchTicketId: string
     userId: string
-    quantity: number
+    tenantId: string
     expiresAt: Date | string
     status?: $Enums.ReservationStatus
     ipAddress?: string | null
     userAgent?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    tickets?: ReservationTicketUncheckedCreateNestedManyWithoutReservationInput
+    orders?: OrderUncheckedCreateNestedManyWithoutReservationInput
   }
 
   export type ReservationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    batchTicket?: BatchTicketUpdateOneRequiredWithoutReservationsNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutReservationsNestedInput
+    tickets?: ReservationTicketUpdateManyWithoutReservationNestedInput
+    orders?: OrderUpdateManyWithoutReservationNestedInput
+    tenant?: tenantsUpdateOneRequiredWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    batchTicketId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    tenantId?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: ReservationTicketUncheckedUpdateManyWithoutReservationNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type ReservationCreateManyInput = {
     id?: string
-    batchTicketId: string
     userId: string
-    quantity: number
+    tenantId: string
     expiresAt: Date | string
     status?: $Enums.ReservationStatus
     ipAddress?: string | null
@@ -18218,8 +20702,6 @@ export namespace Prisma {
 
   export type ReservationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
@@ -18230,13 +20712,73 @@ export namespace Prisma {
 
   export type ReservationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    batchTicketId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
+    tenantId?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationTicketCreateInput = {
+    id?: string
+    quantity: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reservation: ReservationCreateNestedOneWithoutTicketsInput
+    batchTicket: BatchTicketCreateNestedOneWithoutReservationTicketsInput
+  }
+
+  export type ReservationTicketUncheckedCreateInput = {
+    id?: string
+    reservationId: string
+    batchTicketId: string
+    quantity: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReservationTicketUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reservation?: ReservationUpdateOneRequiredWithoutTicketsNestedInput
+    batchTicket?: BatchTicketUpdateOneRequiredWithoutReservationTicketsNestedInput
+  }
+
+  export type ReservationTicketUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    batchTicketId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationTicketCreateManyInput = {
+    id?: string
+    reservationId: string
+    batchTicketId: string
+    quantity: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReservationTicketUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationTicketUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    batchTicketId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18312,6 +20854,12 @@ export namespace Prisma {
     none?: OrderWhereInput
   }
 
+  export type ReservationListRelationFilter = {
+    every?: ReservationWhereInput
+    some?: ReservationWhereInput
+    none?: ReservationWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -18326,6 +20874,10 @@ export namespace Prisma {
   }
 
   export type OrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReservationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18574,14 +21126,12 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type BatchAvgOrderByAggregateInput = {
-    totalSold?: SortOrder
     order?: SortOrder
   }
 
@@ -18593,7 +21143,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18607,14 +21156,12 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type BatchSumOrderByAggregateInput = {
-    totalSold?: SortOrder
     order?: SortOrder
   }
 
@@ -18699,17 +21246,17 @@ export namespace Prisma {
     none?: OrderItemWhereInput
   }
 
-  export type ReservationListRelationFilter = {
-    every?: ReservationWhereInput
-    some?: ReservationWhereInput
-    none?: ReservationWhereInput
+  export type ReservationTicketListRelationFilter = {
+    every?: ReservationTicketWhereInput
+    some?: ReservationTicketWhereInput
+    none?: ReservationTicketWhereInput
   }
 
   export type OrderItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type ReservationOrderByRelationAggregateInput = {
+  export type ReservationTicketOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18816,6 +21363,11 @@ export namespace Prisma {
     isNot?: OrderWhereInput
   }
 
+  export type UsuariosScalarRelationFilter = {
+    is?: usuariosWhereInput
+    isNot?: usuariosWhereInput
+  }
+
   export type BatchTicketScalarRelationFilter = {
     is?: BatchTicketWhereInput
     isNot?: BatchTicketWhereInput
@@ -18836,11 +21388,9 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     eventId?: SortOrder
+    userId?: SortOrder
     batchTicketId?: SortOrder
     hash?: SortOrder
-    ownerName?: SortOrder
-    ownerEmail?: SortOrder
-    ownerDocument?: SortOrder
     price?: SortOrder
     status?: SortOrder
     checkedInAt?: SortOrder
@@ -18857,11 +21407,9 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     eventId?: SortOrder
+    userId?: SortOrder
     batchTicketId?: SortOrder
     hash?: SortOrder
-    ownerName?: SortOrder
-    ownerEmail?: SortOrder
-    ownerDocument?: SortOrder
     price?: SortOrder
     status?: SortOrder
     checkedInAt?: SortOrder
@@ -18874,11 +21422,9 @@ export namespace Prisma {
     id?: SortOrder
     orderId?: SortOrder
     eventId?: SortOrder
+    userId?: SortOrder
     batchTicketId?: SortOrder
     hash?: SortOrder
-    ownerName?: SortOrder
-    ownerEmail?: SortOrder
-    ownerDocument?: SortOrder
     price?: SortOrder
     status?: SortOrder
     checkedInAt?: SortOrder
@@ -18981,92 +21527,145 @@ export namespace Prisma {
     _max?: NestedEnumCargoUsuarioFilter<$PrismaModel>
   }
 
-  export type GlobalPaymentConfigOrderByRelevanceInput = {
-    fields: GlobalPaymentConfigOrderByRelevanceFieldEnum | GlobalPaymentConfigOrderByRelevanceFieldEnum[]
+  export type PaymentMethodListRelationFilter = {
+    every?: PaymentMethodWhereInput
+    some?: PaymentMethodWhereInput
+    none?: PaymentMethodWhereInput
+  }
+
+  export type PaymentMethodOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentProviderOrderByRelevanceInput = {
+    fields: PaymentProviderOrderByRelevanceFieldEnum | PaymentProviderOrderByRelevanceFieldEnum[]
     sort: SortOrder
     search: string
   }
 
-  export type GlobalPaymentConfigCountOrderByAggregateInput = {
+  export type PaymentProviderCountOrderByAggregateInput = {
     id?: SortOrder
-    defaultPlatformFeePercent?: SortOrder
-    defaultPlatformFeeFixed?: SortOrder
-    defaultServiceFeePercent?: SortOrder
-    defaultServiceFeeFixed?: SortOrder
-    defaultServiceFeePayerType?: SortOrder
-    acceptCreditCard?: SortOrder
-    acceptDebitCard?: SortOrder
-    acceptPix?: SortOrder
-    acceptBoleto?: SortOrder
-    maxInstallments?: SortOrder
-    minInstallmentValue?: SortOrder
-    interestFree?: SortOrder
-    allowRefunds?: SortOrder
-    refundDeadlineDays?: SortOrder
+    slug?: SortOrder
+    isActive?: SortOrder
+    platformFeePercent?: SortOrder
+    platformCoustPercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type GlobalPaymentConfigAvgOrderByAggregateInput = {
-    defaultPlatformFeePercent?: SortOrder
-    defaultPlatformFeeFixed?: SortOrder
-    defaultServiceFeePercent?: SortOrder
-    defaultServiceFeeFixed?: SortOrder
-    maxInstallments?: SortOrder
-    minInstallmentValue?: SortOrder
-    interestFree?: SortOrder
-    refundDeadlineDays?: SortOrder
+  export type PaymentProviderAvgOrderByAggregateInput = {
+    platformFeePercent?: SortOrder
+    platformCoustPercent?: SortOrder
   }
 
-  export type GlobalPaymentConfigMaxOrderByAggregateInput = {
+  export type PaymentProviderMaxOrderByAggregateInput = {
     id?: SortOrder
-    defaultPlatformFeePercent?: SortOrder
-    defaultPlatformFeeFixed?: SortOrder
-    defaultServiceFeePercent?: SortOrder
-    defaultServiceFeeFixed?: SortOrder
-    defaultServiceFeePayerType?: SortOrder
-    acceptCreditCard?: SortOrder
-    acceptDebitCard?: SortOrder
-    acceptPix?: SortOrder
-    acceptBoleto?: SortOrder
-    maxInstallments?: SortOrder
-    minInstallmentValue?: SortOrder
-    interestFree?: SortOrder
-    allowRefunds?: SortOrder
-    refundDeadlineDays?: SortOrder
+    slug?: SortOrder
+    isActive?: SortOrder
+    platformFeePercent?: SortOrder
+    platformCoustPercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type GlobalPaymentConfigMinOrderByAggregateInput = {
+  export type PaymentProviderMinOrderByAggregateInput = {
     id?: SortOrder
-    defaultPlatformFeePercent?: SortOrder
-    defaultPlatformFeeFixed?: SortOrder
-    defaultServiceFeePercent?: SortOrder
-    defaultServiceFeeFixed?: SortOrder
-    defaultServiceFeePayerType?: SortOrder
-    acceptCreditCard?: SortOrder
-    acceptDebitCard?: SortOrder
-    acceptPix?: SortOrder
-    acceptBoleto?: SortOrder
-    maxInstallments?: SortOrder
-    minInstallmentValue?: SortOrder
-    interestFree?: SortOrder
-    allowRefunds?: SortOrder
-    refundDeadlineDays?: SortOrder
+    slug?: SortOrder
+    isActive?: SortOrder
+    platformFeePercent?: SortOrder
+    platformCoustPercent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type GlobalPaymentConfigSumOrderByAggregateInput = {
-    defaultPlatformFeePercent?: SortOrder
-    defaultPlatformFeeFixed?: SortOrder
-    defaultServiceFeePercent?: SortOrder
-    defaultServiceFeeFixed?: SortOrder
+  export type PaymentProviderSumOrderByAggregateInput = {
+    platformFeePercent?: SortOrder
+    platformCoustPercent?: SortOrder
+  }
+
+  export type PaymentProviderScalarRelationFilter = {
+    is?: PaymentProviderWhereInput
+    isNot?: PaymentProviderWhereInput
+  }
+
+  export type PaymentMethodOrderByRelevanceInput = {
+    fields: PaymentMethodOrderByRelevanceFieldEnum | PaymentMethodOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type PaymentMethodProviderIdSlugCompoundUniqueInput = {
+    providerId: string
+    slug: string
+  }
+
+  export type PaymentMethodCountOrderByAggregateInput = {
+    id?: SortOrder
+    providerId?: SortOrder
+    slug?: SortOrder
+    name?: SortOrder
+    gatewayFeePercent?: SortOrder
+    gatewayFeeFixed?: SortOrder
+    allowInstallments?: SortOrder
     maxInstallments?: SortOrder
     minInstallmentValue?: SortOrder
     interestFree?: SortOrder
-    refundDeadlineDays?: SortOrder
+    interestRate?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMethodAvgOrderByAggregateInput = {
+    gatewayFeePercent?: SortOrder
+    gatewayFeeFixed?: SortOrder
+    maxInstallments?: SortOrder
+    minInstallmentValue?: SortOrder
+    interestFree?: SortOrder
+    interestRate?: SortOrder
+  }
+
+  export type PaymentMethodMaxOrderByAggregateInput = {
+    id?: SortOrder
+    providerId?: SortOrder
+    slug?: SortOrder
+    name?: SortOrder
+    gatewayFeePercent?: SortOrder
+    gatewayFeeFixed?: SortOrder
+    allowInstallments?: SortOrder
+    maxInstallments?: SortOrder
+    minInstallmentValue?: SortOrder
+    interestFree?: SortOrder
+    interestRate?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMethodMinOrderByAggregateInput = {
+    id?: SortOrder
+    providerId?: SortOrder
+    slug?: SortOrder
+    name?: SortOrder
+    gatewayFeePercent?: SortOrder
+    gatewayFeeFixed?: SortOrder
+    allowInstallments?: SortOrder
+    maxInstallments?: SortOrder
+    minInstallmentValue?: SortOrder
+    interestFree?: SortOrder
+    interestRate?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMethodSumOrderByAggregateInput = {
+    gatewayFeePercent?: SortOrder
+    gatewayFeeFixed?: SortOrder
+    maxInstallments?: SortOrder
+    minInstallmentValue?: SortOrder
+    interestFree?: SortOrder
+    interestRate?: SortOrder
   }
 
   export type EnumStripeAccountTypeFilter<$PrismaModel = never> = {
@@ -19241,27 +21840,27 @@ export namespace Prisma {
     not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
   }
 
-  export type EnumPaymentMethodNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel> | null
-    in?: $Enums.PaymentMethod[] | null
-    notIn?: $Enums.PaymentMethod[] | null
-    not?: NestedEnumPaymentMethodNullableFilter<$PrismaModel> | $Enums.PaymentMethod | null
+  export type EnumPaymentMethodTypesNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethodTypes | EnumPaymentMethodTypesFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMethodTypes[] | null
+    notIn?: $Enums.PaymentMethodTypes[] | null
+    not?: NestedEnumPaymentMethodTypesNullableFilter<$PrismaModel> | $Enums.PaymentMethodTypes | null
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
-  export type UsuariosScalarRelationFilter = {
-    is?: usuariosWhereInput
-    isNot?: usuariosWhereInput
+  export type ReservationNullableScalarRelationFilter = {
+    is?: ReservationWhereInput | null
+    isNot?: ReservationWhereInput | null
   }
 
   export type OrderOrderByRelevanceInput = {
@@ -19273,7 +21872,7 @@ export namespace Prisma {
   export type OrderCountOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
-    eventId?: SortOrder
+    reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
     serviceFee?: SortOrder
@@ -19282,8 +21881,7 @@ export namespace Prisma {
     status?: SortOrder
     paymentMethod?: SortOrder
     paymentProvider?: SortOrder
-    stripePaymentIntentId?: SortOrder
-    stripeClientSecret?: SortOrder
+    stripeCheckoutSessionId?: SortOrder
     stripeTransferId?: SortOrder
     stripeApplicationFee?: SortOrder
     paymentUrl?: SortOrder
@@ -19311,7 +21909,7 @@ export namespace Prisma {
   export type OrderMaxOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
-    eventId?: SortOrder
+    reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
     serviceFee?: SortOrder
@@ -19320,8 +21918,7 @@ export namespace Prisma {
     status?: SortOrder
     paymentMethod?: SortOrder
     paymentProvider?: SortOrder
-    stripePaymentIntentId?: SortOrder
-    stripeClientSecret?: SortOrder
+    stripeCheckoutSessionId?: SortOrder
     stripeTransferId?: SortOrder
     stripeApplicationFee?: SortOrder
     paymentUrl?: SortOrder
@@ -19341,7 +21938,7 @@ export namespace Prisma {
   export type OrderMinOrderByAggregateInput = {
     id?: SortOrder
     tenantId?: SortOrder
-    eventId?: SortOrder
+    reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
     serviceFee?: SortOrder
@@ -19350,8 +21947,7 @@ export namespace Prisma {
     status?: SortOrder
     paymentMethod?: SortOrder
     paymentProvider?: SortOrder
-    stripePaymentIntentId?: SortOrder
-    stripeClientSecret?: SortOrder
+    stripeCheckoutSessionId?: SortOrder
     stripeTransferId?: SortOrder
     stripeApplicationFee?: SortOrder
     paymentUrl?: SortOrder
@@ -19386,30 +21982,30 @@ export namespace Prisma {
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
-  export type EnumPaymentMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel> | null
-    in?: $Enums.PaymentMethod[] | null
-    notIn?: $Enums.PaymentMethod[] | null
-    not?: NestedEnumPaymentMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethod | null
+  export type EnumPaymentMethodTypesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethodTypes | EnumPaymentMethodTypesFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMethodTypes[] | null
+    notIn?: $Enums.PaymentMethodTypes[] | null
+    not?: NestedEnumPaymentMethodTypesNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethodTypes | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumPaymentMethodNullableFilter<$PrismaModel>
-    _max?: NestedEnumPaymentMethodNullableFilter<$PrismaModel>
+    _min?: NestedEnumPaymentMethodTypesNullableFilter<$PrismaModel>
+    _max?: NestedEnumPaymentMethodTypesNullableFilter<$PrismaModel>
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type OrderItemOrderByRelevanceInput = {
@@ -19484,9 +22080,8 @@ export namespace Prisma {
 
   export type ReservationCountOrderByAggregateInput = {
     id?: SortOrder
-    batchTicketId?: SortOrder
     userId?: SortOrder
-    quantity?: SortOrder
+    tenantId?: SortOrder
     expiresAt?: SortOrder
     status?: SortOrder
     ipAddress?: SortOrder
@@ -19495,15 +22090,10 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type ReservationAvgOrderByAggregateInput = {
-    quantity?: SortOrder
-  }
-
   export type ReservationMaxOrderByAggregateInput = {
     id?: SortOrder
-    batchTicketId?: SortOrder
     userId?: SortOrder
-    quantity?: SortOrder
+    tenantId?: SortOrder
     expiresAt?: SortOrder
     status?: SortOrder
     ipAddress?: SortOrder
@@ -19514,19 +22104,14 @@ export namespace Prisma {
 
   export type ReservationMinOrderByAggregateInput = {
     id?: SortOrder
-    batchTicketId?: SortOrder
     userId?: SortOrder
-    quantity?: SortOrder
+    tenantId?: SortOrder
     expiresAt?: SortOrder
     status?: SortOrder
     ipAddress?: SortOrder
     userAgent?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type ReservationSumOrderByAggregateInput = {
-    quantity?: SortOrder
   }
 
   export type EnumReservationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -19537,6 +22122,57 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumReservationStatusFilter<$PrismaModel>
     _max?: NestedEnumReservationStatusFilter<$PrismaModel>
+  }
+
+  export type ReservationScalarRelationFilter = {
+    is?: ReservationWhereInput
+    isNot?: ReservationWhereInput
+  }
+
+  export type ReservationTicketOrderByRelevanceInput = {
+    fields: ReservationTicketOrderByRelevanceFieldEnum | ReservationTicketOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type ReservationTicketReservationIdBatchTicketIdCompoundUniqueInput = {
+    reservationId: string
+    batchTicketId: string
+  }
+
+  export type ReservationTicketCountOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    batchTicketId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReservationTicketAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type ReservationTicketMaxOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    batchTicketId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReservationTicketMinOrderByAggregateInput = {
+    id?: SortOrder
+    reservationId?: SortOrder
+    batchTicketId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ReservationTicketSumOrderByAggregateInput = {
+    quantity?: SortOrder
   }
 
   export type usuariosCreateNestedManyWithoutTenantInput = {
@@ -19566,6 +22202,13 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type ReservationCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ReservationCreateWithoutTenantInput, ReservationUncheckedCreateWithoutTenantInput> | ReservationCreateWithoutTenantInput[] | ReservationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutTenantInput | ReservationCreateOrConnectWithoutTenantInput[]
+    createMany?: ReservationCreateManyTenantInputEnvelope
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  }
+
   export type usuariosUncheckedCreateNestedManyWithoutTenantInput = {
     create?: XOR<usuariosCreateWithoutTenantInput, usuariosUncheckedCreateWithoutTenantInput> | usuariosCreateWithoutTenantInput[] | usuariosUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: usuariosCreateOrConnectWithoutTenantInput | usuariosCreateOrConnectWithoutTenantInput[]
@@ -19591,6 +22234,13 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutTenantInput | OrderCreateOrConnectWithoutTenantInput[]
     createMany?: OrderCreateManyTenantInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type ReservationUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<ReservationCreateWithoutTenantInput, ReservationUncheckedCreateWithoutTenantInput> | ReservationCreateWithoutTenantInput[] | ReservationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutTenantInput | ReservationCreateOrConnectWithoutTenantInput[]
+    createMany?: ReservationCreateManyTenantInputEnvelope
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -19661,6 +22311,20 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type ReservationUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ReservationCreateWithoutTenantInput, ReservationUncheckedCreateWithoutTenantInput> | ReservationCreateWithoutTenantInput[] | ReservationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutTenantInput | ReservationCreateOrConnectWithoutTenantInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutTenantInput | ReservationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ReservationCreateManyTenantInputEnvelope
+    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutTenantInput | ReservationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutTenantInput | ReservationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
   export type usuariosUncheckedUpdateManyWithoutTenantNestedInput = {
     create?: XOR<usuariosCreateWithoutTenantInput, usuariosUncheckedCreateWithoutTenantInput> | usuariosCreateWithoutTenantInput[] | usuariosUncheckedCreateWithoutTenantInput[]
     connectOrCreate?: usuariosCreateOrConnectWithoutTenantInput | usuariosCreateOrConnectWithoutTenantInput[]
@@ -19713,6 +22377,20 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type ReservationUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<ReservationCreateWithoutTenantInput, ReservationUncheckedCreateWithoutTenantInput> | ReservationCreateWithoutTenantInput[] | ReservationUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutTenantInput | ReservationCreateOrConnectWithoutTenantInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutTenantInput | ReservationUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: ReservationCreateManyTenantInputEnvelope
+    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutTenantInput | ReservationUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutTenantInput | ReservationUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
   export type tenantsCreateNestedOneWithoutEventosInput = {
     create?: XOR<tenantsCreateWithoutEventosInput, tenantsUncheckedCreateWithoutEventosInput>
     connectOrCreate?: tenantsCreateOrConnectWithoutEventosInput
@@ -19733,13 +22411,6 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
-  export type OrderCreateNestedManyWithoutEventInput = {
-    create?: XOR<OrderCreateWithoutEventInput, OrderUncheckedCreateWithoutEventInput> | OrderCreateWithoutEventInput[] | OrderUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutEventInput | OrderCreateOrConnectWithoutEventInput[]
-    createMany?: OrderCreateManyEventInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-  }
-
   export type BatchUncheckedCreateNestedManyWithoutEventInput = {
     create?: XOR<BatchCreateWithoutEventInput, BatchUncheckedCreateWithoutEventInput> | BatchCreateWithoutEventInput[] | BatchUncheckedCreateWithoutEventInput[]
     connectOrCreate?: BatchCreateOrConnectWithoutEventInput | BatchCreateOrConnectWithoutEventInput[]
@@ -19752,13 +22423,6 @@ export namespace Prisma {
     connectOrCreate?: TicketCreateOrConnectWithoutEventInput | TicketCreateOrConnectWithoutEventInput[]
     createMany?: TicketCreateManyEventInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
-  }
-
-  export type OrderUncheckedCreateNestedManyWithoutEventInput = {
-    create?: XOR<OrderCreateWithoutEventInput, OrderUncheckedCreateWithoutEventInput> | OrderCreateWithoutEventInput[] | OrderUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutEventInput | OrderCreateOrConnectWithoutEventInput[]
-    createMany?: OrderCreateManyEventInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type EnumEventoStatusFieldUpdateOperationsInput = {
@@ -19801,20 +22465,6 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
-  export type OrderUpdateManyWithoutEventNestedInput = {
-    create?: XOR<OrderCreateWithoutEventInput, OrderUncheckedCreateWithoutEventInput> | OrderCreateWithoutEventInput[] | OrderUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutEventInput | OrderCreateOrConnectWithoutEventInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutEventInput | OrderUpsertWithWhereUniqueWithoutEventInput[]
-    createMany?: OrderCreateManyEventInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutEventInput | OrderUpdateWithWhereUniqueWithoutEventInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutEventInput | OrderUpdateManyWithWhereWithoutEventInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
-  }
-
   export type BatchUncheckedUpdateManyWithoutEventNestedInput = {
     create?: XOR<BatchCreateWithoutEventInput, BatchUncheckedCreateWithoutEventInput> | BatchCreateWithoutEventInput[] | BatchUncheckedCreateWithoutEventInput[]
     connectOrCreate?: BatchCreateOrConnectWithoutEventInput | BatchCreateOrConnectWithoutEventInput[]
@@ -19841,20 +22491,6 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutEventInput | TicketUpdateWithWhereUniqueWithoutEventInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutEventInput | TicketUpdateManyWithWhereWithoutEventInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
-  }
-
-  export type OrderUncheckedUpdateManyWithoutEventNestedInput = {
-    create?: XOR<OrderCreateWithoutEventInput, OrderUncheckedCreateWithoutEventInput> | OrderCreateWithoutEventInput[] | OrderUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutEventInput | OrderCreateOrConnectWithoutEventInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutEventInput | OrderUpsertWithWhereUniqueWithoutEventInput[]
-    createMany?: OrderCreateManyEventInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutEventInput | OrderUpdateWithWhereUniqueWithoutEventInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutEventInput | OrderUpdateManyWithWhereWithoutEventInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type eventosCreateNestedOneWithoutBatchesInput = {
@@ -19993,11 +22629,11 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
-  export type ReservationCreateNestedManyWithoutBatchTicketInput = {
-    create?: XOR<ReservationCreateWithoutBatchTicketInput, ReservationUncheckedCreateWithoutBatchTicketInput> | ReservationCreateWithoutBatchTicketInput[] | ReservationUncheckedCreateWithoutBatchTicketInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutBatchTicketInput | ReservationCreateOrConnectWithoutBatchTicketInput[]
-    createMany?: ReservationCreateManyBatchTicketInputEnvelope
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  export type ReservationTicketCreateNestedManyWithoutBatchTicketInput = {
+    create?: XOR<ReservationTicketCreateWithoutBatchTicketInput, ReservationTicketUncheckedCreateWithoutBatchTicketInput> | ReservationTicketCreateWithoutBatchTicketInput[] | ReservationTicketUncheckedCreateWithoutBatchTicketInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutBatchTicketInput | ReservationTicketCreateOrConnectWithoutBatchTicketInput[]
+    createMany?: ReservationTicketCreateManyBatchTicketInputEnvelope
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
   }
 
   export type TicketUncheckedCreateNestedManyWithoutBatchTicketInput = {
@@ -20014,11 +22650,11 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
-  export type ReservationUncheckedCreateNestedManyWithoutBatchTicketInput = {
-    create?: XOR<ReservationCreateWithoutBatchTicketInput, ReservationUncheckedCreateWithoutBatchTicketInput> | ReservationCreateWithoutBatchTicketInput[] | ReservationUncheckedCreateWithoutBatchTicketInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutBatchTicketInput | ReservationCreateOrConnectWithoutBatchTicketInput[]
-    createMany?: ReservationCreateManyBatchTicketInputEnvelope
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  export type ReservationTicketUncheckedCreateNestedManyWithoutBatchTicketInput = {
+    create?: XOR<ReservationTicketCreateWithoutBatchTicketInput, ReservationTicketUncheckedCreateWithoutBatchTicketInput> | ReservationTicketCreateWithoutBatchTicketInput[] | ReservationTicketUncheckedCreateWithoutBatchTicketInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutBatchTicketInput | ReservationTicketCreateOrConnectWithoutBatchTicketInput[]
+    createMany?: ReservationTicketCreateManyBatchTicketInputEnvelope
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -20073,18 +22709,18 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
-  export type ReservationUpdateManyWithoutBatchTicketNestedInput = {
-    create?: XOR<ReservationCreateWithoutBatchTicketInput, ReservationUncheckedCreateWithoutBatchTicketInput> | ReservationCreateWithoutBatchTicketInput[] | ReservationUncheckedCreateWithoutBatchTicketInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutBatchTicketInput | ReservationCreateOrConnectWithoutBatchTicketInput[]
-    upsert?: ReservationUpsertWithWhereUniqueWithoutBatchTicketInput | ReservationUpsertWithWhereUniqueWithoutBatchTicketInput[]
-    createMany?: ReservationCreateManyBatchTicketInputEnvelope
-    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    update?: ReservationUpdateWithWhereUniqueWithoutBatchTicketInput | ReservationUpdateWithWhereUniqueWithoutBatchTicketInput[]
-    updateMany?: ReservationUpdateManyWithWhereWithoutBatchTicketInput | ReservationUpdateManyWithWhereWithoutBatchTicketInput[]
-    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  export type ReservationTicketUpdateManyWithoutBatchTicketNestedInput = {
+    create?: XOR<ReservationTicketCreateWithoutBatchTicketInput, ReservationTicketUncheckedCreateWithoutBatchTicketInput> | ReservationTicketCreateWithoutBatchTicketInput[] | ReservationTicketUncheckedCreateWithoutBatchTicketInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutBatchTicketInput | ReservationTicketCreateOrConnectWithoutBatchTicketInput[]
+    upsert?: ReservationTicketUpsertWithWhereUniqueWithoutBatchTicketInput | ReservationTicketUpsertWithWhereUniqueWithoutBatchTicketInput[]
+    createMany?: ReservationTicketCreateManyBatchTicketInputEnvelope
+    set?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    disconnect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    delete?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    update?: ReservationTicketUpdateWithWhereUniqueWithoutBatchTicketInput | ReservationTicketUpdateWithWhereUniqueWithoutBatchTicketInput[]
+    updateMany?: ReservationTicketUpdateManyWithWhereWithoutBatchTicketInput | ReservationTicketUpdateManyWithWhereWithoutBatchTicketInput[]
+    deleteMany?: ReservationTicketScalarWhereInput | ReservationTicketScalarWhereInput[]
   }
 
   export type TicketUncheckedUpdateManyWithoutBatchTicketNestedInput = {
@@ -20115,18 +22751,18 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
-  export type ReservationUncheckedUpdateManyWithoutBatchTicketNestedInput = {
-    create?: XOR<ReservationCreateWithoutBatchTicketInput, ReservationUncheckedCreateWithoutBatchTicketInput> | ReservationCreateWithoutBatchTicketInput[] | ReservationUncheckedCreateWithoutBatchTicketInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutBatchTicketInput | ReservationCreateOrConnectWithoutBatchTicketInput[]
-    upsert?: ReservationUpsertWithWhereUniqueWithoutBatchTicketInput | ReservationUpsertWithWhereUniqueWithoutBatchTicketInput[]
-    createMany?: ReservationCreateManyBatchTicketInputEnvelope
-    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    update?: ReservationUpdateWithWhereUniqueWithoutBatchTicketInput | ReservationUpdateWithWhereUniqueWithoutBatchTicketInput[]
-    updateMany?: ReservationUpdateManyWithWhereWithoutBatchTicketInput | ReservationUpdateManyWithWhereWithoutBatchTicketInput[]
-    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  export type ReservationTicketUncheckedUpdateManyWithoutBatchTicketNestedInput = {
+    create?: XOR<ReservationTicketCreateWithoutBatchTicketInput, ReservationTicketUncheckedCreateWithoutBatchTicketInput> | ReservationTicketCreateWithoutBatchTicketInput[] | ReservationTicketUncheckedCreateWithoutBatchTicketInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutBatchTicketInput | ReservationTicketCreateOrConnectWithoutBatchTicketInput[]
+    upsert?: ReservationTicketUpsertWithWhereUniqueWithoutBatchTicketInput | ReservationTicketUpsertWithWhereUniqueWithoutBatchTicketInput[]
+    createMany?: ReservationTicketCreateManyBatchTicketInputEnvelope
+    set?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    disconnect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    delete?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    update?: ReservationTicketUpdateWithWhereUniqueWithoutBatchTicketInput | ReservationTicketUpdateWithWhereUniqueWithoutBatchTicketInput[]
+    updateMany?: ReservationTicketUpdateManyWithWhereWithoutBatchTicketInput | ReservationTicketUpdateManyWithWhereWithoutBatchTicketInput[]
+    deleteMany?: ReservationTicketScalarWhereInput | ReservationTicketScalarWhereInput[]
   }
 
   export type OrderCreateNestedOneWithoutTicketsInput = {
@@ -20141,15 +22777,21 @@ export namespace Prisma {
     connect?: eventosWhereUniqueInput
   }
 
+  export type usuariosCreateNestedOneWithoutTicketsInput = {
+    create?: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: usuariosCreateOrConnectWithoutTicketsInput
+    connect?: usuariosWhereUniqueInput
+  }
+
   export type BatchTicketCreateNestedOneWithoutTicketsInput = {
     create?: XOR<BatchTicketCreateWithoutTicketsInput, BatchTicketUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: BatchTicketCreateOrConnectWithoutTicketsInput
     connect?: BatchTicketWhereUniqueInput
   }
 
-  export type usuariosCreateNestedOneWithoutTicketsInput = {
-    create?: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
-    connectOrCreate?: usuariosCreateOrConnectWithoutTicketsInput
+  export type usuariosCreateNestedOneWithoutCheckedTicketsInput = {
+    create?: XOR<usuariosCreateWithoutCheckedTicketsInput, usuariosUncheckedCreateWithoutCheckedTicketsInput>
+    connectOrCreate?: usuariosCreateOrConnectWithoutCheckedTicketsInput
     connect?: usuariosWhereUniqueInput
   }
 
@@ -20177,6 +22819,14 @@ export namespace Prisma {
     update?: XOR<XOR<eventosUpdateToOneWithWhereWithoutTicketsInput, eventosUpdateWithoutTicketsInput>, eventosUncheckedUpdateWithoutTicketsInput>
   }
 
+  export type usuariosUpdateOneRequiredWithoutTicketsNestedInput = {
+    create?: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: usuariosCreateOrConnectWithoutTicketsInput
+    upsert?: usuariosUpsertWithoutTicketsInput
+    connect?: usuariosWhereUniqueInput
+    update?: XOR<XOR<usuariosUpdateToOneWithWhereWithoutTicketsInput, usuariosUpdateWithoutTicketsInput>, usuariosUncheckedUpdateWithoutTicketsInput>
+  }
+
   export type BatchTicketUpdateOneRequiredWithoutTicketsNestedInput = {
     create?: XOR<BatchTicketCreateWithoutTicketsInput, BatchTicketUncheckedCreateWithoutTicketsInput>
     connectOrCreate?: BatchTicketCreateOrConnectWithoutTicketsInput
@@ -20185,14 +22835,14 @@ export namespace Prisma {
     update?: XOR<XOR<BatchTicketUpdateToOneWithWhereWithoutTicketsInput, BatchTicketUpdateWithoutTicketsInput>, BatchTicketUncheckedUpdateWithoutTicketsInput>
   }
 
-  export type usuariosUpdateOneWithoutTicketsNestedInput = {
-    create?: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
-    connectOrCreate?: usuariosCreateOrConnectWithoutTicketsInput
-    upsert?: usuariosUpsertWithoutTicketsInput
+  export type usuariosUpdateOneWithoutCheckedTicketsNestedInput = {
+    create?: XOR<usuariosCreateWithoutCheckedTicketsInput, usuariosUncheckedCreateWithoutCheckedTicketsInput>
+    connectOrCreate?: usuariosCreateOrConnectWithoutCheckedTicketsInput
+    upsert?: usuariosUpsertWithoutCheckedTicketsInput
     disconnect?: usuariosWhereInput | boolean
     delete?: usuariosWhereInput | boolean
     connect?: usuariosWhereUniqueInput
-    update?: XOR<XOR<usuariosUpdateToOneWithWhereWithoutTicketsInput, usuariosUpdateWithoutTicketsInput>, usuariosUncheckedUpdateWithoutTicketsInput>
+    update?: XOR<XOR<usuariosUpdateToOneWithWhereWithoutCheckedTicketsInput, usuariosUpdateWithoutCheckedTicketsInput>, usuariosUncheckedUpdateWithoutCheckedTicketsInput>
   }
 
   export type tenantsCreateNestedOneWithoutUsuariosInput = {
@@ -20215,6 +22865,20 @@ export namespace Prisma {
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
   }
 
+  export type TicketCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<TicketCreateWithoutUsuarioInput, TicketUncheckedCreateWithoutUsuarioInput> | TicketCreateWithoutUsuarioInput[] | TicketUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutUsuarioInput | TicketCreateOrConnectWithoutUsuarioInput[]
+    createMany?: TicketCreateManyUsuarioInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type ReservationCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ReservationCreateWithoutUsuarioInput, ReservationUncheckedCreateWithoutUsuarioInput> | ReservationCreateWithoutUsuarioInput[] | ReservationUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutUsuarioInput | ReservationCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ReservationCreateManyUsuarioInputEnvelope
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+  }
+
   export type OrderUncheckedCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<OrderCreateWithoutUsuarioInput, OrderUncheckedCreateWithoutUsuarioInput> | OrderCreateWithoutUsuarioInput[] | OrderUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutUsuarioInput | OrderCreateOrConnectWithoutUsuarioInput[]
@@ -20227,6 +22891,20 @@ export namespace Prisma {
     connectOrCreate?: TicketCreateOrConnectWithoutCheckedInUserInput | TicketCreateOrConnectWithoutCheckedInUserInput[]
     createMany?: TicketCreateManyCheckedInUserInputEnvelope
     connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type TicketUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<TicketCreateWithoutUsuarioInput, TicketUncheckedCreateWithoutUsuarioInput> | TicketCreateWithoutUsuarioInput[] | TicketUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutUsuarioInput | TicketCreateOrConnectWithoutUsuarioInput[]
+    createMany?: TicketCreateManyUsuarioInputEnvelope
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+  }
+
+  export type ReservationUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ReservationCreateWithoutUsuarioInput, ReservationUncheckedCreateWithoutUsuarioInput> | ReservationCreateWithoutUsuarioInput[] | ReservationUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutUsuarioInput | ReservationCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ReservationCreateManyUsuarioInputEnvelope
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
   }
 
   export type EnumCargoUsuarioFieldUpdateOperationsInput = {
@@ -20271,6 +22949,34 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
+  export type TicketUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<TicketCreateWithoutUsuarioInput, TicketUncheckedCreateWithoutUsuarioInput> | TicketCreateWithoutUsuarioInput[] | TicketUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutUsuarioInput | TicketCreateOrConnectWithoutUsuarioInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutUsuarioInput | TicketUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: TicketCreateManyUsuarioInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutUsuarioInput | TicketUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutUsuarioInput | TicketUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type ReservationUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ReservationCreateWithoutUsuarioInput, ReservationUncheckedCreateWithoutUsuarioInput> | ReservationCreateWithoutUsuarioInput[] | ReservationUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutUsuarioInput | ReservationCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutUsuarioInput | ReservationUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ReservationCreateManyUsuarioInputEnvelope
+    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutUsuarioInput | ReservationUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutUsuarioInput | ReservationUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
   export type OrderUncheckedUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<OrderCreateWithoutUsuarioInput, OrderUncheckedCreateWithoutUsuarioInput> | OrderCreateWithoutUsuarioInput[] | OrderUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutUsuarioInput | OrderCreateOrConnectWithoutUsuarioInput[]
@@ -20297,6 +23003,90 @@ export namespace Prisma {
     update?: TicketUpdateWithWhereUniqueWithoutCheckedInUserInput | TicketUpdateWithWhereUniqueWithoutCheckedInUserInput[]
     updateMany?: TicketUpdateManyWithWhereWithoutCheckedInUserInput | TicketUpdateManyWithWhereWithoutCheckedInUserInput[]
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type TicketUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<TicketCreateWithoutUsuarioInput, TicketUncheckedCreateWithoutUsuarioInput> | TicketCreateWithoutUsuarioInput[] | TicketUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: TicketCreateOrConnectWithoutUsuarioInput | TicketCreateOrConnectWithoutUsuarioInput[]
+    upsert?: TicketUpsertWithWhereUniqueWithoutUsuarioInput | TicketUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: TicketCreateManyUsuarioInputEnvelope
+    set?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    disconnect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    delete?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    connect?: TicketWhereUniqueInput | TicketWhereUniqueInput[]
+    update?: TicketUpdateWithWhereUniqueWithoutUsuarioInput | TicketUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: TicketUpdateManyWithWhereWithoutUsuarioInput | TicketUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
+  }
+
+  export type ReservationUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ReservationCreateWithoutUsuarioInput, ReservationUncheckedCreateWithoutUsuarioInput> | ReservationCreateWithoutUsuarioInput[] | ReservationUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutUsuarioInput | ReservationCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutUsuarioInput | ReservationUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ReservationCreateManyUsuarioInputEnvelope
+    set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutUsuarioInput | ReservationUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutUsuarioInput | ReservationUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+  }
+
+  export type PaymentMethodCreateNestedManyWithoutProviderInput = {
+    create?: XOR<PaymentMethodCreateWithoutProviderInput, PaymentMethodUncheckedCreateWithoutProviderInput> | PaymentMethodCreateWithoutProviderInput[] | PaymentMethodUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: PaymentMethodCreateOrConnectWithoutProviderInput | PaymentMethodCreateOrConnectWithoutProviderInput[]
+    createMany?: PaymentMethodCreateManyProviderInputEnvelope
+    connect?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+  }
+
+  export type PaymentMethodUncheckedCreateNestedManyWithoutProviderInput = {
+    create?: XOR<PaymentMethodCreateWithoutProviderInput, PaymentMethodUncheckedCreateWithoutProviderInput> | PaymentMethodCreateWithoutProviderInput[] | PaymentMethodUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: PaymentMethodCreateOrConnectWithoutProviderInput | PaymentMethodCreateOrConnectWithoutProviderInput[]
+    createMany?: PaymentMethodCreateManyProviderInputEnvelope
+    connect?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+  }
+
+  export type PaymentMethodUpdateManyWithoutProviderNestedInput = {
+    create?: XOR<PaymentMethodCreateWithoutProviderInput, PaymentMethodUncheckedCreateWithoutProviderInput> | PaymentMethodCreateWithoutProviderInput[] | PaymentMethodUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: PaymentMethodCreateOrConnectWithoutProviderInput | PaymentMethodCreateOrConnectWithoutProviderInput[]
+    upsert?: PaymentMethodUpsertWithWhereUniqueWithoutProviderInput | PaymentMethodUpsertWithWhereUniqueWithoutProviderInput[]
+    createMany?: PaymentMethodCreateManyProviderInputEnvelope
+    set?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    disconnect?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    delete?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    connect?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    update?: PaymentMethodUpdateWithWhereUniqueWithoutProviderInput | PaymentMethodUpdateWithWhereUniqueWithoutProviderInput[]
+    updateMany?: PaymentMethodUpdateManyWithWhereWithoutProviderInput | PaymentMethodUpdateManyWithWhereWithoutProviderInput[]
+    deleteMany?: PaymentMethodScalarWhereInput | PaymentMethodScalarWhereInput[]
+  }
+
+  export type PaymentMethodUncheckedUpdateManyWithoutProviderNestedInput = {
+    create?: XOR<PaymentMethodCreateWithoutProviderInput, PaymentMethodUncheckedCreateWithoutProviderInput> | PaymentMethodCreateWithoutProviderInput[] | PaymentMethodUncheckedCreateWithoutProviderInput[]
+    connectOrCreate?: PaymentMethodCreateOrConnectWithoutProviderInput | PaymentMethodCreateOrConnectWithoutProviderInput[]
+    upsert?: PaymentMethodUpsertWithWhereUniqueWithoutProviderInput | PaymentMethodUpsertWithWhereUniqueWithoutProviderInput[]
+    createMany?: PaymentMethodCreateManyProviderInputEnvelope
+    set?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    disconnect?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    delete?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    connect?: PaymentMethodWhereUniqueInput | PaymentMethodWhereUniqueInput[]
+    update?: PaymentMethodUpdateWithWhereUniqueWithoutProviderInput | PaymentMethodUpdateWithWhereUniqueWithoutProviderInput[]
+    updateMany?: PaymentMethodUpdateManyWithWhereWithoutProviderInput | PaymentMethodUpdateManyWithWhereWithoutProviderInput[]
+    deleteMany?: PaymentMethodScalarWhereInput | PaymentMethodScalarWhereInput[]
+  }
+
+  export type PaymentProviderCreateNestedOneWithoutPaymentMethodsInput = {
+    create?: XOR<PaymentProviderCreateWithoutPaymentMethodsInput, PaymentProviderUncheckedCreateWithoutPaymentMethodsInput>
+    connectOrCreate?: PaymentProviderCreateOrConnectWithoutPaymentMethodsInput
+    connect?: PaymentProviderWhereUniqueInput
+  }
+
+  export type PaymentProviderUpdateOneRequiredWithoutPaymentMethodsNestedInput = {
+    create?: XOR<PaymentProviderCreateWithoutPaymentMethodsInput, PaymentProviderUncheckedCreateWithoutPaymentMethodsInput>
+    connectOrCreate?: PaymentProviderCreateOrConnectWithoutPaymentMethodsInput
+    upsert?: PaymentProviderUpsertWithoutPaymentMethodsInput
+    connect?: PaymentProviderWhereUniqueInput
+    update?: XOR<XOR<PaymentProviderUpdateToOneWithWhereWithoutPaymentMethodsInput, PaymentProviderUpdateWithoutPaymentMethodsInput>, PaymentProviderUncheckedUpdateWithoutPaymentMethodsInput>
   }
 
   export type tenantsCreateNestedOneWithoutStripeAccountInput = {
@@ -20331,10 +23121,10 @@ export namespace Prisma {
     connect?: tenantsWhereUniqueInput
   }
 
-  export type eventosCreateNestedOneWithoutOrdersInput = {
-    create?: XOR<eventosCreateWithoutOrdersInput, eventosUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: eventosCreateOrConnectWithoutOrdersInput
-    connect?: eventosWhereUniqueInput
+  export type ReservationCreateNestedOneWithoutOrdersInput = {
+    create?: XOR<ReservationCreateWithoutOrdersInput, ReservationUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutOrdersInput
+    connect?: ReservationWhereUniqueInput
   }
 
   export type usuariosCreateNestedOneWithoutOrdersInput = {
@@ -20375,16 +23165,16 @@ export namespace Prisma {
     set?: $Enums.OrderStatus
   }
 
-  export type NullableEnumPaymentMethodFieldUpdateOperationsInput = {
-    set?: $Enums.PaymentMethod | null
+  export type NullableEnumPaymentMethodTypesFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentMethodTypes | null
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
   }
 
   export type tenantsUpdateOneRequiredWithoutOrdersNestedInput = {
@@ -20395,12 +23185,14 @@ export namespace Prisma {
     update?: XOR<XOR<tenantsUpdateToOneWithWhereWithoutOrdersInput, tenantsUpdateWithoutOrdersInput>, tenantsUncheckedUpdateWithoutOrdersInput>
   }
 
-  export type eventosUpdateOneRequiredWithoutOrdersNestedInput = {
-    create?: XOR<eventosCreateWithoutOrdersInput, eventosUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: eventosCreateOrConnectWithoutOrdersInput
-    upsert?: eventosUpsertWithoutOrdersInput
-    connect?: eventosWhereUniqueInput
-    update?: XOR<XOR<eventosUpdateToOneWithWhereWithoutOrdersInput, eventosUpdateWithoutOrdersInput>, eventosUncheckedUpdateWithoutOrdersInput>
+  export type ReservationUpdateOneWithoutOrdersNestedInput = {
+    create?: XOR<ReservationCreateWithoutOrdersInput, ReservationUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutOrdersInput
+    upsert?: ReservationUpsertWithoutOrdersInput
+    disconnect?: ReservationWhereInput | boolean
+    delete?: ReservationWhereInput | boolean
+    connect?: ReservationWhereUniqueInput
+    update?: XOR<XOR<ReservationUpdateToOneWithWhereWithoutOrdersInput, ReservationUpdateWithoutOrdersInput>, ReservationUncheckedUpdateWithoutOrdersInput>
   }
 
   export type usuariosUpdateOneRequiredWithoutOrdersNestedInput = {
@@ -20495,22 +23287,148 @@ export namespace Prisma {
     update?: XOR<XOR<BatchTicketUpdateToOneWithWhereWithoutOrderItemsInput, BatchTicketUpdateWithoutOrderItemsInput>, BatchTicketUncheckedUpdateWithoutOrderItemsInput>
   }
 
-  export type BatchTicketCreateNestedOneWithoutReservationsInput = {
-    create?: XOR<BatchTicketCreateWithoutReservationsInput, BatchTicketUncheckedCreateWithoutReservationsInput>
-    connectOrCreate?: BatchTicketCreateOrConnectWithoutReservationsInput
-    connect?: BatchTicketWhereUniqueInput
+  export type usuariosCreateNestedOneWithoutReservationsInput = {
+    create?: XOR<usuariosCreateWithoutReservationsInput, usuariosUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: usuariosCreateOrConnectWithoutReservationsInput
+    connect?: usuariosWhereUniqueInput
+  }
+
+  export type ReservationTicketCreateNestedManyWithoutReservationInput = {
+    create?: XOR<ReservationTicketCreateWithoutReservationInput, ReservationTicketUncheckedCreateWithoutReservationInput> | ReservationTicketCreateWithoutReservationInput[] | ReservationTicketUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutReservationInput | ReservationTicketCreateOrConnectWithoutReservationInput[]
+    createMany?: ReservationTicketCreateManyReservationInputEnvelope
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+  }
+
+  export type OrderCreateNestedManyWithoutReservationInput = {
+    create?: XOR<OrderCreateWithoutReservationInput, OrderUncheckedCreateWithoutReservationInput> | OrderCreateWithoutReservationInput[] | OrderUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutReservationInput | OrderCreateOrConnectWithoutReservationInput[]
+    createMany?: OrderCreateManyReservationInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type tenantsCreateNestedOneWithoutReservationsInput = {
+    create?: XOR<tenantsCreateWithoutReservationsInput, tenantsUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: tenantsCreateOrConnectWithoutReservationsInput
+    connect?: tenantsWhereUniqueInput
+  }
+
+  export type ReservationTicketUncheckedCreateNestedManyWithoutReservationInput = {
+    create?: XOR<ReservationTicketCreateWithoutReservationInput, ReservationTicketUncheckedCreateWithoutReservationInput> | ReservationTicketCreateWithoutReservationInput[] | ReservationTicketUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutReservationInput | ReservationTicketCreateOrConnectWithoutReservationInput[]
+    createMany?: ReservationTicketCreateManyReservationInputEnvelope
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutReservationInput = {
+    create?: XOR<OrderCreateWithoutReservationInput, OrderUncheckedCreateWithoutReservationInput> | OrderCreateWithoutReservationInput[] | OrderUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutReservationInput | OrderCreateOrConnectWithoutReservationInput[]
+    createMany?: OrderCreateManyReservationInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type EnumReservationStatusFieldUpdateOperationsInput = {
     set?: $Enums.ReservationStatus
   }
 
-  export type BatchTicketUpdateOneRequiredWithoutReservationsNestedInput = {
-    create?: XOR<BatchTicketCreateWithoutReservationsInput, BatchTicketUncheckedCreateWithoutReservationsInput>
-    connectOrCreate?: BatchTicketCreateOrConnectWithoutReservationsInput
-    upsert?: BatchTicketUpsertWithoutReservationsInput
+  export type usuariosUpdateOneRequiredWithoutReservationsNestedInput = {
+    create?: XOR<usuariosCreateWithoutReservationsInput, usuariosUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: usuariosCreateOrConnectWithoutReservationsInput
+    upsert?: usuariosUpsertWithoutReservationsInput
+    connect?: usuariosWhereUniqueInput
+    update?: XOR<XOR<usuariosUpdateToOneWithWhereWithoutReservationsInput, usuariosUpdateWithoutReservationsInput>, usuariosUncheckedUpdateWithoutReservationsInput>
+  }
+
+  export type ReservationTicketUpdateManyWithoutReservationNestedInput = {
+    create?: XOR<ReservationTicketCreateWithoutReservationInput, ReservationTicketUncheckedCreateWithoutReservationInput> | ReservationTicketCreateWithoutReservationInput[] | ReservationTicketUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutReservationInput | ReservationTicketCreateOrConnectWithoutReservationInput[]
+    upsert?: ReservationTicketUpsertWithWhereUniqueWithoutReservationInput | ReservationTicketUpsertWithWhereUniqueWithoutReservationInput[]
+    createMany?: ReservationTicketCreateManyReservationInputEnvelope
+    set?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    disconnect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    delete?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    update?: ReservationTicketUpdateWithWhereUniqueWithoutReservationInput | ReservationTicketUpdateWithWhereUniqueWithoutReservationInput[]
+    updateMany?: ReservationTicketUpdateManyWithWhereWithoutReservationInput | ReservationTicketUpdateManyWithWhereWithoutReservationInput[]
+    deleteMany?: ReservationTicketScalarWhereInput | ReservationTicketScalarWhereInput[]
+  }
+
+  export type OrderUpdateManyWithoutReservationNestedInput = {
+    create?: XOR<OrderCreateWithoutReservationInput, OrderUncheckedCreateWithoutReservationInput> | OrderCreateWithoutReservationInput[] | OrderUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutReservationInput | OrderCreateOrConnectWithoutReservationInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutReservationInput | OrderUpsertWithWhereUniqueWithoutReservationInput[]
+    createMany?: OrderCreateManyReservationInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutReservationInput | OrderUpdateWithWhereUniqueWithoutReservationInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutReservationInput | OrderUpdateManyWithWhereWithoutReservationInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type tenantsUpdateOneRequiredWithoutReservationsNestedInput = {
+    create?: XOR<tenantsCreateWithoutReservationsInput, tenantsUncheckedCreateWithoutReservationsInput>
+    connectOrCreate?: tenantsCreateOrConnectWithoutReservationsInput
+    upsert?: tenantsUpsertWithoutReservationsInput
+    connect?: tenantsWhereUniqueInput
+    update?: XOR<XOR<tenantsUpdateToOneWithWhereWithoutReservationsInput, tenantsUpdateWithoutReservationsInput>, tenantsUncheckedUpdateWithoutReservationsInput>
+  }
+
+  export type ReservationTicketUncheckedUpdateManyWithoutReservationNestedInput = {
+    create?: XOR<ReservationTicketCreateWithoutReservationInput, ReservationTicketUncheckedCreateWithoutReservationInput> | ReservationTicketCreateWithoutReservationInput[] | ReservationTicketUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: ReservationTicketCreateOrConnectWithoutReservationInput | ReservationTicketCreateOrConnectWithoutReservationInput[]
+    upsert?: ReservationTicketUpsertWithWhereUniqueWithoutReservationInput | ReservationTicketUpsertWithWhereUniqueWithoutReservationInput[]
+    createMany?: ReservationTicketCreateManyReservationInputEnvelope
+    set?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    disconnect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    delete?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    connect?: ReservationTicketWhereUniqueInput | ReservationTicketWhereUniqueInput[]
+    update?: ReservationTicketUpdateWithWhereUniqueWithoutReservationInput | ReservationTicketUpdateWithWhereUniqueWithoutReservationInput[]
+    updateMany?: ReservationTicketUpdateManyWithWhereWithoutReservationInput | ReservationTicketUpdateManyWithWhereWithoutReservationInput[]
+    deleteMany?: ReservationTicketScalarWhereInput | ReservationTicketScalarWhereInput[]
+  }
+
+  export type OrderUncheckedUpdateManyWithoutReservationNestedInput = {
+    create?: XOR<OrderCreateWithoutReservationInput, OrderUncheckedCreateWithoutReservationInput> | OrderCreateWithoutReservationInput[] | OrderUncheckedCreateWithoutReservationInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutReservationInput | OrderCreateOrConnectWithoutReservationInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutReservationInput | OrderUpsertWithWhereUniqueWithoutReservationInput[]
+    createMany?: OrderCreateManyReservationInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutReservationInput | OrderUpdateWithWhereUniqueWithoutReservationInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutReservationInput | OrderUpdateManyWithWhereWithoutReservationInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type ReservationCreateNestedOneWithoutTicketsInput = {
+    create?: XOR<ReservationCreateWithoutTicketsInput, ReservationUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutTicketsInput
+    connect?: ReservationWhereUniqueInput
+  }
+
+  export type BatchTicketCreateNestedOneWithoutReservationTicketsInput = {
+    create?: XOR<BatchTicketCreateWithoutReservationTicketsInput, BatchTicketUncheckedCreateWithoutReservationTicketsInput>
+    connectOrCreate?: BatchTicketCreateOrConnectWithoutReservationTicketsInput
     connect?: BatchTicketWhereUniqueInput
-    update?: XOR<XOR<BatchTicketUpdateToOneWithWhereWithoutReservationsInput, BatchTicketUpdateWithoutReservationsInput>, BatchTicketUncheckedUpdateWithoutReservationsInput>
+  }
+
+  export type ReservationUpdateOneRequiredWithoutTicketsNestedInput = {
+    create?: XOR<ReservationCreateWithoutTicketsInput, ReservationUncheckedCreateWithoutTicketsInput>
+    connectOrCreate?: ReservationCreateOrConnectWithoutTicketsInput
+    upsert?: ReservationUpsertWithoutTicketsInput
+    connect?: ReservationWhereUniqueInput
+    update?: XOR<XOR<ReservationUpdateToOneWithWhereWithoutTicketsInput, ReservationUpdateWithoutTicketsInput>, ReservationUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type BatchTicketUpdateOneRequiredWithoutReservationTicketsNestedInput = {
+    create?: XOR<BatchTicketCreateWithoutReservationTicketsInput, BatchTicketUncheckedCreateWithoutReservationTicketsInput>
+    connectOrCreate?: BatchTicketCreateOrConnectWithoutReservationTicketsInput
+    upsert?: BatchTicketUpsertWithoutReservationTicketsInput
+    connect?: BatchTicketWhereUniqueInput
+    update?: XOR<XOR<BatchTicketUpdateToOneWithWhereWithoutReservationTicketsInput, BatchTicketUpdateWithoutReservationTicketsInput>, BatchTicketUncheckedUpdateWithoutReservationTicketsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -20867,11 +23785,22 @@ export namespace Prisma {
     not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
   }
 
-  export type NestedEnumPaymentMethodNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel> | null
-    in?: $Enums.PaymentMethod[] | null
-    notIn?: $Enums.PaymentMethod[] | null
-    not?: NestedEnumPaymentMethodNullableFilter<$PrismaModel> | $Enums.PaymentMethod | null
+  export type NestedEnumPaymentMethodTypesNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethodTypes | EnumPaymentMethodTypesFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMethodTypes[] | null
+    notIn?: $Enums.PaymentMethodTypes[] | null
+    not?: NestedEnumPaymentMethodTypesNullableFilter<$PrismaModel> | $Enums.PaymentMethodTypes | null
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -20884,41 +23813,30 @@ export namespace Prisma {
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
-  export type NestedEnumPaymentMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentMethod | EnumPaymentMethodFieldRefInput<$PrismaModel> | null
-    in?: $Enums.PaymentMethod[] | null
-    notIn?: $Enums.PaymentMethod[] | null
-    not?: NestedEnumPaymentMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethod | null
+  export type NestedEnumPaymentMethodTypesNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentMethodTypes | EnumPaymentMethodTypesFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentMethodTypes[] | null
+    notIn?: $Enums.PaymentMethodTypes[] | null
+    not?: NestedEnumPaymentMethodTypesNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentMethodTypes | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumPaymentMethodNullableFilter<$PrismaModel>
-    _max?: NestedEnumPaymentMethodNullableFilter<$PrismaModel>
+    _min?: NestedEnumPaymentMethodTypesNullableFilter<$PrismaModel>
+    _max?: NestedEnumPaymentMethodTypesNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumReservationStatusFilter<$PrismaModel = never> = {
@@ -20947,7 +23865,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderCreateNestedManyWithoutUsuarioInput
-    tickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    checkedTickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationCreateNestedManyWithoutUsuarioInput
   }
 
   export type usuariosUncheckedCreateWithoutTenantInput = {
@@ -20959,7 +23879,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutUsuarioInput
-    tickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    checkedTickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type usuariosCreateOrConnectWithoutTenantInput = {
@@ -20984,7 +23906,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     batches?: BatchCreateNestedManyWithoutEventInput
     tickets?: TicketCreateNestedManyWithoutEventInput
-    orders?: OrderCreateNestedManyWithoutEventInput
   }
 
   export type eventosUncheckedCreateWithoutTenantInput = {
@@ -20999,7 +23920,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     batches?: BatchUncheckedCreateNestedManyWithoutEventInput
     tickets?: TicketUncheckedCreateNestedManyWithoutEventInput
-    orders?: OrderUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type eventosCreateOrConnectWithoutTenantInput = {
@@ -21064,12 +23984,11 @@ export namespace Prisma {
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -21082,7 +24001,7 @@ export namespace Prisma {
     cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    event: eventosCreateNestedOneWithoutOrdersInput
+    reservation?: ReservationCreateNestedOneWithoutOrdersInput
     usuario: usuariosCreateNestedOneWithoutOrdersInput
     tickets?: TicketCreateNestedManyWithoutOrderInput
     orderItems?: OrderItemCreateNestedManyWithoutOrderInput
@@ -21090,19 +24009,18 @@ export namespace Prisma {
 
   export type OrderUncheckedCreateWithoutTenantInput = {
     id?: string
-    eventId: string
+    reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -21126,6 +24044,42 @@ export namespace Prisma {
 
   export type OrderCreateManyTenantInputEnvelope = {
     data: OrderCreateManyTenantInput | OrderCreateManyTenantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReservationCreateWithoutTenantInput = {
+    id?: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: usuariosCreateNestedOneWithoutReservationsInput
+    tickets?: ReservationTicketCreateNestedManyWithoutReservationInput
+    orders?: OrderCreateNestedManyWithoutReservationInput
+  }
+
+  export type ReservationUncheckedCreateWithoutTenantInput = {
+    id?: string
+    userId: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: ReservationTicketUncheckedCreateNestedManyWithoutReservationInput
+    orders?: OrderUncheckedCreateNestedManyWithoutReservationInput
+  }
+
+  export type ReservationCreateOrConnectWithoutTenantInput = {
+    where: ReservationWhereUniqueInput
+    create: XOR<ReservationCreateWithoutTenantInput, ReservationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ReservationCreateManyTenantInputEnvelope = {
+    data: ReservationCreateManyTenantInput | ReservationCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -21264,19 +24218,18 @@ export namespace Prisma {
     NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
     id?: StringFilter<"Order"> | string
     tenantId?: StringFilter<"Order"> | string
-    eventId?: StringFilter<"Order"> | string
+    reservationId?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
     subtotal?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-    paymentMethod?: EnumPaymentMethodNullableFilter<"Order"> | $Enums.PaymentMethod | null
+    paymentMethod?: EnumPaymentMethodTypesNullableFilter<"Order"> | $Enums.PaymentMethodTypes | null
     paymentProvider?: StringNullableFilter<"Order"> | string | null
-    stripePaymentIntentId?: StringNullableFilter<"Order"> | string | null
-    stripeClientSecret?: StringNullableFilter<"Order"> | string | null
+    stripeCheckoutSessionId?: StringNullableFilter<"Order"> | string | null
     stripeTransferId?: StringNullableFilter<"Order"> | string | null
-    stripeApplicationFee?: IntNullableFilter<"Order"> | number | null
+    stripeApplicationFee?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: StringNullableFilter<"Order"> | string | null
     qrCodeData?: StringNullableFilter<"Order"> | string | null
     boletoBarcode?: StringNullableFilter<"Order"> | string | null
@@ -21289,6 +24242,37 @@ export namespace Prisma {
     cancelReason?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+  }
+
+  export type ReservationUpsertWithWhereUniqueWithoutTenantInput = {
+    where: ReservationWhereUniqueInput
+    update: XOR<ReservationUpdateWithoutTenantInput, ReservationUncheckedUpdateWithoutTenantInput>
+    create: XOR<ReservationCreateWithoutTenantInput, ReservationUncheckedCreateWithoutTenantInput>
+  }
+
+  export type ReservationUpdateWithWhereUniqueWithoutTenantInput = {
+    where: ReservationWhereUniqueInput
+    data: XOR<ReservationUpdateWithoutTenantInput, ReservationUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type ReservationUpdateManyWithWhereWithoutTenantInput = {
+    where: ReservationScalarWhereInput
+    data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutTenantInput>
+  }
+
+  export type ReservationScalarWhereInput = {
+    AND?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+    OR?: ReservationScalarWhereInput[]
+    NOT?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
+    id?: StringFilter<"Reservation"> | string
+    userId?: StringFilter<"Reservation"> | string
+    tenantId?: StringFilter<"Reservation"> | string
+    expiresAt?: DateTimeFilter<"Reservation"> | Date | string
+    status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
+    ipAddress?: StringNullableFilter<"Reservation"> | string | null
+    userAgent?: StringNullableFilter<"Reservation"> | string | null
+    createdAt?: DateTimeFilter<"Reservation"> | Date | string
+    updatedAt?: DateTimeFilter<"Reservation"> | Date | string
   }
 
   export type tenantsCreateWithoutEventosInput = {
@@ -21306,6 +24290,7 @@ export namespace Prisma {
     usuarios?: usuariosCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountCreateNestedOneWithoutTenantInput
     orders?: OrderCreateNestedManyWithoutTenantInput
+    reservations?: ReservationCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsUncheckedCreateWithoutEventosInput = {
@@ -21323,6 +24308,7 @@ export namespace Prisma {
     usuarios?: usuariosUncheckedCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountUncheckedCreateNestedOneWithoutTenantInput
     orders?: OrderUncheckedCreateNestedManyWithoutTenantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsCreateOrConnectWithoutEventosInput = {
@@ -21337,7 +24323,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21351,7 +24336,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21371,27 +24355,23 @@ export namespace Prisma {
   export type TicketCreateWithoutEventInput = {
     id?: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     order: OrderCreateNestedOneWithoutTicketsInput
+    usuario: usuariosCreateNestedOneWithoutTicketsInput
     batchTicket: BatchTicketCreateNestedOneWithoutTicketsInput
-    checkedInUser?: usuariosCreateNestedOneWithoutTicketsInput
+    checkedInUser?: usuariosCreateNestedOneWithoutCheckedTicketsInput
   }
 
   export type TicketUncheckedCreateWithoutEventInput = {
     id?: string
     orderId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -21407,78 +24387,6 @@ export namespace Prisma {
 
   export type TicketCreateManyEventInputEnvelope = {
     data: TicketCreateManyEventInput | TicketCreateManyEventInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type OrderCreateWithoutEventInput = {
-    id?: string
-    subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
-    platformFee: Decimal | DecimalJsLike | number | string
-    total: Decimal | DecimalJsLike | number | string
-    status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
-    paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
-    stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
-    paymentUrl?: string | null
-    qrCodeData?: string | null
-    boletoBarcode?: string | null
-    paidAt?: Date | string | null
-    confirmedAt?: Date | string | null
-    canceledAt?: Date | string | null
-    refundedAt?: Date | string | null
-    expiresAt?: Date | string | null
-    notes?: string | null
-    cancelReason?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    tenant: tenantsCreateNestedOneWithoutOrdersInput
-    usuario: usuariosCreateNestedOneWithoutOrdersInput
-    tickets?: TicketCreateNestedManyWithoutOrderInput
-    orderItems?: OrderItemCreateNestedManyWithoutOrderInput
-  }
-
-  export type OrderUncheckedCreateWithoutEventInput = {
-    id?: string
-    tenantId: string
-    userId: string
-    subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
-    platformFee: Decimal | DecimalJsLike | number | string
-    total: Decimal | DecimalJsLike | number | string
-    status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
-    paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
-    stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
-    paymentUrl?: string | null
-    qrCodeData?: string | null
-    boletoBarcode?: string | null
-    paidAt?: Date | string | null
-    confirmedAt?: Date | string | null
-    canceledAt?: Date | string | null
-    refundedAt?: Date | string | null
-    expiresAt?: Date | string | null
-    notes?: string | null
-    cancelReason?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    tickets?: TicketUncheckedCreateNestedManyWithoutOrderInput
-    orderItems?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
-  }
-
-  export type OrderCreateOrConnectWithoutEventInput = {
-    where: OrderWhereUniqueInput
-    create: XOR<OrderCreateWithoutEventInput, OrderUncheckedCreateWithoutEventInput>
-  }
-
-  export type OrderCreateManyEventInputEnvelope = {
-    data: OrderCreateManyEventInput | OrderCreateManyEventInput[]
     skipDuplicates?: boolean
   }
 
@@ -21508,6 +24416,7 @@ export namespace Prisma {
     usuarios?: usuariosUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUpdateOneWithoutTenantNestedInput
     orders?: OrderUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUpdateManyWithoutTenantNestedInput
   }
 
   export type tenantsUncheckedUpdateWithoutEventosInput = {
@@ -21525,6 +24434,7 @@ export namespace Prisma {
     usuarios?: usuariosUncheckedUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUncheckedUpdateOneWithoutTenantNestedInput
     orders?: OrderUncheckedUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type BatchUpsertWithWhereUniqueWithoutEventInput = {
@@ -21554,7 +24464,6 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Batch"> | Date | string
     endDate?: DateTimeFilter<"Batch"> | Date | string
     isActive?: BoolFilter<"Batch"> | boolean
-    totalSold?: IntFilter<"Batch"> | number
     order?: IntFilter<"Batch"> | number
     createdAt?: DateTimeFilter<"Batch"> | Date | string
     updatedAt?: DateTimeFilter<"Batch"> | Date | string
@@ -21583,33 +24492,15 @@ export namespace Prisma {
     id?: StringFilter<"Ticket"> | string
     orderId?: StringFilter<"Ticket"> | string
     eventId?: StringFilter<"Ticket"> | string
+    userId?: StringFilter<"Ticket"> | string
     batchTicketId?: StringFilter<"Ticket"> | string
     hash?: StringFilter<"Ticket"> | string
-    ownerName?: StringFilter<"Ticket"> | string
-    ownerEmail?: StringFilter<"Ticket"> | string
-    ownerDocument?: StringNullableFilter<"Ticket"> | string | null
     price?: DecimalFilter<"Ticket"> | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFilter<"Ticket"> | $Enums.TicketStatus
     checkedInAt?: DateTimeNullableFilter<"Ticket"> | Date | string | null
     checkedInBy?: StringNullableFilter<"Ticket"> | string | null
     createdAt?: DateTimeFilter<"Ticket"> | Date | string
     updatedAt?: DateTimeFilter<"Ticket"> | Date | string
-  }
-
-  export type OrderUpsertWithWhereUniqueWithoutEventInput = {
-    where: OrderWhereUniqueInput
-    update: XOR<OrderUpdateWithoutEventInput, OrderUncheckedUpdateWithoutEventInput>
-    create: XOR<OrderCreateWithoutEventInput, OrderUncheckedCreateWithoutEventInput>
-  }
-
-  export type OrderUpdateWithWhereUniqueWithoutEventInput = {
-    where: OrderWhereUniqueInput
-    data: XOR<OrderUpdateWithoutEventInput, OrderUncheckedUpdateWithoutEventInput>
-  }
-
-  export type OrderUpdateManyWithWhereWithoutEventInput = {
-    where: OrderScalarWhereInput
-    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutEventInput>
   }
 
   export type eventosCreateWithoutBatchesInput = {
@@ -21624,7 +24515,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: tenantsCreateNestedOneWithoutEventosInput
     tickets?: TicketCreateNestedManyWithoutEventInput
-    orders?: OrderCreateNestedManyWithoutEventInput
   }
 
   export type eventosUncheckedCreateWithoutBatchesInput = {
@@ -21639,7 +24529,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutEventInput
-    orders?: OrderUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type eventosCreateOrConnectWithoutBatchesInput = {
@@ -21659,7 +24548,7 @@ export namespace Prisma {
     ticketType: TicketTypeCreateNestedOneWithoutBatchTicketsInput
     tickets?: TicketCreateNestedManyWithoutBatchTicketInput
     orderItems?: OrderItemCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketUncheckedCreateWithoutBatchInput = {
@@ -21674,7 +24563,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutBatchTicketInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationUncheckedCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketUncheckedCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketCreateOrConnectWithoutBatchInput = {
@@ -21710,7 +24599,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneRequiredWithoutEventosNestedInput
     tickets?: TicketUpdateManyWithoutEventNestedInput
-    orders?: OrderUpdateManyWithoutEventNestedInput
   }
 
   export type eventosUncheckedUpdateWithoutBatchesInput = {
@@ -21725,7 +24613,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutEventNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutEventNestedInput
   }
 
   export type BatchTicketUpsertWithWhereUniqueWithoutBatchInput = {
@@ -21772,7 +24659,7 @@ export namespace Prisma {
     batch: BatchCreateNestedOneWithoutBatchTicketsInput
     tickets?: TicketCreateNestedManyWithoutBatchTicketInput
     orderItems?: OrderItemCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketUncheckedCreateWithoutTicketTypeInput = {
@@ -21787,7 +24674,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutBatchTicketInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationUncheckedCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketUncheckedCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketCreateOrConnectWithoutTicketTypeInput = {
@@ -21823,7 +24710,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21838,7 +24724,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21873,9 +24758,6 @@ export namespace Prisma {
   export type TicketCreateWithoutBatchTicketInput = {
     id?: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -21883,17 +24765,16 @@ export namespace Prisma {
     updatedAt?: Date | string
     order: OrderCreateNestedOneWithoutTicketsInput
     event: eventosCreateNestedOneWithoutTicketsInput
-    checkedInUser?: usuariosCreateNestedOneWithoutTicketsInput
+    usuario: usuariosCreateNestedOneWithoutTicketsInput
+    checkedInUser?: usuariosCreateNestedOneWithoutCheckedTicketsInput
   }
 
   export type TicketUncheckedCreateWithoutBatchTicketInput = {
     id?: string
     orderId: string
     eventId: string
+    userId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -21946,37 +24827,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ReservationCreateWithoutBatchTicketInput = {
+  export type ReservationTicketCreateWithoutBatchTicketInput = {
     id?: string
-    userId: string
     quantity: number
-    expiresAt: Date | string
-    status?: $Enums.ReservationStatus
-    ipAddress?: string | null
-    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reservation: ReservationCreateNestedOneWithoutTicketsInput
+  }
+
+  export type ReservationTicketUncheckedCreateWithoutBatchTicketInput = {
+    id?: string
+    reservationId: string
+    quantity: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type ReservationUncheckedCreateWithoutBatchTicketInput = {
-    id?: string
-    userId: string
-    quantity: number
-    expiresAt: Date | string
-    status?: $Enums.ReservationStatus
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type ReservationTicketCreateOrConnectWithoutBatchTicketInput = {
+    where: ReservationTicketWhereUniqueInput
+    create: XOR<ReservationTicketCreateWithoutBatchTicketInput, ReservationTicketUncheckedCreateWithoutBatchTicketInput>
   }
 
-  export type ReservationCreateOrConnectWithoutBatchTicketInput = {
-    where: ReservationWhereUniqueInput
-    create: XOR<ReservationCreateWithoutBatchTicketInput, ReservationUncheckedCreateWithoutBatchTicketInput>
-  }
-
-  export type ReservationCreateManyBatchTicketInputEnvelope = {
-    data: ReservationCreateManyBatchTicketInput | ReservationCreateManyBatchTicketInput[]
+  export type ReservationTicketCreateManyBatchTicketInputEnvelope = {
+    data: ReservationTicketCreateManyBatchTicketInput | ReservationTicketCreateManyBatchTicketInput[]
     skipDuplicates?: boolean
   }
 
@@ -21998,7 +24871,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22013,7 +24885,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22094,36 +24965,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"OrderItem"> | Date | string
   }
 
-  export type ReservationUpsertWithWhereUniqueWithoutBatchTicketInput = {
-    where: ReservationWhereUniqueInput
-    update: XOR<ReservationUpdateWithoutBatchTicketInput, ReservationUncheckedUpdateWithoutBatchTicketInput>
-    create: XOR<ReservationCreateWithoutBatchTicketInput, ReservationUncheckedCreateWithoutBatchTicketInput>
+  export type ReservationTicketUpsertWithWhereUniqueWithoutBatchTicketInput = {
+    where: ReservationTicketWhereUniqueInput
+    update: XOR<ReservationTicketUpdateWithoutBatchTicketInput, ReservationTicketUncheckedUpdateWithoutBatchTicketInput>
+    create: XOR<ReservationTicketCreateWithoutBatchTicketInput, ReservationTicketUncheckedCreateWithoutBatchTicketInput>
   }
 
-  export type ReservationUpdateWithWhereUniqueWithoutBatchTicketInput = {
-    where: ReservationWhereUniqueInput
-    data: XOR<ReservationUpdateWithoutBatchTicketInput, ReservationUncheckedUpdateWithoutBatchTicketInput>
+  export type ReservationTicketUpdateWithWhereUniqueWithoutBatchTicketInput = {
+    where: ReservationTicketWhereUniqueInput
+    data: XOR<ReservationTicketUpdateWithoutBatchTicketInput, ReservationTicketUncheckedUpdateWithoutBatchTicketInput>
   }
 
-  export type ReservationUpdateManyWithWhereWithoutBatchTicketInput = {
-    where: ReservationScalarWhereInput
-    data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutBatchTicketInput>
+  export type ReservationTicketUpdateManyWithWhereWithoutBatchTicketInput = {
+    where: ReservationTicketScalarWhereInput
+    data: XOR<ReservationTicketUpdateManyMutationInput, ReservationTicketUncheckedUpdateManyWithoutBatchTicketInput>
   }
 
-  export type ReservationScalarWhereInput = {
-    AND?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
-    OR?: ReservationScalarWhereInput[]
-    NOT?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
-    id?: StringFilter<"Reservation"> | string
-    batchTicketId?: StringFilter<"Reservation"> | string
-    userId?: StringFilter<"Reservation"> | string
-    quantity?: IntFilter<"Reservation"> | number
-    expiresAt?: DateTimeFilter<"Reservation"> | Date | string
-    status?: EnumReservationStatusFilter<"Reservation"> | $Enums.ReservationStatus
-    ipAddress?: StringNullableFilter<"Reservation"> | string | null
-    userAgent?: StringNullableFilter<"Reservation"> | string | null
-    createdAt?: DateTimeFilter<"Reservation"> | Date | string
-    updatedAt?: DateTimeFilter<"Reservation"> | Date | string
+  export type ReservationTicketScalarWhereInput = {
+    AND?: ReservationTicketScalarWhereInput | ReservationTicketScalarWhereInput[]
+    OR?: ReservationTicketScalarWhereInput[]
+    NOT?: ReservationTicketScalarWhereInput | ReservationTicketScalarWhereInput[]
+    id?: StringFilter<"ReservationTicket"> | string
+    reservationId?: StringFilter<"ReservationTicket"> | string
+    batchTicketId?: StringFilter<"ReservationTicket"> | string
+    quantity?: IntFilter<"ReservationTicket"> | number
+    createdAt?: DateTimeFilter<"ReservationTicket"> | Date | string
+    updatedAt?: DateTimeFilter<"ReservationTicket"> | Date | string
   }
 
   export type OrderCreateWithoutTicketsInput = {
@@ -22133,12 +25000,11 @@ export namespace Prisma {
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -22152,7 +25018,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: tenantsCreateNestedOneWithoutOrdersInput
-    event: eventosCreateNestedOneWithoutOrdersInput
+    reservation?: ReservationCreateNestedOneWithoutOrdersInput
     usuario: usuariosCreateNestedOneWithoutOrdersInput
     orderItems?: OrderItemCreateNestedManyWithoutOrderInput
   }
@@ -22160,19 +25026,18 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutTicketsInput = {
     id?: string
     tenantId: string
-    eventId: string
+    reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -22205,7 +25070,6 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant: tenantsCreateNestedOneWithoutEventosInput
     batches?: BatchCreateNestedManyWithoutEventInput
-    orders?: OrderCreateNestedManyWithoutEventInput
   }
 
   export type eventosUncheckedCreateWithoutTicketsInput = {
@@ -22220,12 +25084,44 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     batches?: BatchUncheckedCreateNestedManyWithoutEventInput
-    orders?: OrderUncheckedCreateNestedManyWithoutEventInput
   }
 
   export type eventosCreateOrConnectWithoutTicketsInput = {
     where: eventosWhereUniqueInput
     create: XOR<eventosCreateWithoutTicketsInput, eventosUncheckedCreateWithoutTicketsInput>
+  }
+
+  export type usuariosCreateWithoutTicketsInput = {
+    id?: string
+    nome: string
+    email: string
+    senhaHash: string
+    cargo?: $Enums.CargoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant?: tenantsCreateNestedOneWithoutUsuariosInput
+    orders?: OrderCreateNestedManyWithoutUsuarioInput
+    checkedTickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    reservations?: ReservationCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type usuariosUncheckedCreateWithoutTicketsInput = {
+    id?: string
+    tenantId?: string | null
+    nome: string
+    email: string
+    senhaHash: string
+    cargo?: $Enums.CargoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orders?: OrderUncheckedCreateNestedManyWithoutUsuarioInput
+    checkedTickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type usuariosCreateOrConnectWithoutTicketsInput = {
+    where: usuariosWhereUniqueInput
+    create: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
   }
 
   export type BatchTicketCreateWithoutTicketsInput = {
@@ -22240,7 +25136,7 @@ export namespace Prisma {
     batch: BatchCreateNestedOneWithoutBatchTicketsInput
     ticketType: TicketTypeCreateNestedOneWithoutBatchTicketsInput
     orderItems?: OrderItemCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketUncheckedCreateWithoutTicketsInput = {
@@ -22255,7 +25151,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationUncheckedCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketUncheckedCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketCreateOrConnectWithoutTicketsInput = {
@@ -22263,7 +25159,7 @@ export namespace Prisma {
     create: XOR<BatchTicketCreateWithoutTicketsInput, BatchTicketUncheckedCreateWithoutTicketsInput>
   }
 
-  export type usuariosCreateWithoutTicketsInput = {
+  export type usuariosCreateWithoutCheckedTicketsInput = {
     id?: string
     nome: string
     email: string
@@ -22273,9 +25169,11 @@ export namespace Prisma {
     updatedAt?: Date | string
     tenant?: tenantsCreateNestedOneWithoutUsuariosInput
     orders?: OrderCreateNestedManyWithoutUsuarioInput
+    tickets?: TicketCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationCreateNestedManyWithoutUsuarioInput
   }
 
-  export type usuariosUncheckedCreateWithoutTicketsInput = {
+  export type usuariosUncheckedCreateWithoutCheckedTicketsInput = {
     id?: string
     tenantId?: string | null
     nome: string
@@ -22285,11 +25183,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     orders?: OrderUncheckedCreateNestedManyWithoutUsuarioInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
-  export type usuariosCreateOrConnectWithoutTicketsInput = {
+  export type usuariosCreateOrConnectWithoutCheckedTicketsInput = {
     where: usuariosWhereUniqueInput
-    create: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
+    create: XOR<usuariosCreateWithoutCheckedTicketsInput, usuariosUncheckedCreateWithoutCheckedTicketsInput>
   }
 
   export type OrderUpsertWithoutTicketsInput = {
@@ -22310,12 +25210,11 @@ export namespace Prisma {
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22329,7 +25228,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneRequiredWithoutOrdersNestedInput
-    event?: eventosUpdateOneRequiredWithoutOrdersNestedInput
+    reservation?: ReservationUpdateOneWithoutOrdersNestedInput
     usuario?: usuariosUpdateOneRequiredWithoutOrdersNestedInput
     orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
   }
@@ -22337,19 +25236,18 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22388,7 +25286,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneRequiredWithoutEventosNestedInput
     batches?: BatchUpdateManyWithoutEventNestedInput
-    orders?: OrderUpdateManyWithoutEventNestedInput
   }
 
   export type eventosUncheckedUpdateWithoutTicketsInput = {
@@ -22403,7 +25300,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     batches?: BatchUncheckedUpdateManyWithoutEventNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutEventNestedInput
+  }
+
+  export type usuariosUpsertWithoutTicketsInput = {
+    update: XOR<usuariosUpdateWithoutTicketsInput, usuariosUncheckedUpdateWithoutTicketsInput>
+    create: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
+    where?: usuariosWhereInput
+  }
+
+  export type usuariosUpdateToOneWithWhereWithoutTicketsInput = {
+    where?: usuariosWhereInput
+    data: XOR<usuariosUpdateWithoutTicketsInput, usuariosUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type usuariosUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senhaHash?: StringFieldUpdateOperationsInput | string
+    cargo?: EnumCargoUsuarioFieldUpdateOperationsInput | $Enums.CargoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: tenantsUpdateOneWithoutUsuariosNestedInput
+    orders?: OrderUpdateManyWithoutUsuarioNestedInput
+    checkedTickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    reservations?: ReservationUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type usuariosUncheckedUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senhaHash?: StringFieldUpdateOperationsInput | string
+    cargo?: EnumCargoUsuarioFieldUpdateOperationsInput | $Enums.CargoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUncheckedUpdateManyWithoutUsuarioNestedInput
+    checkedTickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type BatchTicketUpsertWithoutTicketsInput = {
@@ -22429,7 +25364,7 @@ export namespace Prisma {
     batch?: BatchUpdateOneRequiredWithoutBatchTicketsNestedInput
     ticketType?: TicketTypeUpdateOneRequiredWithoutBatchTicketsNestedInput
     orderItems?: OrderItemUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketUncheckedUpdateWithoutTicketsInput = {
@@ -22444,21 +25379,21 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderItems?: OrderItemUncheckedUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUncheckedUpdateManyWithoutBatchTicketNestedInput
   }
 
-  export type usuariosUpsertWithoutTicketsInput = {
-    update: XOR<usuariosUpdateWithoutTicketsInput, usuariosUncheckedUpdateWithoutTicketsInput>
-    create: XOR<usuariosCreateWithoutTicketsInput, usuariosUncheckedCreateWithoutTicketsInput>
+  export type usuariosUpsertWithoutCheckedTicketsInput = {
+    update: XOR<usuariosUpdateWithoutCheckedTicketsInput, usuariosUncheckedUpdateWithoutCheckedTicketsInput>
+    create: XOR<usuariosCreateWithoutCheckedTicketsInput, usuariosUncheckedCreateWithoutCheckedTicketsInput>
     where?: usuariosWhereInput
   }
 
-  export type usuariosUpdateToOneWithWhereWithoutTicketsInput = {
+  export type usuariosUpdateToOneWithWhereWithoutCheckedTicketsInput = {
     where?: usuariosWhereInput
-    data: XOR<usuariosUpdateWithoutTicketsInput, usuariosUncheckedUpdateWithoutTicketsInput>
+    data: XOR<usuariosUpdateWithoutCheckedTicketsInput, usuariosUncheckedUpdateWithoutCheckedTicketsInput>
   }
 
-  export type usuariosUpdateWithoutTicketsInput = {
+  export type usuariosUpdateWithoutCheckedTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -22468,9 +25403,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneWithoutUsuariosNestedInput
     orders?: OrderUpdateManyWithoutUsuarioNestedInput
+    tickets?: TicketUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUpdateManyWithoutUsuarioNestedInput
   }
 
-  export type usuariosUncheckedUpdateWithoutTicketsInput = {
+  export type usuariosUncheckedUpdateWithoutCheckedTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: NullableStringFieldUpdateOperationsInput | string | null
     nome?: StringFieldUpdateOperationsInput | string
@@ -22480,6 +25417,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutUsuarioNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type tenantsCreateWithoutUsuariosInput = {
@@ -22497,6 +25436,7 @@ export namespace Prisma {
     eventos?: eventosCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountCreateNestedOneWithoutTenantInput
     orders?: OrderCreateNestedManyWithoutTenantInput
+    reservations?: ReservationCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsUncheckedCreateWithoutUsuariosInput = {
@@ -22514,6 +25454,7 @@ export namespace Prisma {
     eventos?: eventosUncheckedCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountUncheckedCreateNestedOneWithoutTenantInput
     orders?: OrderUncheckedCreateNestedManyWithoutTenantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsCreateOrConnectWithoutUsuariosInput = {
@@ -22528,12 +25469,11 @@ export namespace Prisma {
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -22547,7 +25487,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: tenantsCreateNestedOneWithoutOrdersInput
-    event: eventosCreateNestedOneWithoutOrdersInput
+    reservation?: ReservationCreateNestedOneWithoutOrdersInput
     tickets?: TicketCreateNestedManyWithoutOrderInput
     orderItems?: OrderItemCreateNestedManyWithoutOrderInput
   }
@@ -22555,18 +25495,17 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutUsuarioInput = {
     id?: string
     tenantId: string
-    eventId: string
+    reservationId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -22596,9 +25535,6 @@ export namespace Prisma {
   export type TicketCreateWithoutCheckedInUserInput = {
     id?: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -22606,6 +25542,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     order: OrderCreateNestedOneWithoutTicketsInput
     event: eventosCreateNestedOneWithoutTicketsInput
+    usuario: usuariosCreateNestedOneWithoutTicketsInput
     batchTicket: BatchTicketCreateNestedOneWithoutTicketsInput
   }
 
@@ -22613,11 +25550,9 @@ export namespace Prisma {
     id?: string
     orderId: string
     eventId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -22632,6 +25567,80 @@ export namespace Prisma {
 
   export type TicketCreateManyCheckedInUserInputEnvelope = {
     data: TicketCreateManyCheckedInUserInput | TicketCreateManyCheckedInUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TicketCreateWithoutUsuarioInput = {
+    id?: string
+    hash: string
+    price: Decimal | DecimalJsLike | number | string
+    status?: $Enums.TicketStatus
+    checkedInAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    order: OrderCreateNestedOneWithoutTicketsInput
+    event: eventosCreateNestedOneWithoutTicketsInput
+    batchTicket: BatchTicketCreateNestedOneWithoutTicketsInput
+    checkedInUser?: usuariosCreateNestedOneWithoutCheckedTicketsInput
+  }
+
+  export type TicketUncheckedCreateWithoutUsuarioInput = {
+    id?: string
+    orderId: string
+    eventId: string
+    batchTicketId: string
+    hash: string
+    price: Decimal | DecimalJsLike | number | string
+    status?: $Enums.TicketStatus
+    checkedInAt?: Date | string | null
+    checkedInBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TicketCreateOrConnectWithoutUsuarioInput = {
+    where: TicketWhereUniqueInput
+    create: XOR<TicketCreateWithoutUsuarioInput, TicketUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type TicketCreateManyUsuarioInputEnvelope = {
+    data: TicketCreateManyUsuarioInput | TicketCreateManyUsuarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReservationCreateWithoutUsuarioInput = {
+    id?: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: ReservationTicketCreateNestedManyWithoutReservationInput
+    orders?: OrderCreateNestedManyWithoutReservationInput
+    tenant: tenantsCreateNestedOneWithoutReservationsInput
+  }
+
+  export type ReservationUncheckedCreateWithoutUsuarioInput = {
+    id?: string
+    tenantId: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: ReservationTicketUncheckedCreateNestedManyWithoutReservationInput
+    orders?: OrderUncheckedCreateNestedManyWithoutReservationInput
+  }
+
+  export type ReservationCreateOrConnectWithoutUsuarioInput = {
+    where: ReservationWhereUniqueInput
+    create: XOR<ReservationCreateWithoutUsuarioInput, ReservationUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ReservationCreateManyUsuarioInputEnvelope = {
+    data: ReservationCreateManyUsuarioInput | ReservationCreateManyUsuarioInput[]
     skipDuplicates?: boolean
   }
 
@@ -22661,6 +25670,7 @@ export namespace Prisma {
     eventos?: eventosUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUpdateOneWithoutTenantNestedInput
     orders?: OrderUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUpdateManyWithoutTenantNestedInput
   }
 
   export type tenantsUncheckedUpdateWithoutUsuariosInput = {
@@ -22678,6 +25688,7 @@ export namespace Prisma {
     eventos?: eventosUncheckedUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUncheckedUpdateOneWithoutTenantNestedInput
     orders?: OrderUncheckedUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type OrderUpsertWithWhereUniqueWithoutUsuarioInput = {
@@ -22712,6 +25723,172 @@ export namespace Prisma {
     data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutCheckedInUserInput>
   }
 
+  export type TicketUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: TicketWhereUniqueInput
+    update: XOR<TicketUpdateWithoutUsuarioInput, TicketUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<TicketCreateWithoutUsuarioInput, TicketUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type TicketUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: TicketWhereUniqueInput
+    data: XOR<TicketUpdateWithoutUsuarioInput, TicketUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type TicketUpdateManyWithWhereWithoutUsuarioInput = {
+    where: TicketScalarWhereInput
+    data: XOR<TicketUpdateManyMutationInput, TicketUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type ReservationUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: ReservationWhereUniqueInput
+    update: XOR<ReservationUpdateWithoutUsuarioInput, ReservationUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<ReservationCreateWithoutUsuarioInput, ReservationUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ReservationUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: ReservationWhereUniqueInput
+    data: XOR<ReservationUpdateWithoutUsuarioInput, ReservationUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type ReservationUpdateManyWithWhereWithoutUsuarioInput = {
+    where: ReservationScalarWhereInput
+    data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type PaymentMethodCreateWithoutProviderInput = {
+    id?: string
+    slug: string
+    name: string
+    gatewayFeePercent: Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed: Decimal | DecimalJsLike | number | string
+    allowInstallments?: boolean
+    maxInstallments?: number
+    minInstallmentValue?: Decimal | DecimalJsLike | number | string
+    interestFree?: number
+    interestRate?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMethodUncheckedCreateWithoutProviderInput = {
+    id?: string
+    slug: string
+    name: string
+    gatewayFeePercent: Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed: Decimal | DecimalJsLike | number | string
+    allowInstallments?: boolean
+    maxInstallments?: number
+    minInstallmentValue?: Decimal | DecimalJsLike | number | string
+    interestFree?: number
+    interestRate?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMethodCreateOrConnectWithoutProviderInput = {
+    where: PaymentMethodWhereUniqueInput
+    create: XOR<PaymentMethodCreateWithoutProviderInput, PaymentMethodUncheckedCreateWithoutProviderInput>
+  }
+
+  export type PaymentMethodCreateManyProviderInputEnvelope = {
+    data: PaymentMethodCreateManyProviderInput | PaymentMethodCreateManyProviderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentMethodUpsertWithWhereUniqueWithoutProviderInput = {
+    where: PaymentMethodWhereUniqueInput
+    update: XOR<PaymentMethodUpdateWithoutProviderInput, PaymentMethodUncheckedUpdateWithoutProviderInput>
+    create: XOR<PaymentMethodCreateWithoutProviderInput, PaymentMethodUncheckedCreateWithoutProviderInput>
+  }
+
+  export type PaymentMethodUpdateWithWhereUniqueWithoutProviderInput = {
+    where: PaymentMethodWhereUniqueInput
+    data: XOR<PaymentMethodUpdateWithoutProviderInput, PaymentMethodUncheckedUpdateWithoutProviderInput>
+  }
+
+  export type PaymentMethodUpdateManyWithWhereWithoutProviderInput = {
+    where: PaymentMethodScalarWhereInput
+    data: XOR<PaymentMethodUpdateManyMutationInput, PaymentMethodUncheckedUpdateManyWithoutProviderInput>
+  }
+
+  export type PaymentMethodScalarWhereInput = {
+    AND?: PaymentMethodScalarWhereInput | PaymentMethodScalarWhereInput[]
+    OR?: PaymentMethodScalarWhereInput[]
+    NOT?: PaymentMethodScalarWhereInput | PaymentMethodScalarWhereInput[]
+    id?: StringFilter<"PaymentMethod"> | string
+    providerId?: StringFilter<"PaymentMethod"> | string
+    slug?: StringFilter<"PaymentMethod"> | string
+    name?: StringFilter<"PaymentMethod"> | string
+    gatewayFeePercent?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFilter<"PaymentMethod"> | boolean
+    maxInstallments?: IntFilter<"PaymentMethod"> | number
+    minInstallmentValue?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    interestFree?: IntFilter<"PaymentMethod"> | number
+    interestRate?: DecimalFilter<"PaymentMethod"> | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFilter<"PaymentMethod"> | boolean
+    createdAt?: DateTimeFilter<"PaymentMethod"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentMethod"> | Date | string
+  }
+
+  export type PaymentProviderCreateWithoutPaymentMethodsInput = {
+    id?: string
+    slug: string
+    isActive?: boolean
+    platformFeePercent?: Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentProviderUncheckedCreateWithoutPaymentMethodsInput = {
+    id?: string
+    slug: string
+    isActive?: boolean
+    platformFeePercent?: Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentProviderCreateOrConnectWithoutPaymentMethodsInput = {
+    where: PaymentProviderWhereUniqueInput
+    create: XOR<PaymentProviderCreateWithoutPaymentMethodsInput, PaymentProviderUncheckedCreateWithoutPaymentMethodsInput>
+  }
+
+  export type PaymentProviderUpsertWithoutPaymentMethodsInput = {
+    update: XOR<PaymentProviderUpdateWithoutPaymentMethodsInput, PaymentProviderUncheckedUpdateWithoutPaymentMethodsInput>
+    create: XOR<PaymentProviderCreateWithoutPaymentMethodsInput, PaymentProviderUncheckedCreateWithoutPaymentMethodsInput>
+    where?: PaymentProviderWhereInput
+  }
+
+  export type PaymentProviderUpdateToOneWithWhereWithoutPaymentMethodsInput = {
+    where?: PaymentProviderWhereInput
+    data: XOR<PaymentProviderUpdateWithoutPaymentMethodsInput, PaymentProviderUncheckedUpdateWithoutPaymentMethodsInput>
+  }
+
+  export type PaymentProviderUpdateWithoutPaymentMethodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    platformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentProviderUncheckedUpdateWithoutPaymentMethodsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    platformFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformCoustPercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type tenantsCreateWithoutStripeAccountInput = {
     id?: string
     nome: string
@@ -22727,6 +25904,7 @@ export namespace Prisma {
     usuarios?: usuariosCreateNestedManyWithoutTenantInput
     eventos?: eventosCreateNestedManyWithoutTenantInput
     orders?: OrderCreateNestedManyWithoutTenantInput
+    reservations?: ReservationCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsUncheckedCreateWithoutStripeAccountInput = {
@@ -22744,6 +25922,7 @@ export namespace Prisma {
     usuarios?: usuariosUncheckedCreateNestedManyWithoutTenantInput
     eventos?: eventosUncheckedCreateNestedManyWithoutTenantInput
     orders?: OrderUncheckedCreateNestedManyWithoutTenantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsCreateOrConnectWithoutStripeAccountInput = {
@@ -22777,6 +25956,7 @@ export namespace Prisma {
     usuarios?: usuariosUpdateManyWithoutTenantNestedInput
     eventos?: eventosUpdateManyWithoutTenantNestedInput
     orders?: OrderUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUpdateManyWithoutTenantNestedInput
   }
 
   export type tenantsUncheckedUpdateWithoutStripeAccountInput = {
@@ -22794,6 +25974,7 @@ export namespace Prisma {
     usuarios?: usuariosUncheckedUpdateManyWithoutTenantNestedInput
     eventos?: eventosUncheckedUpdateManyWithoutTenantNestedInput
     orders?: OrderUncheckedUpdateManyWithoutTenantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type tenantsCreateWithoutOrdersInput = {
@@ -22811,6 +25992,7 @@ export namespace Prisma {
     usuarios?: usuariosCreateNestedManyWithoutTenantInput
     eventos?: eventosCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountCreateNestedOneWithoutTenantInput
+    reservations?: ReservationCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsUncheckedCreateWithoutOrdersInput = {
@@ -22828,6 +26010,7 @@ export namespace Prisma {
     usuarios?: usuariosUncheckedCreateNestedManyWithoutTenantInput
     eventos?: eventosUncheckedCreateNestedManyWithoutTenantInput
     stripeAccount?: StripeAccountUncheckedCreateNestedOneWithoutTenantInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type tenantsCreateOrConnectWithoutOrdersInput = {
@@ -22835,39 +26018,35 @@ export namespace Prisma {
     create: XOR<tenantsCreateWithoutOrdersInput, tenantsUncheckedCreateWithoutOrdersInput>
   }
 
-  export type eventosCreateWithoutOrdersInput = {
+  export type ReservationCreateWithoutOrdersInput = {
     id?: string
-    titulo: string
-    descricao?: string | null
-    linkSlug: string
-    startDate?: Date | string
-    closingDate: Date | string
-    status?: $Enums.EventoStatus
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    tenant: tenantsCreateNestedOneWithoutEventosInput
-    batches?: BatchCreateNestedManyWithoutEventInput
-    tickets?: TicketCreateNestedManyWithoutEventInput
+    usuario: usuariosCreateNestedOneWithoutReservationsInput
+    tickets?: ReservationTicketCreateNestedManyWithoutReservationInput
+    tenant: tenantsCreateNestedOneWithoutReservationsInput
   }
 
-  export type eventosUncheckedCreateWithoutOrdersInput = {
+  export type ReservationUncheckedCreateWithoutOrdersInput = {
     id?: string
+    userId: string
     tenantId: string
-    titulo: string
-    descricao?: string | null
-    linkSlug: string
-    startDate?: Date | string
-    closingDate: Date | string
-    status?: $Enums.EventoStatus
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    batches?: BatchUncheckedCreateNestedManyWithoutEventInput
-    tickets?: TicketUncheckedCreateNestedManyWithoutEventInput
+    tickets?: ReservationTicketUncheckedCreateNestedManyWithoutReservationInput
   }
 
-  export type eventosCreateOrConnectWithoutOrdersInput = {
-    where: eventosWhereUniqueInput
-    create: XOR<eventosCreateWithoutOrdersInput, eventosUncheckedCreateWithoutOrdersInput>
+  export type ReservationCreateOrConnectWithoutOrdersInput = {
+    where: ReservationWhereUniqueInput
+    create: XOR<ReservationCreateWithoutOrdersInput, ReservationUncheckedCreateWithoutOrdersInput>
   }
 
   export type usuariosCreateWithoutOrdersInput = {
@@ -22879,7 +26058,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant?: tenantsCreateNestedOneWithoutUsuariosInput
-    tickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    checkedTickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationCreateNestedManyWithoutUsuarioInput
   }
 
   export type usuariosUncheckedCreateWithoutOrdersInput = {
@@ -22891,7 +26072,9 @@ export namespace Prisma {
     cargo?: $Enums.CargoUsuario
     createdAt?: Date | string
     updatedAt?: Date | string
-    tickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    checkedTickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutUsuarioInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type usuariosCreateOrConnectWithoutOrdersInput = {
@@ -22902,27 +26085,23 @@ export namespace Prisma {
   export type TicketCreateWithoutOrderInput = {
     id?: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     event: eventosCreateNestedOneWithoutTicketsInput
+    usuario: usuariosCreateNestedOneWithoutTicketsInput
     batchTicket: BatchTicketCreateNestedOneWithoutTicketsInput
-    checkedInUser?: usuariosCreateNestedOneWithoutTicketsInput
+    checkedInUser?: usuariosCreateNestedOneWithoutCheckedTicketsInput
   }
 
   export type TicketUncheckedCreateWithoutOrderInput = {
     id?: string
     eventId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -23001,6 +26180,7 @@ export namespace Prisma {
     usuarios?: usuariosUpdateManyWithoutTenantNestedInput
     eventos?: eventosUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUpdateOneWithoutTenantNestedInput
+    reservations?: ReservationUpdateManyWithoutTenantNestedInput
   }
 
   export type tenantsUncheckedUpdateWithoutOrdersInput = {
@@ -23018,47 +26198,44 @@ export namespace Prisma {
     usuarios?: usuariosUncheckedUpdateManyWithoutTenantNestedInput
     eventos?: eventosUncheckedUpdateManyWithoutTenantNestedInput
     stripeAccount?: StripeAccountUncheckedUpdateOneWithoutTenantNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutTenantNestedInput
   }
 
-  export type eventosUpsertWithoutOrdersInput = {
-    update: XOR<eventosUpdateWithoutOrdersInput, eventosUncheckedUpdateWithoutOrdersInput>
-    create: XOR<eventosCreateWithoutOrdersInput, eventosUncheckedCreateWithoutOrdersInput>
-    where?: eventosWhereInput
+  export type ReservationUpsertWithoutOrdersInput = {
+    update: XOR<ReservationUpdateWithoutOrdersInput, ReservationUncheckedUpdateWithoutOrdersInput>
+    create: XOR<ReservationCreateWithoutOrdersInput, ReservationUncheckedCreateWithoutOrdersInput>
+    where?: ReservationWhereInput
   }
 
-  export type eventosUpdateToOneWithWhereWithoutOrdersInput = {
-    where?: eventosWhereInput
-    data: XOR<eventosUpdateWithoutOrdersInput, eventosUncheckedUpdateWithoutOrdersInput>
+  export type ReservationUpdateToOneWithWhereWithoutOrdersInput = {
+    where?: ReservationWhereInput
+    data: XOR<ReservationUpdateWithoutOrdersInput, ReservationUncheckedUpdateWithoutOrdersInput>
   }
 
-  export type eventosUpdateWithoutOrdersInput = {
+  export type ReservationUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    titulo?: StringFieldUpdateOperationsInput | string
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    linkSlug?: StringFieldUpdateOperationsInput | string
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    closingDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumEventoStatusFieldUpdateOperationsInput | $Enums.EventoStatus
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: tenantsUpdateOneRequiredWithoutEventosNestedInput
-    batches?: BatchUpdateManyWithoutEventNestedInput
-    tickets?: TicketUpdateManyWithoutEventNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutReservationsNestedInput
+    tickets?: ReservationTicketUpdateManyWithoutReservationNestedInput
+    tenant?: tenantsUpdateOneRequiredWithoutReservationsNestedInput
   }
 
-  export type eventosUncheckedUpdateWithoutOrdersInput = {
+  export type ReservationUncheckedUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    titulo?: StringFieldUpdateOperationsInput | string
-    descricao?: NullableStringFieldUpdateOperationsInput | string | null
-    linkSlug?: StringFieldUpdateOperationsInput | string
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    closingDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumEventoStatusFieldUpdateOperationsInput | $Enums.EventoStatus
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    batches?: BatchUncheckedUpdateManyWithoutEventNestedInput
-    tickets?: TicketUncheckedUpdateManyWithoutEventNestedInput
+    tickets?: ReservationTicketUncheckedUpdateManyWithoutReservationNestedInput
   }
 
   export type usuariosUpsertWithoutOrdersInput = {
@@ -23081,7 +26258,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneWithoutUsuariosNestedInput
-    tickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    checkedTickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUpdateManyWithoutUsuarioNestedInput
   }
 
   export type usuariosUncheckedUpdateWithoutOrdersInput = {
@@ -23093,7 +26272,9 @@ export namespace Prisma {
     cargo?: EnumCargoUsuarioFieldUpdateOperationsInput | $Enums.CargoUsuario
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    checkedTickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type TicketUpsertWithWhereUniqueWithoutOrderInput = {
@@ -23135,12 +26316,11 @@ export namespace Prisma {
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -23154,7 +26334,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tenant: tenantsCreateNestedOneWithoutOrdersInput
-    event: eventosCreateNestedOneWithoutOrdersInput
+    reservation?: ReservationCreateNestedOneWithoutOrdersInput
     usuario: usuariosCreateNestedOneWithoutOrdersInput
     tickets?: TicketCreateNestedManyWithoutOrderInput
   }
@@ -23162,19 +26342,18 @@ export namespace Prisma {
   export type OrderUncheckedCreateWithoutOrderItemsInput = {
     id?: string
     tenantId: string
-    eventId: string
+    reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -23207,7 +26386,7 @@ export namespace Prisma {
     batch: BatchCreateNestedOneWithoutBatchTicketsInput
     ticketType: TicketTypeCreateNestedOneWithoutBatchTicketsInput
     tickets?: TicketCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketUncheckedCreateWithoutOrderItemsInput = {
@@ -23222,7 +26401,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tickets?: TicketUncheckedCreateNestedManyWithoutBatchTicketInput
-    reservations?: ReservationUncheckedCreateNestedManyWithoutBatchTicketInput
+    reservationTickets?: ReservationTicketUncheckedCreateNestedManyWithoutBatchTicketInput
   }
 
   export type BatchTicketCreateOrConnectWithoutOrderItemsInput = {
@@ -23248,12 +26427,11 @@ export namespace Prisma {
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23267,7 +26445,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneRequiredWithoutOrdersNestedInput
-    event?: eventosUpdateOneRequiredWithoutOrdersNestedInput
+    reservation?: ReservationUpdateOneWithoutOrdersNestedInput
     usuario?: usuariosUpdateOneRequiredWithoutOrdersNestedInput
     tickets?: TicketUpdateManyWithoutOrderNestedInput
   }
@@ -23275,19 +26453,18 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutOrderItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23326,7 +26503,7 @@ export namespace Prisma {
     batch?: BatchUpdateOneRequiredWithoutBatchTicketsNestedInput
     ticketType?: TicketTypeUpdateOneRequiredWithoutBatchTicketsNestedInput
     tickets?: TicketUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketUncheckedUpdateWithoutOrderItemsInput = {
@@ -23341,10 +26518,329 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUncheckedUpdateManyWithoutBatchTicketNestedInput
   }
 
-  export type BatchTicketCreateWithoutReservationsInput = {
+  export type usuariosCreateWithoutReservationsInput = {
+    id?: string
+    nome: string
+    email: string
+    senhaHash: string
+    cargo?: $Enums.CargoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant?: tenantsCreateNestedOneWithoutUsuariosInput
+    orders?: OrderCreateNestedManyWithoutUsuarioInput
+    checkedTickets?: TicketCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type usuariosUncheckedCreateWithoutReservationsInput = {
+    id?: string
+    tenantId?: string | null
+    nome: string
+    email: string
+    senhaHash: string
+    cargo?: $Enums.CargoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orders?: OrderUncheckedCreateNestedManyWithoutUsuarioInput
+    checkedTickets?: TicketUncheckedCreateNestedManyWithoutCheckedInUserInput
+    tickets?: TicketUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type usuariosCreateOrConnectWithoutReservationsInput = {
+    where: usuariosWhereUniqueInput
+    create: XOR<usuariosCreateWithoutReservationsInput, usuariosUncheckedCreateWithoutReservationsInput>
+  }
+
+  export type ReservationTicketCreateWithoutReservationInput = {
+    id?: string
+    quantity: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    batchTicket: BatchTicketCreateNestedOneWithoutReservationTicketsInput
+  }
+
+  export type ReservationTicketUncheckedCreateWithoutReservationInput = {
+    id?: string
+    batchTicketId: string
+    quantity: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReservationTicketCreateOrConnectWithoutReservationInput = {
+    where: ReservationTicketWhereUniqueInput
+    create: XOR<ReservationTicketCreateWithoutReservationInput, ReservationTicketUncheckedCreateWithoutReservationInput>
+  }
+
+  export type ReservationTicketCreateManyReservationInputEnvelope = {
+    data: ReservationTicketCreateManyReservationInput | ReservationTicketCreateManyReservationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrderCreateWithoutReservationInput = {
+    id?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    serviceFee: Decimal | DecimalJsLike | number | string
+    platformFee: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    status?: $Enums.OrderStatus
+    paymentMethod?: $Enums.PaymentMethodTypes | null
+    paymentProvider?: string | null
+    stripeCheckoutSessionId?: string | null
+    stripeTransferId?: string | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
+    paymentUrl?: string | null
+    qrCodeData?: string | null
+    boletoBarcode?: string | null
+    paidAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    canceledAt?: Date | string | null
+    refundedAt?: Date | string | null
+    expiresAt?: Date | string | null
+    notes?: string | null
+    cancelReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tenant: tenantsCreateNestedOneWithoutOrdersInput
+    usuario: usuariosCreateNestedOneWithoutOrdersInput
+    tickets?: TicketCreateNestedManyWithoutOrderInput
+    orderItems?: OrderItemCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderUncheckedCreateWithoutReservationInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    serviceFee: Decimal | DecimalJsLike | number | string
+    platformFee: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    status?: $Enums.OrderStatus
+    paymentMethod?: $Enums.PaymentMethodTypes | null
+    paymentProvider?: string | null
+    stripeCheckoutSessionId?: string | null
+    stripeTransferId?: string | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
+    paymentUrl?: string | null
+    qrCodeData?: string | null
+    boletoBarcode?: string | null
+    paidAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    canceledAt?: Date | string | null
+    refundedAt?: Date | string | null
+    expiresAt?: Date | string | null
+    notes?: string | null
+    cancelReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    tickets?: TicketUncheckedCreateNestedManyWithoutOrderInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutReservationInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutReservationInput, OrderUncheckedCreateWithoutReservationInput>
+  }
+
+  export type OrderCreateManyReservationInputEnvelope = {
+    data: OrderCreateManyReservationInput | OrderCreateManyReservationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type tenantsCreateWithoutReservationsInput = {
+    id?: string
+    nome: string
+    cnpj: string
+    telefone: string
+    email: string
+    site?: string | null
+    slug: string
+    status?: $Enums.TenantStatus
+    createdAt?: Date | string
+    updated_at?: Date | string
+    logoUrl?: string | null
+    usuarios?: usuariosCreateNestedManyWithoutTenantInput
+    eventos?: eventosCreateNestedManyWithoutTenantInput
+    stripeAccount?: StripeAccountCreateNestedOneWithoutTenantInput
+    orders?: OrderCreateNestedManyWithoutTenantInput
+  }
+
+  export type tenantsUncheckedCreateWithoutReservationsInput = {
+    id?: string
+    nome: string
+    cnpj: string
+    telefone: string
+    email: string
+    site?: string | null
+    slug: string
+    status?: $Enums.TenantStatus
+    createdAt?: Date | string
+    updated_at?: Date | string
+    logoUrl?: string | null
+    usuarios?: usuariosUncheckedCreateNestedManyWithoutTenantInput
+    eventos?: eventosUncheckedCreateNestedManyWithoutTenantInput
+    stripeAccount?: StripeAccountUncheckedCreateNestedOneWithoutTenantInput
+    orders?: OrderUncheckedCreateNestedManyWithoutTenantInput
+  }
+
+  export type tenantsCreateOrConnectWithoutReservationsInput = {
+    where: tenantsWhereUniqueInput
+    create: XOR<tenantsCreateWithoutReservationsInput, tenantsUncheckedCreateWithoutReservationsInput>
+  }
+
+  export type usuariosUpsertWithoutReservationsInput = {
+    update: XOR<usuariosUpdateWithoutReservationsInput, usuariosUncheckedUpdateWithoutReservationsInput>
+    create: XOR<usuariosCreateWithoutReservationsInput, usuariosUncheckedCreateWithoutReservationsInput>
+    where?: usuariosWhereInput
+  }
+
+  export type usuariosUpdateToOneWithWhereWithoutReservationsInput = {
+    where?: usuariosWhereInput
+    data: XOR<usuariosUpdateWithoutReservationsInput, usuariosUncheckedUpdateWithoutReservationsInput>
+  }
+
+  export type usuariosUpdateWithoutReservationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senhaHash?: StringFieldUpdateOperationsInput | string
+    cargo?: EnumCargoUsuarioFieldUpdateOperationsInput | $Enums.CargoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: tenantsUpdateOneWithoutUsuariosNestedInput
+    orders?: OrderUpdateManyWithoutUsuarioNestedInput
+    checkedTickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type usuariosUncheckedUpdateWithoutReservationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: NullableStringFieldUpdateOperationsInput | string | null
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    senhaHash?: StringFieldUpdateOperationsInput | string
+    cargo?: EnumCargoUsuarioFieldUpdateOperationsInput | $Enums.CargoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUncheckedUpdateManyWithoutUsuarioNestedInput
+    checkedTickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type ReservationTicketUpsertWithWhereUniqueWithoutReservationInput = {
+    where: ReservationTicketWhereUniqueInput
+    update: XOR<ReservationTicketUpdateWithoutReservationInput, ReservationTicketUncheckedUpdateWithoutReservationInput>
+    create: XOR<ReservationTicketCreateWithoutReservationInput, ReservationTicketUncheckedCreateWithoutReservationInput>
+  }
+
+  export type ReservationTicketUpdateWithWhereUniqueWithoutReservationInput = {
+    where: ReservationTicketWhereUniqueInput
+    data: XOR<ReservationTicketUpdateWithoutReservationInput, ReservationTicketUncheckedUpdateWithoutReservationInput>
+  }
+
+  export type ReservationTicketUpdateManyWithWhereWithoutReservationInput = {
+    where: ReservationTicketScalarWhereInput
+    data: XOR<ReservationTicketUpdateManyMutationInput, ReservationTicketUncheckedUpdateManyWithoutReservationInput>
+  }
+
+  export type OrderUpsertWithWhereUniqueWithoutReservationInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutReservationInput, OrderUncheckedUpdateWithoutReservationInput>
+    create: XOR<OrderCreateWithoutReservationInput, OrderUncheckedCreateWithoutReservationInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutReservationInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutReservationInput, OrderUncheckedUpdateWithoutReservationInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutReservationInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutReservationInput>
+  }
+
+  export type tenantsUpsertWithoutReservationsInput = {
+    update: XOR<tenantsUpdateWithoutReservationsInput, tenantsUncheckedUpdateWithoutReservationsInput>
+    create: XOR<tenantsCreateWithoutReservationsInput, tenantsUncheckedCreateWithoutReservationsInput>
+    where?: tenantsWhereInput
+  }
+
+  export type tenantsUpdateToOneWithWhereWithoutReservationsInput = {
+    where?: tenantsWhereInput
+    data: XOR<tenantsUpdateWithoutReservationsInput, tenantsUncheckedUpdateWithoutReservationsInput>
+  }
+
+  export type tenantsUpdateWithoutReservationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    site?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarios?: usuariosUpdateManyWithoutTenantNestedInput
+    eventos?: eventosUpdateManyWithoutTenantNestedInput
+    stripeAccount?: StripeAccountUpdateOneWithoutTenantNestedInput
+    orders?: OrderUpdateManyWithoutTenantNestedInput
+  }
+
+  export type tenantsUncheckedUpdateWithoutReservationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    cnpj?: StringFieldUpdateOperationsInput | string
+    telefone?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    site?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    status?: EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    usuarios?: usuariosUncheckedUpdateManyWithoutTenantNestedInput
+    eventos?: eventosUncheckedUpdateManyWithoutTenantNestedInput
+    stripeAccount?: StripeAccountUncheckedUpdateOneWithoutTenantNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type ReservationCreateWithoutTicketsInput = {
+    id?: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: usuariosCreateNestedOneWithoutReservationsInput
+    orders?: OrderCreateNestedManyWithoutReservationInput
+    tenant: tenantsCreateNestedOneWithoutReservationsInput
+  }
+
+  export type ReservationUncheckedCreateWithoutTicketsInput = {
+    id?: string
+    userId: string
+    tenantId: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orders?: OrderUncheckedCreateNestedManyWithoutReservationInput
+  }
+
+  export type ReservationCreateOrConnectWithoutTicketsInput = {
+    where: ReservationWhereUniqueInput
+    create: XOR<ReservationCreateWithoutTicketsInput, ReservationUncheckedCreateWithoutTicketsInput>
+  }
+
+  export type BatchTicketCreateWithoutReservationTicketsInput = {
     id?: string
     price: Decimal | DecimalJsLike | number | string
     quantity: number
@@ -23359,7 +26855,7 @@ export namespace Prisma {
     orderItems?: OrderItemCreateNestedManyWithoutBatchTicketInput
   }
 
-  export type BatchTicketUncheckedCreateWithoutReservationsInput = {
+  export type BatchTicketUncheckedCreateWithoutReservationTicketsInput = {
     id?: string
     batchId: string
     ticketTypeId: string
@@ -23374,23 +26870,60 @@ export namespace Prisma {
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutBatchTicketInput
   }
 
-  export type BatchTicketCreateOrConnectWithoutReservationsInput = {
+  export type BatchTicketCreateOrConnectWithoutReservationTicketsInput = {
     where: BatchTicketWhereUniqueInput
-    create: XOR<BatchTicketCreateWithoutReservationsInput, BatchTicketUncheckedCreateWithoutReservationsInput>
+    create: XOR<BatchTicketCreateWithoutReservationTicketsInput, BatchTicketUncheckedCreateWithoutReservationTicketsInput>
   }
 
-  export type BatchTicketUpsertWithoutReservationsInput = {
-    update: XOR<BatchTicketUpdateWithoutReservationsInput, BatchTicketUncheckedUpdateWithoutReservationsInput>
-    create: XOR<BatchTicketCreateWithoutReservationsInput, BatchTicketUncheckedCreateWithoutReservationsInput>
+  export type ReservationUpsertWithoutTicketsInput = {
+    update: XOR<ReservationUpdateWithoutTicketsInput, ReservationUncheckedUpdateWithoutTicketsInput>
+    create: XOR<ReservationCreateWithoutTicketsInput, ReservationUncheckedCreateWithoutTicketsInput>
+    where?: ReservationWhereInput
+  }
+
+  export type ReservationUpdateToOneWithWhereWithoutTicketsInput = {
+    where?: ReservationWhereInput
+    data: XOR<ReservationUpdateWithoutTicketsInput, ReservationUncheckedUpdateWithoutTicketsInput>
+  }
+
+  export type ReservationUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: usuariosUpdateOneRequiredWithoutReservationsNestedInput
+    orders?: OrderUpdateManyWithoutReservationNestedInput
+    tenant?: tenantsUpdateOneRequiredWithoutReservationsNestedInput
+  }
+
+  export type ReservationUncheckedUpdateWithoutTicketsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUncheckedUpdateManyWithoutReservationNestedInput
+  }
+
+  export type BatchTicketUpsertWithoutReservationTicketsInput = {
+    update: XOR<BatchTicketUpdateWithoutReservationTicketsInput, BatchTicketUncheckedUpdateWithoutReservationTicketsInput>
+    create: XOR<BatchTicketCreateWithoutReservationTicketsInput, BatchTicketUncheckedCreateWithoutReservationTicketsInput>
     where?: BatchTicketWhereInput
   }
 
-  export type BatchTicketUpdateToOneWithWhereWithoutReservationsInput = {
+  export type BatchTicketUpdateToOneWithWhereWithoutReservationTicketsInput = {
     where?: BatchTicketWhereInput
-    data: XOR<BatchTicketUpdateWithoutReservationsInput, BatchTicketUncheckedUpdateWithoutReservationsInput>
+    data: XOR<BatchTicketUpdateWithoutReservationTicketsInput, BatchTicketUncheckedUpdateWithoutReservationTicketsInput>
   }
 
-  export type BatchTicketUpdateWithoutReservationsInput = {
+  export type BatchTicketUpdateWithoutReservationTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -23405,7 +26938,7 @@ export namespace Prisma {
     orderItems?: OrderItemUpdateManyWithoutBatchTicketNestedInput
   }
 
-  export type BatchTicketUncheckedUpdateWithoutReservationsInput = {
+  export type BatchTicketUncheckedUpdateWithoutReservationTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     batchId?: StringFieldUpdateOperationsInput | string
     ticketTypeId?: StringFieldUpdateOperationsInput | string
@@ -23444,19 +26977,18 @@ export namespace Prisma {
 
   export type OrderCreateManyTenantInput = {
     id?: string
-    eventId: string
+    reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -23471,6 +27003,17 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ReservationCreateManyTenantInput = {
+    id?: string
+    userId: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type usuariosUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
@@ -23480,7 +27023,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUpdateManyWithoutUsuarioNestedInput
-    tickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    checkedTickets?: TicketUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUpdateManyWithoutUsuarioNestedInput
   }
 
   export type usuariosUncheckedUpdateWithoutTenantInput = {
@@ -23492,7 +27037,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orders?: OrderUncheckedUpdateManyWithoutUsuarioNestedInput
-    tickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    checkedTickets?: TicketUncheckedUpdateManyWithoutCheckedInUserNestedInput
+    tickets?: TicketUncheckedUpdateManyWithoutUsuarioNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type usuariosUncheckedUpdateManyWithoutTenantInput = {
@@ -23517,7 +27064,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     batches?: BatchUpdateManyWithoutEventNestedInput
     tickets?: TicketUpdateManyWithoutEventNestedInput
-    orders?: OrderUpdateManyWithoutEventNestedInput
   }
 
   export type eventosUncheckedUpdateWithoutTenantInput = {
@@ -23532,7 +27078,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     batches?: BatchUncheckedUpdateManyWithoutEventNestedInput
     tickets?: TicketUncheckedUpdateManyWithoutEventNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutEventNestedInput
   }
 
   export type eventosUncheckedUpdateManyWithoutTenantInput = {
@@ -23554,12 +27099,11 @@ export namespace Prisma {
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23572,7 +27116,7 @@ export namespace Prisma {
     cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    event?: eventosUpdateOneRequiredWithoutOrdersNestedInput
+    reservation?: ReservationUpdateOneWithoutOrdersNestedInput
     usuario?: usuariosUpdateOneRequiredWithoutOrdersNestedInput
     tickets?: TicketUpdateManyWithoutOrderNestedInput
     orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
@@ -23580,19 +27124,18 @@ export namespace Prisma {
 
   export type OrderUncheckedUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23611,19 +27154,18 @@ export namespace Prisma {
 
   export type OrderUncheckedUpdateManyWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23638,6 +27180,43 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReservationUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: usuariosUpdateOneRequiredWithoutReservationsNestedInput
+    tickets?: ReservationTicketUpdateManyWithoutReservationNestedInput
+    orders?: OrderUpdateManyWithoutReservationNestedInput
+  }
+
+  export type ReservationUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: ReservationTicketUncheckedUpdateManyWithoutReservationNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutReservationNestedInput
+  }
+
+  export type ReservationUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BatchCreateManyEventInput = {
     id?: string
     name: string
@@ -23645,7 +27224,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23654,44 +27232,13 @@ export namespace Prisma {
   export type TicketCreateManyEventInput = {
     id?: string
     orderId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
     checkedInBy?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type OrderCreateManyEventInput = {
-    id?: string
-    tenantId: string
-    userId: string
-    subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
-    platformFee: Decimal | DecimalJsLike | number | string
-    total: Decimal | DecimalJsLike | number | string
-    status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
-    paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
-    stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
-    paymentUrl?: string | null
-    qrCodeData?: string | null
-    boletoBarcode?: string | null
-    paidAt?: Date | string | null
-    confirmedAt?: Date | string | null
-    canceledAt?: Date | string | null
-    refundedAt?: Date | string | null
-    expiresAt?: Date | string | null
-    notes?: string | null
-    cancelReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23703,7 +27250,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23717,7 +27263,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23731,7 +27276,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23740,27 +27284,23 @@ export namespace Prisma {
   export type TicketUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     order?: OrderUpdateOneRequiredWithoutTicketsNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutTicketsNestedInput
     batchTicket?: BatchTicketUpdateOneRequiredWithoutTicketsNestedInput
-    checkedInUser?: usuariosUpdateOneWithoutTicketsNestedInput
+    checkedInUser?: usuariosUpdateOneWithoutCheckedTicketsNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23772,106 +27312,13 @@ export namespace Prisma {
   export type TicketUncheckedUpdateManyWithoutEventInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     checkedInBy?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type OrderUpdateWithoutEventInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
-    paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
-    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
-    boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tenant?: tenantsUpdateOneRequiredWithoutOrdersNestedInput
-    usuario?: usuariosUpdateOneRequiredWithoutOrdersNestedInput
-    tickets?: TicketUpdateManyWithoutOrderNestedInput
-    orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
-  }
-
-  export type OrderUncheckedUpdateWithoutEventInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
-    paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
-    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
-    boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    tickets?: TicketUncheckedUpdateManyWithoutOrderNestedInput
-    orderItems?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
-  }
-
-  export type OrderUncheckedUpdateManyWithoutEventInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    tenantId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
-    paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
-    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
-    boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23900,7 +27347,7 @@ export namespace Prisma {
     ticketType?: TicketTypeUpdateOneRequiredWithoutBatchTicketsNestedInput
     tickets?: TicketUpdateManyWithoutBatchTicketNestedInput
     orderItems?: OrderItemUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketUncheckedUpdateWithoutBatchInput = {
@@ -23915,7 +27362,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutBatchTicketNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUncheckedUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketUncheckedUpdateManyWithoutBatchInput = {
@@ -23954,7 +27401,7 @@ export namespace Prisma {
     batch?: BatchUpdateOneRequiredWithoutBatchTicketsNestedInput
     tickets?: TicketUpdateManyWithoutBatchTicketNestedInput
     orderItems?: OrderItemUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketUncheckedUpdateWithoutTicketTypeInput = {
@@ -23969,7 +27416,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tickets?: TicketUncheckedUpdateManyWithoutBatchTicketNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutBatchTicketNestedInput
-    reservations?: ReservationUncheckedUpdateManyWithoutBatchTicketNestedInput
+    reservationTickets?: ReservationTicketUncheckedUpdateManyWithoutBatchTicketNestedInput
   }
 
   export type BatchTicketUncheckedUpdateManyWithoutTicketTypeInput = {
@@ -23988,10 +27435,8 @@ export namespace Prisma {
     id?: string
     orderId: string
     eventId: string
+    userId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -24012,14 +27457,10 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type ReservationCreateManyBatchTicketInput = {
+  export type ReservationTicketCreateManyBatchTicketInput = {
     id?: string
-    userId: string
+    reservationId: string
     quantity: number
-    expiresAt: Date | string
-    status?: $Enums.ReservationStatus
-    ipAddress?: string | null
-    userAgent?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24027,9 +27468,6 @@ export namespace Prisma {
   export type TicketUpdateWithoutBatchTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24037,17 +27475,16 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     order?: OrderUpdateOneRequiredWithoutTicketsNestedInput
     event?: eventosUpdateOneRequiredWithoutTicketsNestedInput
-    checkedInUser?: usuariosUpdateOneWithoutTicketsNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutTicketsNestedInput
+    checkedInUser?: usuariosUpdateOneWithoutCheckedTicketsNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutBatchTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24060,10 +27497,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24108,38 +27543,26 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReservationUpdateWithoutBatchTicketInput = {
+  export type ReservationTicketUpdateWithoutBatchTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reservation?: ReservationUpdateOneRequiredWithoutTicketsNestedInput
+  }
+
+  export type ReservationTicketUncheckedUpdateWithoutBatchTicketInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReservationUncheckedUpdateWithoutBatchTicketInput = {
+  export type ReservationTicketUncheckedUpdateManyWithoutBatchTicketInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ReservationUncheckedUpdateManyWithoutBatchTicketInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    quantity?: IntFieldUpdateOperationsInput | number
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24147,18 +27570,17 @@ export namespace Prisma {
   export type OrderCreateManyUsuarioInput = {
     id?: string
     tenantId: string
-    eventId: string
+    reservationId: string
     subtotal: Decimal | DecimalJsLike | number | string
     serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
-    paymentMethod?: $Enums.PaymentMethod | null
+    paymentMethod?: $Enums.PaymentMethodTypes | null
     paymentProvider?: string | null
-    stripePaymentIntentId?: string | null
-    stripeClientSecret?: string | null
+    stripeCheckoutSessionId?: string | null
     stripeTransferId?: string | null
-    stripeApplicationFee?: number | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
     paymentUrl?: string | null
     qrCodeData?: string | null
     boletoBarcode?: string | null
@@ -24177,14 +27599,37 @@ export namespace Prisma {
     id?: string
     orderId: string
     eventId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TicketCreateManyUsuarioInput = {
+    id?: string
+    orderId: string
+    eventId: string
+    batchTicketId: string
+    hash: string
+    price: Decimal | DecimalJsLike | number | string
+    status?: $Enums.TicketStatus
+    checkedInAt?: Date | string | null
+    checkedInBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReservationCreateManyUsuarioInput = {
+    id?: string
+    tenantId: string
+    expiresAt: Date | string
+    status?: $Enums.ReservationStatus
+    ipAddress?: string | null
+    userAgent?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24196,12 +27641,11 @@ export namespace Prisma {
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24215,7 +27659,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tenant?: tenantsUpdateOneRequiredWithoutOrdersNestedInput
-    event?: eventosUpdateOneRequiredWithoutOrdersNestedInput
+    reservation?: ReservationUpdateOneWithoutOrdersNestedInput
     tickets?: TicketUpdateManyWithoutOrderNestedInput
     orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
   }
@@ -24223,18 +27667,17 @@ export namespace Prisma {
   export type OrderUncheckedUpdateWithoutUsuarioInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24254,18 +27697,17 @@ export namespace Prisma {
   export type OrderUncheckedUpdateManyWithoutUsuarioInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenantId?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
+    reservationId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    paymentMethod?: NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
     paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePaymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeClientSecret?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeApplicationFee?: NullableIntFieldUpdateOperationsInput | number | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
     boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24283,9 +27725,6 @@ export namespace Prisma {
   export type TicketUpdateWithoutCheckedInUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24293,6 +27732,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     order?: OrderUpdateOneRequiredWithoutTicketsNestedInput
     event?: eventosUpdateOneRequiredWithoutTicketsNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutTicketsNestedInput
     batchTicket?: BatchTicketUpdateOneRequiredWithoutTicketsNestedInput
   }
 
@@ -24300,11 +27740,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24316,11 +27754,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24328,14 +27764,155 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type TicketUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    hash?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: OrderUpdateOneRequiredWithoutTicketsNestedInput
+    event?: eventosUpdateOneRequiredWithoutTicketsNestedInput
+    batchTicket?: BatchTicketUpdateOneRequiredWithoutTicketsNestedInput
+    checkedInUser?: usuariosUpdateOneWithoutCheckedTicketsNestedInput
+  }
+
+  export type TicketUncheckedUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    batchTicketId?: StringFieldUpdateOperationsInput | string
+    hash?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedInBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TicketUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    batchTicketId?: StringFieldUpdateOperationsInput | string
+    hash?: StringFieldUpdateOperationsInput | string
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
+    checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    checkedInBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: ReservationTicketUpdateManyWithoutReservationNestedInput
+    orders?: OrderUpdateManyWithoutReservationNestedInput
+    tenant?: tenantsUpdateOneRequiredWithoutReservationsNestedInput
+  }
+
+  export type ReservationUncheckedUpdateWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: ReservationTicketUncheckedUpdateManyWithoutReservationNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutReservationNestedInput
+  }
+
+  export type ReservationUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumReservationStatusFieldUpdateOperationsInput | $Enums.ReservationStatus
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMethodCreateManyProviderInput = {
+    id?: string
+    slug: string
+    name: string
+    gatewayFeePercent: Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed: Decimal | DecimalJsLike | number | string
+    allowInstallments?: boolean
+    maxInstallments?: number
+    minInstallmentValue?: Decimal | DecimalJsLike | number | string
+    interestFree?: number
+    interestRate?: Decimal | DecimalJsLike | number | string
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMethodUpdateWithoutProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gatewayFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFieldUpdateOperationsInput | boolean
+    maxInstallments?: IntFieldUpdateOperationsInput | number
+    minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestFree?: IntFieldUpdateOperationsInput | number
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMethodUncheckedUpdateWithoutProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gatewayFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFieldUpdateOperationsInput | boolean
+    maxInstallments?: IntFieldUpdateOperationsInput | number
+    minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestFree?: IntFieldUpdateOperationsInput | number
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMethodUncheckedUpdateManyWithoutProviderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    gatewayFeePercent?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    gatewayFeeFixed?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    allowInstallments?: BoolFieldUpdateOperationsInput | boolean
+    maxInstallments?: IntFieldUpdateOperationsInput | number
+    minInstallmentValue?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    interestFree?: IntFieldUpdateOperationsInput | number
+    interestRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TicketCreateManyOrderInput = {
     id?: string
     eventId: string
+    userId: string
     batchTicketId: string
     hash: string
-    ownerName: string
-    ownerEmail: string
-    ownerDocument?: string | null
     price: Decimal | DecimalJsLike | number | string
     status?: $Enums.TicketStatus
     checkedInAt?: Date | string | null
@@ -24359,27 +27936,23 @@ export namespace Prisma {
   export type TicketUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     event?: eventosUpdateOneRequiredWithoutTicketsNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutTicketsNestedInput
     batchTicket?: BatchTicketUpdateOneRequiredWithoutTicketsNestedInput
-    checkedInUser?: usuariosUpdateOneWithoutTicketsNestedInput
+    checkedInUser?: usuariosUpdateOneWithoutCheckedTicketsNestedInput
   }
 
   export type TicketUncheckedUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24391,11 +27964,9 @@ export namespace Prisma {
   export type TicketUncheckedUpdateManyWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     eventId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     batchTicketId?: StringFieldUpdateOperationsInput | string
     hash?: StringFieldUpdateOperationsInput | string
-    ownerName?: StringFieldUpdateOperationsInput | string
-    ownerEmail?: StringFieldUpdateOperationsInput | string
-    ownerDocument?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumTicketStatusFieldUpdateOperationsInput | $Enums.TicketStatus
     checkedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24436,6 +28007,154 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationTicketCreateManyReservationInput = {
+    id?: string
+    batchTicketId: string
+    quantity: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type OrderCreateManyReservationInput = {
+    id?: string
+    tenantId: string
+    userId: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    serviceFee: Decimal | DecimalJsLike | number | string
+    platformFee: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    status?: $Enums.OrderStatus
+    paymentMethod?: $Enums.PaymentMethodTypes | null
+    paymentProvider?: string | null
+    stripeCheckoutSessionId?: string | null
+    stripeTransferId?: string | null
+    stripeApplicationFee?: Decimal | DecimalJsLike | number | string | null
+    paymentUrl?: string | null
+    qrCodeData?: string | null
+    boletoBarcode?: string | null
+    paidAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    canceledAt?: Date | string | null
+    refundedAt?: Date | string | null
+    expiresAt?: Date | string | null
+    notes?: string | null
+    cancelReason?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReservationTicketUpdateWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    batchTicket?: BatchTicketUpdateOneRequiredWithoutReservationTicketsNestedInput
+  }
+
+  export type ReservationTicketUncheckedUpdateWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchTicketId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReservationTicketUncheckedUpdateManyWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    batchTicketId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderUpdateWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
+    paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
+    boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: tenantsUpdateOneRequiredWithoutOrdersNestedInput
+    usuario?: usuariosUpdateOneRequiredWithoutOrdersNestedInput
+    tickets?: TicketUpdateManyWithoutOrderNestedInput
+    orderItems?: OrderItemUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
+    paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
+    boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tickets?: TicketUncheckedUpdateManyWithoutOrderNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateManyWithoutReservationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
+    paymentMethod?: NullableEnumPaymentMethodTypesFieldUpdateOperationsInput | $Enums.PaymentMethodTypes | null
+    paymentProvider?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCheckoutSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeTransferId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeApplicationFee?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCodeData?: NullableStringFieldUpdateOperationsInput | string | null
+    boletoBarcode?: NullableStringFieldUpdateOperationsInput | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refundedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    cancelReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

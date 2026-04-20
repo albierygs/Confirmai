@@ -3,9 +3,11 @@ import {
   OpenAPIRegistry,
 } from "@asteasolutions/zod-to-openapi";
 import "../config/zodSetup";
+import cartRegistry from "./routes/cartDocs";
+import checkoutRegistry from "./routes/checkoutDocs";
 import eventosRegistry from "./routes/eventosDocs";
 import ingressosRegistry from "./routes/ingressosDocs";
-import inscricoesRegistry from "./routes/inscricoesDocs";
+import paymentMethodsRegistry from "./routes/paymentMethodsDocs";
 import tenantsRegistry from "./routes/tenantsDocs";
 import usuariosRegistry from "./routes/usuariosDocs";
 
@@ -13,8 +15,10 @@ const globalRegistry = new OpenAPIRegistry([
   eventosRegistry,
   usuariosRegistry,
   tenantsRegistry,
-  inscricoesRegistry,
   ingressosRegistry,
+  cartRegistry,
+  checkoutRegistry,
+  paymentMethodsRegistry,
 ]);
 
 globalRegistry.registerComponent("securitySchemes", "bearerAuth", {

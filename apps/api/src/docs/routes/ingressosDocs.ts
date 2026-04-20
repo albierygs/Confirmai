@@ -254,7 +254,7 @@ ingressosRegistry.registerPath({
 
 ingressosRegistry.registerPath({
   method: "get",
-  path: "/{tenantSlug}/eventos/{eventoId}/ticket-types",
+  path: "/{tenantSlug}/eventos/ticket-types",
   tags: ["Tipos de Ingresso"],
   summary: "Lista os tipos de ingresso de um evento",
   responses: {

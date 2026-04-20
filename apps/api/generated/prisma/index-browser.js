@@ -155,7 +155,6 @@ exports.Prisma.BatchScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   isActive: 'isActive',
-  totalSold: 'totalSold',
   order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -186,11 +185,9 @@ exports.Prisma.TicketScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   eventId: 'eventId',
+  userId: 'userId',
   batchTicketId: 'batchTicketId',
   hash: 'hash',
-  ownerName: 'ownerName',
-  ownerEmail: 'ownerEmail',
-  ownerDocument: 'ownerDocument',
   price: 'price',
   status: 'status',
   checkedInAt: 'checkedInAt',
@@ -210,22 +207,29 @@ exports.Prisma.UsuariosScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.GlobalPaymentConfigScalarFieldEnum = {
+exports.Prisma.PaymentProviderScalarFieldEnum = {
   id: 'id',
-  defaultPlatformFeePercent: 'defaultPlatformFeePercent',
-  defaultPlatformFeeFixed: 'defaultPlatformFeeFixed',
-  defaultServiceFeePercent: 'defaultServiceFeePercent',
-  defaultServiceFeeFixed: 'defaultServiceFeeFixed',
-  defaultServiceFeePayerType: 'defaultServiceFeePayerType',
-  acceptCreditCard: 'acceptCreditCard',
-  acceptDebitCard: 'acceptDebitCard',
-  acceptPix: 'acceptPix',
-  acceptBoleto: 'acceptBoleto',
+  slug: 'slug',
+  isActive: 'isActive',
+  platformFeePercent: 'platformFeePercent',
+  platformCoustPercent: 'platformCoustPercent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentMethodScalarFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  slug: 'slug',
+  name: 'name',
+  gatewayFeePercent: 'gatewayFeePercent',
+  gatewayFeeFixed: 'gatewayFeeFixed',
+  allowInstallments: 'allowInstallments',
   maxInstallments: 'maxInstallments',
   minInstallmentValue: 'minInstallmentValue',
   interestFree: 'interestFree',
-  allowRefunds: 'allowRefunds',
-  refundDeadlineDays: 'refundDeadlineDays',
+  interestRate: 'interestRate',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -254,7 +258,7 @@ exports.Prisma.StripeAccountScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  eventId: 'eventId',
+  reservationId: 'reservationId',
   userId: 'userId',
   subtotal: 'subtotal',
   serviceFee: 'serviceFee',
@@ -263,8 +267,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   status: 'status',
   paymentMethod: 'paymentMethod',
   paymentProvider: 'paymentProvider',
-  stripePaymentIntentId: 'stripePaymentIntentId',
-  stripeClientSecret: 'stripeClientSecret',
+  stripeCheckoutSessionId: 'stripeCheckoutSessionId',
   stripeTransferId: 'stripeTransferId',
   stripeApplicationFee: 'stripeApplicationFee',
   paymentUrl: 'paymentUrl',
@@ -296,13 +299,21 @@ exports.Prisma.OrderItemScalarFieldEnum = {
 
 exports.Prisma.ReservationScalarFieldEnum = {
   id: 'id',
-  batchTicketId: 'batchTicketId',
   userId: 'userId',
-  quantity: 'quantity',
+  tenantId: 'tenantId',
   expiresAt: 'expiresAt',
   status: 'status',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ReservationTicketScalarFieldEnum = {
+  id: 'id',
+  reservationId: 'reservationId',
+  batchTicketId: 'batchTicketId',
+  quantity: 'quantity',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -364,11 +375,9 @@ exports.Prisma.TicketOrderByRelevanceFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   eventId: 'eventId',
+  userId: 'userId',
   batchTicketId: 'batchTicketId',
   hash: 'hash',
-  ownerName: 'ownerName',
-  ownerEmail: 'ownerEmail',
-  ownerDocument: 'ownerDocument',
   checkedInBy: 'checkedInBy'
 };
 
@@ -380,9 +389,16 @@ exports.Prisma.usuariosOrderByRelevanceFieldEnum = {
   senhaHash: 'senhaHash'
 };
 
-exports.Prisma.GlobalPaymentConfigOrderByRelevanceFieldEnum = {
+exports.Prisma.PaymentProviderOrderByRelevanceFieldEnum = {
   id: 'id',
-  defaultServiceFeePayerType: 'defaultServiceFeePayerType'
+  slug: 'slug'
+};
+
+exports.Prisma.PaymentMethodOrderByRelevanceFieldEnum = {
+  id: 'id',
+  providerId: 'providerId',
+  slug: 'slug',
+  name: 'name'
 };
 
 exports.Prisma.JsonNullValueFilter = {
@@ -408,11 +424,10 @@ exports.Prisma.StripeAccountOrderByRelevanceFieldEnum = {
 exports.Prisma.OrderOrderByRelevanceFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
-  eventId: 'eventId',
+  reservationId: 'reservationId',
   userId: 'userId',
   paymentProvider: 'paymentProvider',
-  stripePaymentIntentId: 'stripePaymentIntentId',
-  stripeClientSecret: 'stripeClientSecret',
+  stripeCheckoutSessionId: 'stripeCheckoutSessionId',
   stripeTransferId: 'stripeTransferId',
   paymentUrl: 'paymentUrl',
   qrCodeData: 'qrCodeData',
@@ -431,10 +446,16 @@ exports.Prisma.OrderItemOrderByRelevanceFieldEnum = {
 
 exports.Prisma.ReservationOrderByRelevanceFieldEnum = {
   id: 'id',
-  batchTicketId: 'batchTicketId',
   userId: 'userId',
+  tenantId: 'tenantId',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent'
+};
+
+exports.Prisma.ReservationTicketOrderByRelevanceFieldEnum = {
+  id: 'id',
+  reservationId: 'reservationId',
+  batchTicketId: 'batchTicketId'
 };
 exports.TenantStatus = exports.$Enums.TenantStatus = {
   ativo: 'ativo',
@@ -491,7 +512,7 @@ exports.OrderStatus = exports.$Enums.OrderStatus = {
   PARTIAL_REFUND: 'PARTIAL_REFUND'
 };
 
-exports.PaymentMethod = exports.$Enums.PaymentMethod = {
+exports.PaymentMethodTypes = exports.$Enums.PaymentMethodTypes = {
   CREDIT_CARD: 'CREDIT_CARD',
   DEBIT_CARD: 'DEBIT_CARD',
   PIX: 'PIX',
@@ -514,11 +535,13 @@ exports.Prisma.ModelName = {
   BatchTicket: 'BatchTicket',
   Ticket: 'Ticket',
   usuarios: 'usuarios',
-  GlobalPaymentConfig: 'GlobalPaymentConfig',
+  PaymentProvider: 'PaymentProvider',
+  PaymentMethod: 'PaymentMethod',
   StripeAccount: 'StripeAccount',
   Order: 'Order',
   OrderItem: 'OrderItem',
-  Reservation: 'Reservation'
+  Reservation: 'Reservation',
+  ReservationTicket: 'ReservationTicket'
 };
 
 /**

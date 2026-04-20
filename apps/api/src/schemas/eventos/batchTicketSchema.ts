@@ -20,13 +20,6 @@ const batchTicketSchema = z
       description: "Quantidade de ingressos vendidos",
       example: 50,
     }),
-    serviceFee: z
-      .number()
-      .openapi({ description: "Taxa de serviço", example: 10.0 }),
-    priceWithServiceFee: z.number().openapi({
-      description: "Preço do ingresso com taxa de serviço",
-      example: 110.0,
-    }),
     isActive: z
       .boolean()
       .openapi({ description: "Se o lote está ativo ou não.", example: true }),

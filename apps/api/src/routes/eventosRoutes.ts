@@ -66,6 +66,7 @@ eventosRoutes.get(
 eventosRoutes.put(
   "/:id",
   validarTokenMiddleware,
+  adminRouteMiddleware,
   validarSchemaMiddleware(editarEventoSchema.shape.params, "PARAMS"),
   validarSchemaMiddleware(editarEventoSchema.shape.request, "REQUEST_BODY"),
   editarEvento,

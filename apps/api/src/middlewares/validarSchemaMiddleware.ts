@@ -27,6 +27,8 @@ const validarSchemaMiddleware =
       );
     }
 
+    req.body = type === "REQUEST_BODY" ? result.data : req.body;
+    req.params = type === "PARAMS" ? result.data : req.params;
     next();
   };
 
