@@ -3,7 +3,6 @@ import { STRIPE_SECRET_KEY } from "./constants";
 import { prisma } from "./database";
 
 export const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: "2026-02-25.clover",
   typescript: true,
 });
 

@@ -334,7 +334,6 @@ model Order {
 
   // Valores monetários
   subtotal    Decimal @db.Decimal(19, 4) // Soma dos ingressos
-  serviceFee  Decimal @map("service_fee") @db.Decimal(19, 4) // Taxa de serviço
   platformFee Decimal @map("platform_fee") @db.Decimal(19, 4) // Comissão da plataforma
   total       Decimal @db.Decimal(19, 4) // Total pago pelo cliente
 

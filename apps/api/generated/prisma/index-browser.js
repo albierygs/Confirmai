@@ -261,7 +261,6 @@ exports.Prisma.OrderScalarFieldEnum = {
   reservationId: 'reservationId',
   userId: 'userId',
   subtotal: 'subtotal',
-  serviceFee: 'serviceFee',
   platformFee: 'platformFee',
   total: 'total',
   status: 'status',

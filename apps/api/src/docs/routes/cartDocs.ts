@@ -8,6 +8,10 @@ import notFoundErroSchema from "../../schemas/error/notFoundErroSchema";
 import servidorErroSchema from "../../schemas/error/servidorErroSchema";
 import unauthorizedErroSchema from "../../schemas/error/unauthorizedErroSchema";
 import validationErroSchema from "../../schemas/error/validationErroSchema";
+import badRequestErroSchema from "../../schemas/error/badRequestErroSchema";
+import forbiddenErroSchema from "../../schemas/error/forbiddenErroSchema";
+import checkinTicketSchema from "../../schemas/tickets/checkinTicketSchema";
+import listUserTicketsSchema from "../../schemas/tickets/listUserTicketsSchema";
 
 const cartRegistry = new OpenAPIRegistry();
 
@@ -48,6 +52,24 @@ const RemoverDoCarrinhoResponseRegister = cartRegistry.register(
 const LimparCarrinhoResponseRegister = cartRegistry.register(
   "LimparCarrinhoResponse",
   limparCarrinhoSchema.shape.response,
+);
+
+const ListUserTicketsQueryRegister = cartRegistry.register(
+  "ListUserTicketsQuery",
+  listUserTicketsSchema.shape.query,
+);
+const ListUserTicketsResponseRegister = cartRegistry.register(
+  "ListUserTicketsResponse",
+  listUserTicketsSchema.shape.response,
+);
+
+const CheckinTicketParamsRegister = cartRegistry.register(
+  "CheckinTicketParams",
+  checkinTicketSchema.shape.params,
+);
+const CheckinTicketResponseRegister = cartRegistry.register(
+  "CheckinTicketResponse",
+  checkinTicketSchema.shape.response,
 );
 
 // === Respostas comuns ===
@@ -193,6 +215,77 @@ cartRegistry.registerPath({
     },
     ...commonResponses,
     ...validationResponse,
+  },
+});
+
+// GET /:tenantSlug/tickets — Listar tickets do usuário
+cartRegistry.registerPath({
+  method: "get",
+  path: "/{tenantSlug}/tickets",
+  tags: ["Ingressos do Usuário"],
+  summary: "Listar ingressos do usuário",
+  description:
+    "Retorna todos os ingressos (tickets) gerados para o usuário no tenant atual com paginação. Inclui detalhes do evento, lote, tipo e status de check-in.",
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: ListUserTicketsQueryRegister,
+  },
+  responses: {
+    200: {
+      description: "Ingressos retornados",
+      content: {
+        "application/json": { schema: ListUserTicketsResponseRegister },
+      },
+    },
+    ...commonResponses,
+    ...validationResponse,
+  },
+});
+
+// POST /:tenantSlug/tickets/checkin/:hash — Check-in de ticket
+cartRegistry.registerPath({
+  method: "post",
+  path: "/{tenantSlug}/tickets/checkin/{hash}",
+  tags: ["Ingressos do Usuário"],
+  summary: "Realizar check-in de um ticket",
+  description:
+    "Realiza o check-in de um ticket via hash do QR Code. Valida se o ticket pertence ao tenant, se está válido (não cancelado/reembolsado/já utilizado) e se o evento está no período de realização (entre startDate e closingDate).",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: CheckinTicketParamsRegister,
+  },
+  responses: {
+    200: {
+      description: "Check-in realizado com sucesso",
+      content: {
+        "application/json": { schema: CheckinTicketResponseRegister },
+      },
+    },
+    400: {
+      description:
+        "Ticket já utilizado, cancelado, reembolsado ou evento fora do período",
+      content: { "application/json": { schema: badRequestErroSchema } },
+    },
+    401: {
+      description: "Não autenticado",
+      content: { "application/json": { schema: unauthorizedErroSchema } },
+    },
+    403: {
+      description: "Sem permissão (apenas admin/staff)",
+      content: { "application/json": { schema: forbiddenErroSchema } },
+    },
+    404: {
+      description: "Ticket não encontrado",
+      content: { "application/json": { schema: notFoundErroSchema } },
+    },
+    422: {
+      description: "Erro de validação",
+      content: { "application/json": { schema: validationErroSchema } },
+    },
+    500: {
+      description: "Erro interno do servidor",
+      content: { "application/json": { schema: servidorErroSchema } },
+    },
   },
 });
 

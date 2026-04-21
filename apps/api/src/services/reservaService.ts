@@ -17,6 +17,8 @@ export const getAvailableQuantity = async (
   batchTicketId: string,
   excludeReservationTicketId?: string,
 ): Promise<number> => {
+  await cleanExpiredReservations();
+
   const batchTicket = await prisma.batchTicket.findUnique({
     where: { id: batchTicketId },
   });
@@ -77,7 +79,10 @@ export const reconcileReservedQuantitiesForBatchTickets = async (
   );
 };
 
-async function findActiveReservationWithTickets(userId: string, tenantId: string) {
+async function findActiveReservationWithTickets(
+  userId: string,
+  tenantId: string,
+) {
   await cleanExpiredReservations();
 
   return prisma.reservation.findFirst({
@@ -365,7 +370,10 @@ export const cancelReservation = async (
 /**
  * Cancelar todas as reservas ativas do usuário para um tenant específico
  */
-export const cancelAllReservations = async (userId: string, tenantId: string) => {
+export const cancelAllReservations = async (
+  userId: string,
+  tenantId: string,
+) => {
   const reservations = await prisma.reservation.findMany({
     where: {
       userId,
@@ -458,7 +466,10 @@ export const convertReservationsToSale = async (
 /**
  * Buscar carrinho (reserva ativa + linhas) para um tenant específico
  */
-export const getReservationsByUser = async (userId: string, tenantId: string) => {
+export const getReservationsByUser = async (
+  userId: string,
+  tenantId: string,
+) => {
   await cleanExpiredReservations();
 
   const reservation = await prisma.reservation.findFirst({

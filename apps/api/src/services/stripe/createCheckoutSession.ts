@@ -59,9 +59,10 @@ export const createCheckoutSession = async (
     new Set(order.orderItems.map((item) => item.batchTicket.batch.event.id)),
   );
   const firstEventName = order.orderItems[0]?.batchTicket.batch.event.titulo;
-  const statementDescriptor = ((firstEventName || order.tenant.nome || "CONFIRMAI")
-    .substring(0, 22)
-    .replace(/[^a-zA-Z0-9 ]/g, "")) || "CONFIRMAI";
+  const statementDescriptor =
+    (firstEventName || order.tenant.nome || "CONFIRMAI")
+      .substring(0, 22)
+      .replace(/[^a-zA-Z0-9 ]/g, "") || "CONFIRMAI";
 
   // Criar Checkout Session com split no payment_intent_data
   const session = await stripe.checkout.sessions.create({

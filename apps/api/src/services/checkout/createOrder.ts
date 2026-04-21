@@ -41,7 +41,6 @@ export const createOrder = async (data: CreateOrderData) => {
       reservationId: data.reservationId,
       userId: data.userId,
       subtotal,
-      serviceFee: 0, // Sem taxa de conveniência
       platformFee,
       total,
       status: "PENDING",

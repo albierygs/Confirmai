@@ -5,6 +5,7 @@ import unauthorizedErroSchema from "../../schemas/error/unauthorizedErroSchema";
 import validationErroSchema from "../../schemas/error/validationErroSchema";
 import createCheckoutSchema from "../../schemas/payment/createCheckoutSchema";
 import getCheckoutStatusSchema from "../../schemas/payment/getCheckoutStatusSchema";
+import listUserOrdersSchema from "../../schemas/payment/listUserOrdersSchema";
 
 const checkoutRegistry = new OpenAPIRegistry();
 
@@ -22,6 +23,15 @@ const GetCheckoutStatusParamsRegister = checkoutRegistry.register(
 const GetCheckoutStatusResponseRegister = checkoutRegistry.register(
   "GetCheckoutStatusResponse",
   getCheckoutStatusSchema.shape.response,
+);
+
+const ListUserOrdersQueryRegister = checkoutRegistry.register(
+  "ListUserOrdersQuery",
+  listUserOrdersSchema.shape.query,
+);
+const ListUserOrdersResponseRegister = checkoutRegistry.register(
+  "ListUserOrdersResponse",
+  listUserOrdersSchema.shape.response,
 );
 
 // === Respostas comuns ===
@@ -64,6 +74,30 @@ checkoutRegistry.registerPath({
       description: "Sessão de checkout criada",
       content: {
         "application/json": { schema: CreateCheckoutResponseRegister },
+      },
+    },
+    ...commonResponses,
+    ...validationResponse,
+  },
+});
+
+// GET /:tenantSlug/orders — Listar pedidos do usuário
+checkoutRegistry.registerPath({
+  method: "get",
+  path: "/{tenantSlug}/orders",
+  tags: ["Pedidos"],
+  summary: "Listar pedidos do usuário",
+  description:
+    "Retorna todos os pedidos do usuário no tenant atual com paginação. Inclui itens do pedido com detalhes do evento, lote e tipo de ingresso.",
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: ListUserOrdersQueryRegister,
+  },
+  responses: {
+    200: {
+      description: "Pedidos retornados",
+      content: {
+        "application/json": { schema: ListUserOrdersResponseRegister },
       },
     },
     ...commonResponses,

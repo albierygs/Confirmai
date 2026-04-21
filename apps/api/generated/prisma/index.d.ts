@@ -13106,7 +13106,6 @@ export namespace Prisma {
 
   export type OrderAvgAggregateOutputType = {
     subtotal: Decimal | null
-    serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
     stripeApplicationFee: Decimal | null
@@ -13114,7 +13113,6 @@ export namespace Prisma {
 
   export type OrderSumAggregateOutputType = {
     subtotal: Decimal | null
-    serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
     stripeApplicationFee: Decimal | null
@@ -13126,7 +13124,6 @@ export namespace Prisma {
     reservationId: string | null
     userId: string | null
     subtotal: Decimal | null
-    serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
     status: $Enums.OrderStatus | null
@@ -13155,7 +13152,6 @@ export namespace Prisma {
     reservationId: string | null
     userId: string | null
     subtotal: Decimal | null
-    serviceFee: Decimal | null
     platformFee: Decimal | null
     total: Decimal | null
     status: $Enums.OrderStatus | null
@@ -13184,7 +13180,6 @@ export namespace Prisma {
     reservationId: number
     userId: number
     subtotal: number
-    serviceFee: number
     platformFee: number
     total: number
     status: number
@@ -13211,7 +13206,6 @@ export namespace Prisma {
 
   export type OrderAvgAggregateInputType = {
     subtotal?: true
-    serviceFee?: true
     platformFee?: true
     total?: true
     stripeApplicationFee?: true
@@ -13219,7 +13213,6 @@ export namespace Prisma {
 
   export type OrderSumAggregateInputType = {
     subtotal?: true
-    serviceFee?: true
     platformFee?: true
     total?: true
     stripeApplicationFee?: true
@@ -13231,7 +13224,6 @@ export namespace Prisma {
     reservationId?: true
     userId?: true
     subtotal?: true
-    serviceFee?: true
     platformFee?: true
     total?: true
     status?: true
@@ -13260,7 +13252,6 @@ export namespace Prisma {
     reservationId?: true
     userId?: true
     subtotal?: true
-    serviceFee?: true
     platformFee?: true
     total?: true
     status?: true
@@ -13289,7 +13280,6 @@ export namespace Prisma {
     reservationId?: true
     userId?: true
     subtotal?: true
-    serviceFee?: true
     platformFee?: true
     total?: true
     status?: true
@@ -13405,7 +13395,6 @@ export namespace Prisma {
     reservationId: string
     userId: string
     subtotal: Decimal
-    serviceFee: Decimal
     platformFee: Decimal
     total: Decimal
     status: $Enums.OrderStatus
@@ -13453,7 +13442,6 @@ export namespace Prisma {
     reservationId?: boolean
     userId?: boolean
     subtotal?: boolean
-    serviceFee?: boolean
     platformFee?: boolean
     total?: boolean
     status?: boolean
@@ -13490,7 +13478,6 @@ export namespace Prisma {
     reservationId?: boolean
     userId?: boolean
     subtotal?: boolean
-    serviceFee?: boolean
     platformFee?: boolean
     total?: boolean
     status?: boolean
@@ -13513,7 +13500,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "reservationId" | "userId" | "subtotal" | "serviceFee" | "platformFee" | "total" | "status" | "paymentMethod" | "paymentProvider" | "stripeCheckoutSessionId" | "stripeTransferId" | "stripeApplicationFee" | "paymentUrl" | "qrCodeData" | "boletoBarcode" | "paidAt" | "confirmedAt" | "canceledAt" | "refundedAt" | "expiresAt" | "notes" | "cancelReason" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "reservationId" | "userId" | "subtotal" | "platformFee" | "total" | "status" | "paymentMethod" | "paymentProvider" | "stripeCheckoutSessionId" | "stripeTransferId" | "stripeApplicationFee" | "paymentUrl" | "qrCodeData" | "boletoBarcode" | "paidAt" | "confirmedAt" | "canceledAt" | "refundedAt" | "expiresAt" | "notes" | "cancelReason" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tenant?: boolean | tenantsDefaultArgs<ExtArgs>
     reservation?: boolean | Order$reservationArgs<ExtArgs>
@@ -13538,7 +13525,6 @@ export namespace Prisma {
       reservationId: string
       userId: string
       subtotal: Prisma.Decimal
-      serviceFee: Prisma.Decimal
       platformFee: Prisma.Decimal
       total: Prisma.Decimal
       status: $Enums.OrderStatus
@@ -13938,7 +13924,6 @@ export namespace Prisma {
     readonly reservationId: FieldRef<"Order", 'String'>
     readonly userId: FieldRef<"Order", 'String'>
     readonly subtotal: FieldRef<"Order", 'Decimal'>
-    readonly serviceFee: FieldRef<"Order", 'Decimal'>
     readonly platformFee: FieldRef<"Order", 'Decimal'>
     readonly total: FieldRef<"Order", 'Decimal'>
     readonly status: FieldRef<"Order", 'OrderStatus'>
@@ -17615,7 +17600,6 @@ export namespace Prisma {
     reservationId: 'reservationId',
     userId: 'userId',
     subtotal: 'subtotal',
-    serviceFee: 'serviceFee',
     platformFee: 'platformFee',
     total: 'total',
     status: 'status',
@@ -18930,7 +18914,6 @@ export namespace Prisma {
     reservationId?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
     subtotal?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
@@ -18964,7 +18947,6 @@ export namespace Prisma {
     reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
-    serviceFee?: SortOrder
     platformFee?: SortOrder
     total?: SortOrder
     status?: SortOrder
@@ -19003,7 +18985,6 @@ export namespace Prisma {
     reservationId?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
     subtotal?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
@@ -19036,7 +19017,6 @@ export namespace Prisma {
     reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
-    serviceFee?: SortOrder
     platformFee?: SortOrder
     total?: SortOrder
     status?: SortOrder
@@ -19073,7 +19053,6 @@ export namespace Prisma {
     reservationId?: StringWithAggregatesFilter<"Order"> | string
     userId?: StringWithAggregatesFilter<"Order"> | string
     subtotal?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
@@ -20338,7 +20317,6 @@ export namespace Prisma {
   export type OrderCreateInput = {
     id?: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -20372,7 +20350,6 @@ export namespace Prisma {
     reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -20400,7 +20377,6 @@ export namespace Prisma {
   export type OrderUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -20434,7 +20410,6 @@ export namespace Prisma {
     reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -20465,7 +20440,6 @@ export namespace Prisma {
     reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -20491,7 +20465,6 @@ export namespace Prisma {
   export type OrderUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -20520,7 +20493,6 @@ export namespace Prisma {
     reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -21875,7 +21847,6 @@ export namespace Prisma {
     reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
-    serviceFee?: SortOrder
     platformFee?: SortOrder
     total?: SortOrder
     status?: SortOrder
@@ -21900,7 +21871,6 @@ export namespace Prisma {
 
   export type OrderAvgOrderByAggregateInput = {
     subtotal?: SortOrder
-    serviceFee?: SortOrder
     platformFee?: SortOrder
     total?: SortOrder
     stripeApplicationFee?: SortOrder
@@ -21912,7 +21882,6 @@ export namespace Prisma {
     reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
-    serviceFee?: SortOrder
     platformFee?: SortOrder
     total?: SortOrder
     status?: SortOrder
@@ -21941,7 +21910,6 @@ export namespace Prisma {
     reservationId?: SortOrder
     userId?: SortOrder
     subtotal?: SortOrder
-    serviceFee?: SortOrder
     platformFee?: SortOrder
     total?: SortOrder
     status?: SortOrder
@@ -21966,7 +21934,6 @@ export namespace Prisma {
 
   export type OrderSumOrderByAggregateInput = {
     subtotal?: SortOrder
-    serviceFee?: SortOrder
     platformFee?: SortOrder
     total?: SortOrder
     stripeApplicationFee?: SortOrder
@@ -23980,7 +23947,6 @@ export namespace Prisma {
   export type OrderCreateWithoutTenantInput = {
     id?: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -24012,7 +23978,6 @@ export namespace Prisma {
     reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -24221,7 +24186,6 @@ export namespace Prisma {
     reservationId?: StringFilter<"Order"> | string
     userId?: StringFilter<"Order"> | string
     subtotal?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     total?: DecimalFilter<"Order"> | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
@@ -24996,7 +24960,6 @@ export namespace Prisma {
   export type OrderCreateWithoutTicketsInput = {
     id?: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -25029,7 +24992,6 @@ export namespace Prisma {
     reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -25206,7 +25168,6 @@ export namespace Prisma {
   export type OrderUpdateWithoutTicketsInput = {
     id?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -25239,7 +25200,6 @@ export namespace Prisma {
     reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -25465,7 +25425,6 @@ export namespace Prisma {
   export type OrderCreateWithoutUsuarioInput = {
     id?: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -25497,7 +25456,6 @@ export namespace Prisma {
     tenantId: string
     reservationId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -26312,7 +26270,6 @@ export namespace Prisma {
   export type OrderCreateWithoutOrderItemsInput = {
     id?: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -26345,7 +26302,6 @@ export namespace Prisma {
     reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -26423,7 +26379,6 @@ export namespace Prisma {
   export type OrderUpdateWithoutOrderItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -26456,7 +26411,6 @@ export namespace Prisma {
     reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -26583,7 +26537,6 @@ export namespace Prisma {
   export type OrderCreateWithoutReservationInput = {
     id?: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -26615,7 +26568,6 @@ export namespace Prisma {
     tenantId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -26980,7 +26932,6 @@ export namespace Prisma {
     reservationId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -27095,7 +27046,6 @@ export namespace Prisma {
   export type OrderUpdateWithoutTenantInput = {
     id?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -27127,7 +27077,6 @@ export namespace Prisma {
     reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -27157,7 +27106,6 @@ export namespace Prisma {
     reservationId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -27572,7 +27520,6 @@ export namespace Prisma {
     tenantId: string
     reservationId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -27637,7 +27584,6 @@ export namespace Prisma {
   export type OrderUpdateWithoutUsuarioInput = {
     id?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -27669,7 +27615,6 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     reservationId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -27699,7 +27644,6 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     reservationId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -28024,7 +27968,6 @@ export namespace Prisma {
     tenantId: string
     userId: string
     subtotal: Decimal | DecimalJsLike | number | string
-    serviceFee: Decimal | DecimalJsLike | number | string
     platformFee: Decimal | DecimalJsLike | number | string
     total: Decimal | DecimalJsLike | number | string
     status?: $Enums.OrderStatus
@@ -28074,7 +28017,6 @@ export namespace Prisma {
   export type OrderUpdateWithoutReservationInput = {
     id?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -28106,7 +28048,6 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
@@ -28136,7 +28077,6 @@ export namespace Prisma {
     tenantId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    serviceFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     platformFee?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
