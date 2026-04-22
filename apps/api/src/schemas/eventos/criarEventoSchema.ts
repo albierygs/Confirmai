@@ -24,6 +24,11 @@ const criarEventoSchema = z
             description: "Descrição do evento (opcional)",
             example: "Descrição teste",
           }),
+        location: z
+          .string()
+          .optional()
+          .nullable()
+          .transform((val) => val ?? null),
         closingDate: z.iso
           .date("A data de encerramento deve estar no formato ISO 8601.")
           .nonoptional("O campo 'closing_date' é obrigatório.")

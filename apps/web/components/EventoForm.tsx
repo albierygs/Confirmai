@@ -1,7 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import AddFieldModal from "./AddFieldModal";
+import api from "@/src/lib/api";
 
 interface FormField {
   id: string;
@@ -15,7 +15,7 @@ export default function EventoForm() {
   const [formData, setFormData] = useState({
     titulo: "",
     descricao: "",
-    local: "",
+    location: "",
     limiteInscricoes: "0",
     dataInicio: "",
     dataEncerramento: "",
@@ -58,11 +58,28 @@ export default function EventoForm() {
     setFields((prev) => prev.filter((f) => f.id !== id));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Dados do Evento:", { ...formData, fields });
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const payload = {
+      titulo: formData.titulo,
+      descricao: formData.descricao || undefined,
+      location: formData.location || null,
+      startDate: formData.dataInicio,
+      closingDate: formData.dataEncerramento,
+      fields,
+    };
+
+    const response = await api.post(`/minha-empresa/eventos`, payload);
+
+    console.log("Evento criado:", response.data);
     alert("Evento criado com sucesso!");
-  };
+  } catch (error) {
+    console.error("Erro ao criar evento:", error);
+    alert("Erro ao criar evento");
+  }
+};
 
   return (
     <div className="mx-auto w-full max-w-3xl rounded-[40px] bg-white/20 backdrop-blur-md border-4 border-white/30 p-8 shadow-2xl hover:bg-white/25 transition-colors">
@@ -105,11 +122,11 @@ export default function EventoForm() {
               Local do Evento
             </label>
             <input
-              name="local"
+              name="location"
               type="text"
               placeholder="Ex: Auditório ou Link Online"
               className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 text-white placeholder-white/50 outline-none focus:ring-2 focus:ring-red-500 transition-all"
-              value={formData.local}
+              value={formData.location}
               onChange={handleInputChange}
             />
           </div>

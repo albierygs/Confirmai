@@ -12,12 +12,13 @@ const criarEvento: RequestHandler<
   CriarEventoRequestSchema,
   any
 > = async (req, res) => {
-  const { titulo, descricao, closingDate, startDate } = req.body;
+  const { titulo, descricao, location, closingDate, startDate } = req.body;
 
   const evento = await prisma.eventos.create({
     data: {
       titulo,
       descricao,
+      location,
       tenantId: req.tenant!.id,
       closingDate: new Date(closingDate),
       startDate: new Date(startDate),
