@@ -12,6 +12,7 @@ interface FormField {
 
 export default function EventoForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     titulo: "",
     descricao: "",
@@ -61,23 +62,55 @@ export default function EventoForm() {
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
+  if (loading) return;
+
   try {
+    setLoading(true);
+
+    if (!formData.titulo.trim()) {
+      alert("Título é obrigatório");
+      return;
+    }
+
+    if (!formData.dataInicio || !formData.dataEncerramento) {
+      alert("Preencha as datas");
+      return;
+    }
+
+    if (formData.dataEncerramento < formData.dataInicio) {
+      alert("Data de encerramento deve ser depois da inicial");
+      return;
+    }
+
     const payload = {
-      titulo: formData.titulo,
-      descricao: formData.descricao || undefined,
-      location: formData.location || null,
+      titulo: formData.titulo.trim(),
+      descricao: formData.descricao?.trim() || undefined,
+      location: formData.location?.trim() || null,
       startDate: formData.dataInicio,
       closingDate: formData.dataEncerramento,
-      fields,
     };
+
+    console.log("Payload enviado:", payload);
 
     const response = await api.post(`/minha-empresa/eventos`, payload);
 
     console.log("Evento criado:", response.data);
     alert("Evento criado com sucesso!");
+
+    setFormData({
+      titulo: "",
+      descricao: "",
+      location: "",
+      limiteInscricoes: "0",
+      dataInicio: "",
+      dataEncerramento: "",
+    });
+
   } catch (error) {
     console.error("Erro ao criar evento:", error);
     alert("Erro ao criar evento");
+  } finally {
+    setLoading(false);
   }
 };
 
