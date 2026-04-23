@@ -12,5 +12,7 @@ Thumbs.db
 .vscode/
 .idea/
 
-/generated/prisma
+**/generated/
+dist/
+.turbo/
 .example
