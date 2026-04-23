@@ -10,6 +10,8 @@ import buscarTenantSchema from "../../schemas/tenants/buscarTenantSchema";
 import buscarTodasTenantsSchema from "../../schemas/tenants/buscarTodasTenantsSchema";
 import criarTenantSchema from "../../schemas/tenants/criarTenantSchema";
 import editarTenantSchema from "../../schemas/tenants/editarTenantSchema";
+import { onboardTenantSchema } from "../../schemas/tenants/onboardTenantSchema";
+import { verifyTenantStatusSchema } from "../../schemas/tenants/verifyTenantStatusSchema";
 import eventosRegistry from "./eventosDocs";
 
 const tenantsRegistry = new OpenAPIRegistry();
@@ -40,6 +42,16 @@ const EditarTenantResponseRegister = eventosRegistry.register(
 const EditarTenantRequestRegister = eventosRegistry.register(
   "EditarTenantRequest",
   editarTenantSchema.shape.request,
+);
+
+const OnboardTenantResponseRegister = tenantsRegistry.register(
+  "OnboardTenantResponse",
+  onboardTenantSchema.shape.response,
+);
+
+const VerifyTenantStatusResponseRegister = tenantsRegistry.register(
+  "VerifyTenantStatusResponse",
+  verifyTenantStatusSchema.shape.response,
 );
 
 // Criar Tenant
@@ -87,7 +99,7 @@ eventosRegistry.registerPath({
   },
 });
 
-// Detalhes Evento
+// Detalhes Tenant
 eventosRegistry.registerPath({
   method: "get",
   path: "/tenants/{tenantSlug}/",
@@ -179,7 +191,7 @@ eventosRegistry.registerPath({
   },
 });
 
-// Editar Evento
+// Editar Tenant
 eventosRegistry.registerPath({
   method: "put",
   path: "/tenants/{tenantSlug}/",
@@ -251,15 +263,16 @@ eventosRegistry.registerPath({
   },
 });
 
-// Deletar Evento
+// Deletar Tenant
 eventosRegistry.registerPath({
   method: "delete",
   path: "/tenants/{tenantSlug}/",
   tags: ["Tenants"],
   summary: "Deletar tenant",
+  security: [{ bearerAuth: [] }],
   responses: {
     204: {
-      description: "Evento deletado",
+      description: "Tenant deletada",
     },
     400: {
       description: "Bad Request",
@@ -296,4 +309,136 @@ eventosRegistry.registerPath({
   },
 });
 
+// === Stripe Connect ===
+
+// POST /tenants/:tenantSlug/payments/connect/onboard — Onboarding Stripe
+tenantsRegistry.registerPath({
+  method: "post",
+  path: "/tenants/{tenantSlug}/payments/connect/onboard",
+  tags: ["Tenants - Stripe Connect"],
+  summary: "Iniciar onboarding Stripe Connect",
+  description:
+    "Cria ou recupera a conta Stripe Connect do tenant e retorna a URL de onboarding para o administrador completar o cadastro.",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: {
+      description: "URL de onboarding retornada",
+      content: {
+        "application/json": { schema: OnboardTenantResponseRegister },
+      },
+    },
+    401: {
+      description: "Unauthorized",
+      content: {
+        "application/json": { schema: unauthorizedErroSchema },
+      },
+    },
+    403: {
+      description: "Forbidden",
+      content: {
+        "application/json": { schema: forbiddenErroSchema },
+      },
+    },
+    404: {
+      description: "Not Found",
+      content: {
+        "application/json": { schema: notFoundErroSchema },
+      },
+    },
+    500: {
+      description: "Erro interno do servidor",
+      content: {
+        "application/json": { schema: servidorErroSchema },
+      },
+    },
+  },
+});
+
+// GET /tenants/:tenantSlug/payments/connect/verify — Verificar status
+tenantsRegistry.registerPath({
+  method: "get",
+  path: "/tenants/{tenantSlug}/payments/connect/verify",
+  tags: ["Tenants - Stripe Connect"],
+  summary: "Verificar status da conta Stripe Connect",
+  description:
+    "Sincroniza e retorna o status atual da conta Stripe Connect do tenant (charges, payouts, detailsSubmitted).",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: {
+      description: "Status da conta retornado",
+      content: {
+        "application/json": { schema: VerifyTenantStatusResponseRegister },
+      },
+    },
+    401: {
+      description: "Unauthorized",
+      content: {
+        "application/json": { schema: unauthorizedErroSchema },
+      },
+    },
+    403: {
+      description: "Forbidden",
+      content: {
+        "application/json": { schema: forbiddenErroSchema },
+      },
+    },
+    404: {
+      description: "Not Found",
+      content: {
+        "application/json": { schema: notFoundErroSchema },
+      },
+    },
+    500: {
+      description: "Erro interno do servidor",
+      content: {
+        "application/json": { schema: servidorErroSchema },
+      },
+    },
+  },
+});
+
+// GET /tenants/:tenantSlug/payments/connect/login — Login link
+tenantsRegistry.registerPath({
+  method: "get",
+  path: "/tenants/{tenantSlug}/payments/connect/login",
+  tags: ["Tenants - Stripe Connect"],
+  summary: "Gerar link de login no Stripe Dashboard",
+  description:
+    "Gera um link de acesso ao dashboard do Stripe para o administrador da tenant gerenciar pagamentos, reembolsos e configurações.",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: {
+      description: "Login link gerado",
+      content: {
+        "application/json": { schema: OnboardTenantResponseRegister },
+      },
+    },
+    401: {
+      description: "Unauthorized",
+      content: {
+        "application/json": { schema: unauthorizedErroSchema },
+      },
+    },
+    403: {
+      description: "Forbidden",
+      content: {
+        "application/json": { schema: forbiddenErroSchema },
+      },
+    },
+    404: {
+      description: "Not Found",
+      content: {
+        "application/json": { schema: notFoundErroSchema },
+      },
+    },
+    500: {
+      description: "Erro interno do servidor",
+      content: {
+        "application/json": { schema: servidorErroSchema },
+      },
+    },
+  },
+});
+
 export default tenantsRegistry;
+

@@ -6,6 +6,9 @@ import {
   deletarTenant,
   editarTenant,
 } from "../controllers/tenants";
+import { createLoginLink } from "../controllers/tenants/createLoginLinkController";
+import { onboardTenant } from "../controllers/tenants/onboardTenantController";
+import { verifyTenantStatus } from "../controllers/tenants/verifyTenantStatusController";
 import {
   adminRouteMiddleware,
   identificarTenantMiddleware,
@@ -53,6 +56,27 @@ tenantsRoutes.delete(
   validarTokenMiddleware,
   adminRouteMiddleware,
   deletarTenant,
+);
+
+tenantsRoutes.post(
+  "/:tenantSlug/payments/connect/onboard",
+  validarTokenMiddleware,
+  adminRouteMiddleware,
+  onboardTenant,
+);
+
+tenantsRoutes.get(
+  "/:tenantSlug/payments/connect/verify",
+  validarTokenMiddleware,
+  adminRouteMiddleware,
+  verifyTenantStatus,
+);
+
+tenantsRoutes.get(
+  "/:tenantSlug/payments/connect/login",
+  validarTokenMiddleware,
+  adminRouteMiddleware,
+  createLoginLink,
 );
 
 export default tenantsRoutes;

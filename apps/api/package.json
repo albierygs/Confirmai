@@ -30,6 +30,7 @@
     "node-cron": "^4.2.1",
     "prisma": "^7.2.0",
     "stripe": "^20.4.1",
+    "ulid": "^3.0.2",
     "zod": "^4.2.1"
   },
   "devDependencies": {

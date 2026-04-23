@@ -11,7 +11,6 @@ import {
   verificarEventoExistente,
   verificarLoteExistente,
 } from "../../../services/eventoService.ts";
-import { calcularPrecoComTaxa } from "../../../services/ingressoService.ts";
 
 const editarBatchTicket: RequestHandler<
   EditarBatchTicketParamsSchema,
@@ -61,7 +60,6 @@ const editarBatchTicket: RequestHandler<
   const batchTicketResponse = {
     ...batchTicket,
     price: new Decimal(batchTicket.price).toDecimalPlaces(2).toNumber(),
-    ...calcularPrecoComTaxa(batchTicket.price),
   };
 
   return res.status(200).json({

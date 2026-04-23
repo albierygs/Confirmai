@@ -30,7 +30,11 @@ const criarBatchSchema = z
         startDate: z.iso
           .date("A data de início deve estar no formato ISO 8601.")
           .nonoptional("A data de início é obrigatória")
-          .transform((date) => new Date(date))
+          .transform((dateString) => {
+            const date = new Date(dateString);
+            date.setUTCHours(0 + 3, 0, 0, 0);
+            return date;
+          })
           .openapi({
             description: "Data de início do lote",
             example: new Date().toISOString().split("T")[0],
@@ -38,7 +42,11 @@ const criarBatchSchema = z
         endDate: z.iso
           .date("A data de término deve estar no formato ISO 8601.")
           .nonoptional("A data de término é obrigatória")
-          .transform((date) => new Date(date))
+          .transform((dateString) => {
+            const date = new Date(dateString);
+            date.setUTCHours(23 + 3, 59, 59, 999);
+            return date;
+          })
           .openapi({
             description: "Data de término do lote",
             example: new Date().toISOString().split("T")[0],

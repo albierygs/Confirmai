@@ -21,7 +21,14 @@ export const GLOBAL_ADMIN_SENHA = String(process.env.GLOBAL_ADMIN_SENHA);
 export const GLOBAL_ADMIN_EMAIL = String(process.env.GLOBAL_ADMIN_EMAIL);
 export const GLOBAL_ADMIN_NOME = String(process.env.GLOBAL_ADMIN_NOME);
 
-export const SERVICE_FEE = 10;
+/** TTL do carrinho em ms (padrão: 30 min). A partir do 1º ingresso na reserva. */
+export const RESERVATION_TTL_MS = 30 * 60 * 1000;
+
+/** Extensão ao criar link de checkout (Stripe), em ms (padrão: +30 min). */
+export const CHECKOUT_RESERVATION_EXTENSION_MS = 30 * 60 * 1000;
 
 export const STRIPE_SECRET_KEY = String(process.env.STRIPE_SECRET_KEY);
-export const RESERVATION_TTL = Number(15 * 60 * 1000);
+export const STRIPE_WEBHOOK_SECRET = String(process.env.STRIPE_WEBHOOK_SECRET);
+
+export const TICKET_SECRET_KEY = String(process.env.TICKET_SECRET_KEY);
+export const TICKET_PREFIX = "TKT";
