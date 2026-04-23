@@ -12,6 +12,7 @@ import {
   editarBatch,
   editarBatchTicket,
   editarEvento,
+  BuscarEventos,
   encerrarEvento,
   listarBatches,
   listarBatchTickets,
@@ -35,6 +36,7 @@ import detalhesEventoSchema from "../schemas/eventos/detalhesEventoSchema";
 import editarBatchSchema from "../schemas/eventos/editarBatchSchema";
 import editarBatchTicketSchema from "../schemas/eventos/editarBatchTicketSchema";
 import editarEventoSchema from "../schemas/eventos/editarEventoSchema";
+import buscarEventosSchema from "../schemas/eventos/BuscarEventoSchema";
 import listarBatchesSchema from "../schemas/eventos/listarBatchesSchema";
 import listarBatchTicketsSchema from "../schemas/eventos/listarBatchTicketsSchema";
 
@@ -50,7 +52,7 @@ eventosRoutes.post(
 );
 
 // Listar eventos
-eventosRoutes.get("/", listarEventos);
+//eventosRoutes.get("/", listarEventos);
 
 // === TICKET TYPES ===
 eventosRoutes.get("/ticket-types", listarTicketTypes);
@@ -164,5 +166,13 @@ eventosRoutes.delete(
   validarSchemaMiddleware(deletarBatchTicketSchema.shape.params, "PARAMS"),
   deletarBatchTicket,
 );
+
+// Buscar evento
+eventosRoutes.get(
+  "/",
+  validarTokenMiddleware,
+  validarSchemaMiddleware(buscarEventosSchema.shape.query, "QUERY"),
+  BuscarEventos
+)
 
 export default eventosRoutes;
