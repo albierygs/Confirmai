@@ -4,7 +4,7 @@ import {
   validarSchemaMiddleware,
 } from "../middlewares";
 import paramTenantSlugSchema from "../schemas/tenantSlugParamSchema";
-import cartRoutes from "./cartRoutes";
+// import cartRoutes from "./cartRoutes";
 import eventosRoutes from "./eventosRoutes";
 import tenantsRoutes from "./tenantsRoutes";
 import usuariosRoutes from "./usuariosRoutes";
@@ -25,6 +25,6 @@ routes.use(
 );
 
 routes.use("/:tenantSlug/eventos", eventosRoutes);
-routes.use("/:tenantSlug/cart", cartRoutes);
+// routes.use("/:tenantSlug/cart", cartRoutes);
 
 export default routes;

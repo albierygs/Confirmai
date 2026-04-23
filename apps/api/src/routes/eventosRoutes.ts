@@ -12,16 +12,12 @@ import {
   editarBatch,
   editarBatchTicket,
   editarEvento,
-<<<<<<< HEAD
-  //listarEventos,
-  BuscarEventos
-=======
+  BuscarEventos,
   encerrarEvento,
   listarBatches,
   listarBatchTickets,
   listarEventos,
   listarTicketTypes,
->>>>>>> 89586659d4240bba5d75aaffe05a207cecb13e4d
 } from "../controllers/eventos";
 import {
   adminRouteMiddleware,
@@ -40,12 +36,9 @@ import detalhesEventoSchema from "../schemas/eventos/detalhesEventoSchema";
 import editarBatchSchema from "../schemas/eventos/editarBatchSchema";
 import editarBatchTicketSchema from "../schemas/eventos/editarBatchTicketSchema";
 import editarEventoSchema from "../schemas/eventos/editarEventoSchema";
-<<<<<<< HEAD
 import buscarEventosSchema from "../schemas/eventos/BuscarEventoSchema";
-=======
 import listarBatchesSchema from "../schemas/eventos/listarBatchesSchema";
 import listarBatchTicketsSchema from "../schemas/eventos/listarBatchTicketsSchema";
->>>>>>> 89586659d4240bba5d75aaffe05a207cecb13e4d
 
 const eventosRoutes = Router({ mergeParams: true });
 

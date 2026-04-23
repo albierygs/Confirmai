@@ -43,10 +43,8 @@ export {
   listarBatches,
   listarBatchTickets,
   listarEventos,
-<<<<<<< HEAD
-  BuscarEventos
-=======
+
+  BuscarEventos,
   // Ticket Types
   listarTicketTypes,
->>>>>>> 89586659d4240bba5d75aaffe05a207cecb13e4d
 };

@@ -5,7 +5,7 @@ import {
 import "../config/zodSetup";
 import eventosRegistry from "./routes/eventosDocs";
 import ingressosRegistry from "./routes/ingressosDocs";
-import inscricoesRegistry from "./routes/inscricoesDocs";
+// import inscricoesRegistry from "./routes/inscricoesDocs";
 import tenantsRegistry from "./routes/tenantsDocs";
 import usuariosRegistry from "./routes/usuariosDocs";
 
@@ -13,7 +13,7 @@ const globalRegistry = new OpenAPIRegistry([
   eventosRegistry,
   usuariosRegistry,
   tenantsRegistry,
-  inscricoesRegistry,
+  // inscricoesRegistry,
   ingressosRegistry,
 ]);
 
