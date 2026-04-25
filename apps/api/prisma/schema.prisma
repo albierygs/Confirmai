@@ -244,6 +244,18 @@ model PaymentProvider {
   slug     String  @unique // "stripe", "mercadopago", "asaas"
   isActive Boolean @default(true)
 
+  // Comissão da plataforma (aplicada sobre o valor do ingresso)
+  platformFeePercent   Decimal @default(10) @db.Decimal(5, 2)
+  platformCoustPercent Decimal @default(5) @db.Decimal(5, 2) // Custo operacional da plataforma (ex: taxas do stripe)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  paymentMethods PaymentMethod[]
+
+  @@map("payment_providers")
+}
+
 model inscricoes {
   id        String          @id @default(uuid())
   tenantId  String          @map("tenant_id")
@@ -259,21 +271,6 @@ model inscricoes {
   email_status String?      @default("pendente") // pendente | enviado | falhou
   checkin_realizado Boolean @default(false)
   checkin_data      DateTime?
-}
-
-model GlobalPaymentConfig {
-  id String @id @default(uuid())
-
-  // Comissão da plataforma (aplicada sobre o valor do ingresso)
-  platformFeePercent   Decimal @default(10) @db.Decimal(5, 2)
-  platformCoustPercent Decimal @default(5) @db.Decimal(5, 2) // Custo operacional da plataforma (ex: taxas do stripe)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  paymentMethods PaymentMethod[]
-
-  @@map("payment_providers")
 }
 
 model PaymentMethod {

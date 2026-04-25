@@ -4,36 +4,27 @@ import { ConflitoException } from "../../exceptions";
 import {
   CriarInscricaoParamsSchema,
   CriarInscricaoRequestSchema,
-  CriarInscricaoResponseSchema,
 } from "../../schemas/inscricoes/criarInscricaoSchema";
-import {
-  verificarEventoEncerradoOuSemVagas,
-  verificarEventoExistente,
-} from "../../services/eventoService";
+import { verificarEventoExistente } from "../../services/eventoService";
 
 import { gerarCredenciaisIncricao } from "../../services/credenciaisInscricoesService";
 
-import { enviarEmailInscricao } from "../../services/enviarQrCodePorEmailService";
-
 const criarInscricao: RequestHandler<
   CriarInscricaoParamsSchema,
-  CriarInscricaoResponseSchema,
+  any,
   CriarInscricaoRequestSchema,
   any
 > = async (req, res) => {
-  const { id: evento_id } = req.params; // pegar id da url de evento
+  const eventoId = String(req.params.id);
   const { nome, email, curso } = req.body;
 
-  //verifica se o evento existe
-  const evento = await verificarEventoExistente(evento_id, req.tenant!.id);
-  verificarEventoEncerradoOuSemVagas(evento);
+  await verificarEventoExistente(eventoId, req.tenant!.id);
 
   const { hash, qrCode } = await gerarCredenciaisIncricao();
 
-
   const usuarioInscrito = await prisma.inscricoes.findFirst({
     where: {
-      eventoId: evento_id,
+      eventoId,
       tenantId: req.tenant!.id,
       email,
     },
@@ -46,7 +37,7 @@ const criarInscricao: RequestHandler<
   // Criar a inscrição no banco de dados
   const novaInscricao = await prisma.inscricoes.create({
     data: {
-      eventoId: evento_id,
+      eventoId,
       tenantId: req.tenant!.id,
       qr_hash: hash,
       qr_code: qrCode,
@@ -54,24 +45,7 @@ const criarInscricao: RequestHandler<
       email,
       curso,
     },
-    include: {
-      evento: true,
-    },
   });
-
-  await prisma.eventos.update({
-    where: {
-      id: evento_id,
-      tenantId: req.tenant!.id,
-    },
-    data: {
-      numeroInscritos: {
-        increment: 1,
-      },
-    },
-  });
-
-  await enviarEmailInscricao(novaInscricao.id, email, nome, qrCode, evento.titulo);
 
   //retorna a inscrição criada
   return res.status(201).json({

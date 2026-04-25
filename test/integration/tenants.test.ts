@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../../src/app";
-import { prisma } from "../../src/config/database";
-import { gerarTenantSlug } from "../../src/services/tenantService";
+import app from "../../apps/api/src/app";
+import { prisma } from "../../apps/api/src/config/database";
+import { gerarTenantSlug } from "../../apps/api/src/services/tenantService";
 import {
   criarTenantTeste,
   criarUsuarioTeste,
@@ -102,7 +102,7 @@ describe("Rotas de Tenants (Integração)", () => {
   describe("GET /tenants/ [Detalhes do Tenant Atual]", () => {
     it("Deve retornar os dados do tenant do token", async () => {
       const response = await request(app)
-        .get("/api/tenants")
+        .get(`/api/tenants/${tenantSlug}`)
         .set("Authorization", `Bearer ${tenantAdminToken}`)
         .set("Host", `${tenantSlug}.lvh.me`);
 
@@ -142,7 +142,7 @@ describe("Rotas de Tenants (Integração)", () => {
       };
 
       const response = await request(app)
-        .put("/api/tenants")
+        .put(`/api/tenants/${tenantSlug}`)
         .set("Authorization", `Bearer ${tenantAdminToken}`)
         .set("Host", `${tenantSlug}.lvh.me`)
         .send(payload);
@@ -167,7 +167,7 @@ describe("Rotas de Tenants (Integração)", () => {
       );
 
       const response = await request(app)
-        .delete("/api/tenants")
+        .delete(`/api/tenants/${tenantDesc.slug}`)
         .set("Authorization", `Bearer ${tokenDesc}`)
         .set("Host", `${tenantDesc.slug}.lvh.me`);
 

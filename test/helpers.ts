@@ -1,9 +1,8 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import { usuariosModel } from "../generated/prisma/models";
-import { JWT_SECRET } from "../src/config/constants";
-import { prisma } from "../src/config/database";
+import { JWT_SECRET } from "../apps/api/src/config/constants";
+import { prisma } from "../apps/api/src/config/database";
 
 export const gerarTokenTeste = (
   tenantId: string,
@@ -68,7 +67,6 @@ export const criarEventoTeste = async (
     linkSlug: string;
     descricao: string;
     closingDate: Date;
-    limiteVagas: number;
   }> = {}
 ) => {
   const randomSuffix = crypto.randomBytes(4).toString("hex");
@@ -78,7 +76,6 @@ export const criarEventoTeste = async (
       linkSlug: overrides.linkSlug || `evento-teste-${randomSuffix}`,
       closingDate: overrides.closingDate || new Date(Date.now() + 7 * 86400000),
       descricao: overrides.descricao || "Descrição do evento de teste",
-      limiteVagas: overrides.limiteVagas,
       status,
       tenantId,
     },
@@ -88,7 +85,7 @@ export const criarEventoTeste = async (
 export const criarInscricaoTeste = async (
   tenantId: string,
   eventoId: string,
-  usuario: usuariosModel
+  usuario: { nome: string; email: string }
 ) => {
   return await prisma.inscricoes.create({
     data: {

@@ -55,11 +55,22 @@ pnpm install
 ```
 
 ### Configurar Variáveis de Ambiente
-Backend: crie .env 
+Backend: crie .env com base em:
 ```bash
-DATABASE_URL="mysql://root:root@localhost:3306/confirmai_db"
-PORT=3333
+PORT=4000
+NODE_ENV=development
+DATABASE_HOST=localhost
+DATABASE_PORT=3307
+DATABASE_USER=root
+DATABASE_PASSWORD=root
+DATABASE_NAME=confirma_ai_db
+DATABASE_URL="mysql://root:root@localhost:3307/confirma_ai_db"
 JWT_SECRET="seu_segredo_super_seguro"
+FRONTEND_URL_DEV="http://localhost:5173"
+FRONTEND_URL_PROD="https://confirma.ai"
+GLOBAL_ADMIN_NOME="Admin Global"
+GLOBAL_ADMIN_EMAIL="admin@confirma.ai"
+GLOBAL_ADMIN_SENHA="adminpassword123"
 ```
 Frontend: crie .env.local
 ```bash
@@ -68,7 +79,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3333
 ### Uso
 
 ```bash
-docker-compose up -d
+docker compose up -d
 pnpm --filter api exec prisma migrate dev
 pnpm dev
 ```

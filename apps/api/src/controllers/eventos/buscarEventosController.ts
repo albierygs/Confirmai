@@ -15,7 +15,7 @@ export async function BuscarEventos(
     const skip = (pageNumber - 1) * limitNumber;
 
     const where = {
-        tenant_id: req.tenant!.id,
+        tenantId: req.tenant!.id,
         ...(search && {
         titulo: {
             contains: String(search),
@@ -30,11 +30,11 @@ export async function BuscarEventos(
         select: {
         id: true,
         titulo: true,
-        closing_date: true,
+        closingDate: true,
         status: true,
     },
         orderBy: {
-            created_at: "desc",
+            createdAt: "desc",
     },
         skip,
         take: limitNumber,

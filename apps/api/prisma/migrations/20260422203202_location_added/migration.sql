@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `total_sold` on the `batches` table. All the data in the column will be lost.
-
-*/
--- AlterTable
-ALTER TABLE `batches` DROP COLUMN `total_sold`;
-
 -- AlterTable
 ALTER TABLE `eventos` ADD COLUMN `location` VARCHAR(191) NULL;
 
