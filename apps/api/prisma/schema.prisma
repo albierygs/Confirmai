@@ -91,6 +91,18 @@ enum ReservationStatus {
   CANCELLED // Cancelada pelo usuário
 }
 
+enum SubscriptionStatus {
+  ACTIVE // Assinatura ativa
+  PAST_DUE // Pagamento atrasado (grace period de 3 dias)
+  CANCELED // Cancelada pelo tenant
+  EXPIRED // Expirou sem renovação
+}
+
+enum PlanInterval {
+  MONTHLY
+  YEARLY
+}
+
 // Definição dos modelos
 
 model tenants {
@@ -114,6 +126,7 @@ model tenants {
   stripeAccount StripeAccount?
   orders        Order[]
   reservations  Reservation[]
+  subscriptions Subscription[]
 }
 
 model eventos {
@@ -472,4 +485,53 @@ model ReservationTicket {
   @@unique([reservationId, batchTicketId])
   @@index([batchTicketId])
   @@map("reservation_tickets")
+}
+
+model Plan {
+  id          String       @id @default(uuid())
+  name        String // "Mensal", "Anual"
+  slug        String       @unique // "mensal", "anual"
+  description String?
+  interval    PlanInterval // MONTHLY, YEARLY
+  price       Decimal      @db.Decimal(10, 2) // Preço em BRL
+  isActive    Boolean      @default(true) @map("is_active")
+
+  // Stripe Billing
+  stripePriceId   String? @unique @map("stripe_price_id")
+  stripeProductId String? @map("stripe_product_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model Subscription {
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  planId   String @map("plan_id")
+
+  status SubscriptionStatus @default(ACTIVE)
+
+  // Datas
+  startDate  DateTime  @map("start_date")
+  endDate    DateTime  @map("end_date")
+  canceledAt DateTime? @map("canceled_at")
+  cancelAtEnd Boolean  @default(false) @map("cancel_at_end") // Cancelar no final do período
+
+  // Stripe Billing
+  stripeSubscriptionId String? @unique @map("stripe_subscription_id")
+  stripeCustomerId     String? @map("stripe_customer_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant tenants @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  plan   Plan    @relation(fields: [planId], references: [id])
+
+  @@index([tenantId])
+  @@index([status])
+  @@map("subscriptions")
 }

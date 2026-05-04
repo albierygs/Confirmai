@@ -4,6 +4,13 @@ import { stripe } from "../../config/stripe.js";
 import { NaoAutorizadoException } from "../../exceptions/NaoAutorizadoException.js";
 import { NaoEncontradoException } from "../../exceptions/NaoEncontradoException.js";
 import { confirmPayment } from "./confirmPayment";
+import {
+  processInvoicePaid,
+  processInvoicePaymentFailed,
+  processSubscriptionCheckoutCompleted,
+  processSubscriptionDeleted,
+  processSubscriptionUpdated,
+} from "./handleSubscriptionWebhook";
 import { processChargeRefunded } from "./processChargeRefunded";
 import { processDisputeCreated } from "./processDisputeCreated";
 import { releaseUnpaidOrderAfterCheckoutFailure } from "./releaseUnpaidOrderAfterCheckoutFailure";
@@ -33,14 +40,22 @@ export const handleStripeWebhook = async (req: Request) => {
   console.log(`✅ Webhook recebido: ${event.type}`);
 
   switch (event.type) {
-    // --- SUCESSO ---
+    // --- SUCESSO (Ingressos) ---
     case "checkout.session.completed":
-    case "checkout.session.async_payment_succeeded":
-      await confirmPayment(event.data.object.id);
-      console.log(`💰 Pagamento confirmado: ${event.data.object.id}`);
+    case "checkout.session.async_payment_succeeded": {
+      const session = event.data.object;
+      // Verificar se é checkout de assinatura ou de ingressos
+      if (session.mode === "subscription") {
+        await processSubscriptionCheckoutCompleted(session);
+        console.log(`💳 Assinatura checkout confirmado: ${session.id}`);
+      } else {
+        await confirmPayment(session.id);
+        console.log(`💰 Pagamento confirmado: ${session.id}`);
+      }
       break;
+    }
 
-    // --- FALHA / EXPIRAÇÃO ---
+    // --- FALHA / EXPIRAÇÃO (Ingressos) ---
     case "checkout.session.async_payment_failed":
       await releaseUnpaidOrderAfterCheckoutFailure(
         event.data.object.id,
@@ -73,6 +88,27 @@ export const handleStripeWebhook = async (req: Request) => {
     case "charge.dispute.created":
       await processDisputeCreated(event.data.object);
       console.log(`⚠️ Disputa criada: ${event.data.object.id}`);
+      break;
+
+    // --- ASSINATURAS ---
+    case "invoice.paid":
+      await processInvoicePaid(event.data.object);
+      console.log(`💳 Invoice paga: ${event.data.object.id}`);
+      break;
+
+    case "invoice.payment_failed":
+      await processInvoicePaymentFailed(event.data.object);
+      console.log(`❌ Invoice falhou: ${event.data.object.id}`);
+      break;
+
+    case "customer.subscription.updated":
+      await processSubscriptionUpdated(event.data.object);
+      console.log(`🔄 Assinatura atualizada: ${event.data.object.id}`);
+      break;
+
+    case "customer.subscription.deleted":
+      await processSubscriptionDeleted(event.data.object);
+      console.log(`❌ Assinatura deletada: ${event.data.object.id}`);
       break;
 
     default:

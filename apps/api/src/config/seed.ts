@@ -133,6 +133,87 @@ const seed = async () => {
   }
 
   await seedStripePayment();
+  await seedPlans();
+};
+
+const seedPlans = async () => {
+  console.log("📋 Seeding subscription plans...");
+
+  const { stripe } = await import("./stripe");
+
+  const plans = [
+    {
+      name: "Mensal",
+      slug: "mensal",
+      description: "Plano mensal com acesso completo a todas as funcionalidades",
+      interval: "MONTHLY" as const,
+      price: new Decimal(20.0),
+      stripeInterval: "month" as const,
+    },
+    {
+      name: "Anual",
+      slug: "anual",
+      description:
+        "Plano anual com acesso completo — economia de ~37% em relação ao mensal",
+      interval: "YEARLY" as const,
+      price: new Decimal(150.0),
+      stripeInterval: "year" as const,
+    },
+  ];
+
+  for (const { stripeInterval, ...planData } of plans) {
+    // Criar/atualizar plano no banco
+    const dbPlan = await prisma.plan.upsert({
+      where: { slug: planData.slug },
+      update: {
+        name: planData.name,
+        description: planData.description,
+        interval: planData.interval,
+        price: planData.price,
+        isActive: true,
+      },
+      create: planData,
+    });
+
+    // Se já tem Stripe Price ID, pular criação no Stripe
+    if (dbPlan.stripePriceId) {
+      console.log(
+        `ℹ️ Plano "${dbPlan.name}" já vinculado ao Stripe (price: ${dbPlan.stripePriceId})`,
+      );
+      continue;
+    }
+
+    // Criar produto no Stripe
+    const stripeProduct = await stripe.products.create({
+      name: `Confirma Aí — ${planData.name}`,
+      description: planData.description ?? undefined,
+      metadata: { planSlug: planData.slug },
+    });
+
+    // Criar preço recorrente no Stripe (valor em centavos)
+    const stripePrice = await stripe.prices.create({
+      product: stripeProduct.id,
+      currency: "brl",
+      unit_amount: planData.price.mul(100).toNumber(), // R$20 → 2000 centavos
+      recurring: { interval: stripeInterval },
+      metadata: { planSlug: planData.slug },
+    });
+
+    // Atualizar plano no banco com os IDs do Stripe
+    await prisma.plan.update({
+      where: { id: dbPlan.id },
+      data: {
+        stripeProductId: stripeProduct.id,
+        stripePriceId: stripePrice.id,
+      },
+    });
+
+    console.log(
+      `✅ Plano "${planData.name}" criado no Stripe (product: ${stripeProduct.id}, price: ${stripePrice.id})`,
+    );
+  }
+
+  console.log(`✅ ${plans.length} planos de assinatura processados`);
 };
 
 const seedStripePayment = async () => {
