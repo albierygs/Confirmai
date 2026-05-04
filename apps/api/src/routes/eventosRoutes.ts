@@ -16,7 +16,6 @@ import {
   encerrarEvento,
   listarBatches,
   listarBatchTickets,
-  listarEventos,
   listarTicketTypes,
 } from "../controllers/eventos";
 import {

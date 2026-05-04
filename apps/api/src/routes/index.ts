@@ -9,6 +9,7 @@ import assinaturasRoutes from "./assinaturasRoutes";
 import cartRoutes from "./cartRoutes";
 import checkoutRoutes from "./checkoutRoutes";
 import eventosRoutes from "./eventosRoutes";
+import inscricoesRoutes from "./inscricoesRoutes";
 import paymentMethodsRoutes from "./paymentMethodRoutes";
 import tenantsRoutes from "./tenantsRoutes";
 import ticketsRoutes from "./ticketsRoutes";
@@ -39,6 +40,7 @@ routes.use("/:tenantSlug", verificarAssinaturaMiddleware);
 
 // Rotas protegidas por assinatura
 routes.use("/:tenantSlug/eventos", eventosRoutes);
+routes.use("/:tenantSlug/inscricoes", inscricoesRoutes);
 routes.use("/:tenantSlug/cart", cartRoutes);
 routes.use("/:tenantSlug/tickets", ticketsRoutes);
 routes.use("/:tenantSlug/payment-methods", paymentMethodsRoutes);

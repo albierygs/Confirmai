@@ -269,6 +269,23 @@ model PaymentProvider {
   @@map("payment_providers")
 }
 
+model inscricoes {
+  id        String          @id @default(uuid())
+  tenantId  String          @map("tenant_id")
+  eventoId  String          @map("evento_id")
+  nome      String
+  email     String
+  curso     String?
+  status    InscricaoStatus @default(pendente)
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+  qr_hash   String?         @unique
+  qr_code   String?         @db.LongText
+  email_status String?      @default("pendente") // pendente | enviado | falhou
+  checkin_realizado Boolean @default(false)
+  checkin_data      DateTime?
+}
+
 model PaymentMethod {
   id         String @id @default(uuid())
   providerId String

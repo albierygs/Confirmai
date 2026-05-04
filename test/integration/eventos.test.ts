@@ -1,7 +1,6 @@
 import request from "supertest";
-import { eventosModel, usuariosModel } from "../../generated/prisma/models";
-import app from "../../src/app"; // Importa o app Express
-import { prisma } from "../../src/config/database";
+import app from "../../apps/api/src/app"; // Importa o app Express
+import { prisma } from "../../apps/api/src/config/database";
 import {
   criarEventoTeste,
   criarTenantTeste,
@@ -14,7 +13,12 @@ import {
 describe("Rotas de Eventos (Integração)", () => {
   let tenantId: string;
   let tenantSlug: string;
-  let userTeste: usuariosModel;
+  let userTeste: {
+    id: string;
+    email: string;
+    nome: string;
+    cargo: "admin" | "membro" | "global_admin";
+  };
   let userToken: string;
 
   beforeAll(async () => {
@@ -23,6 +27,17 @@ describe("Rotas de Eventos (Integração)", () => {
     const tenant = await criarTenantTeste();
     tenantId = tenant.id;
     tenantSlug = tenant.slug;
+
+    await prisma.stripeAccount.create({
+      data: {
+        tenantId,
+        accountId: `acct_test_${tenantSlug}`,
+        accountStatus: "ENABLED",
+        chargesEnabled: true,
+        payoutsEnabled: true,
+        detailsSubmitted: true,
+      },
+    });
 
     // Criar um usuário admin para testes
     userTeste = await criarUsuarioTeste(tenantId, {
@@ -49,14 +64,14 @@ describe("Rotas de Eventos (Integração)", () => {
       const payload = {
         titulo: "Workshop de Jest",
         descricao: "Aprendendo testes de integração",
+        startDate: new Date().toISOString().split("T")[0],
         closingDate: new Date(Date.now() + 86400000)
           .toISOString()
-          .split("T")[0], // Amanhã
-        limiteVagas: 50,
+          .split("T")[0],
       };
 
       const response = await request(app)
-        .post("/api/eventos")
+        .post(`/api/${tenantSlug}/eventos`)
         .set("authorization", `Bearer ${userToken}`)
         // Simula o subdomínio para o middleware identificarTenantMiddleware
         .set("Host", `${tenantSlug}.lvh.me`)
@@ -70,7 +85,7 @@ describe("Rotas de Eventos (Integração)", () => {
       expect(response.body.evento).toMatchObject({
         titulo: payload.titulo,
         tenantId: tenantId,
-        status: "rascunho", // Valor default definido no Prisma Schema
+        status: "ativo",
       });
     });
 
@@ -81,7 +96,7 @@ describe("Rotas de Eventos (Integração)", () => {
       };
 
       const response = await request(app)
-        .post("/api/eventos")
+        .post(`/api/${tenantSlug}/eventos`)
         .set("Authorization", `Bearer ${userToken}`)
         .set("Host", `${tenantSlug}.lvh.me`)
         .send(payloadInvalido);
@@ -105,18 +120,19 @@ describe("Rotas de Eventos (Integração)", () => {
       });
 
       const response = await request(app)
-        .get("/api/eventos")
+        .get(`/api/${tenantSlug}/eventos`)
+        .set("authorization", `Bearer ${userToken}`)
         .set("Host", `${tenantSlug}.lvh.me`);
 
       expect(response.status).toBe(200);
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body.length).toBe(1);
-      expect(response.body[0]).toHaveProperty("titulo", "Evento Ativo");
+      expect(Array.isArray(response.body.data)).toBe(true);
+      expect(response.body.data.length).toBe(1);
+      expect(response.body.data[0]).toHaveProperty("titulo", "Evento Ativo");
     });
   });
 
   describe("Operações em Evento Específico", () => {
-    let evento: eventosModel;
+    let evento: { id: string; titulo: string; status: string };
 
     beforeEach(async () => {
       await prisma.eventos.deleteMany({ where: { tenantId } });
@@ -129,7 +145,7 @@ describe("Rotas de Eventos (Integração)", () => {
 
     it("GET /eventos/:id - Deve retornar detalhes do evento", async () => {
       const response = await request(app)
-        .get(`/api/eventos/${evento.id}`)
+        .get(`/api/${tenantSlug}/eventos/${evento.id}`)
         .set("Authorization", `Bearer ${userToken}`)
         .set("Host", `${tenantSlug}.lvh.me`);
 
@@ -144,7 +160,7 @@ describe("Rotas de Eventos (Integração)", () => {
       };
 
       const response = await request(app)
-        .put(`/api/eventos/${evento.id}`)
+        .put(`/api/${tenantSlug}/eventos/${evento.id}`)
         .set("Authorization", `Bearer ${userToken}`)
         .set("Host", `${tenantSlug}.lvh.me`)
         .send(payload);
@@ -158,7 +174,7 @@ describe("Rotas de Eventos (Integração)", () => {
 
     it("DELETE /eventos/:id - Deve deletar o evento", async () => {
       const response = await request(app)
-        .delete(`/api/eventos/${evento.id}`)
+        .delete(`/api/${tenantSlug}/eventos/${evento.id}`)
         .set("Authorization", `Bearer ${userToken}`)
         .set("Host", `${tenantSlug}.lvh.me`);
 
@@ -168,7 +184,7 @@ describe("Rotas de Eventos (Integração)", () => {
       const deleted = await prisma.eventos.findUnique({
         where: { id: evento.id },
       });
-      expect(deleted).toHaveProperty("status", "encerrado");
+      expect(deleted).toBeNull();
     });
   });
 });

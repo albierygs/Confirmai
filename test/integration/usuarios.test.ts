@@ -1,7 +1,6 @@
 import request from "supertest";
-import { usuariosModel } from "../../generated/prisma/models";
-import app from "../../src/app";
-import { prisma } from "../../src/config/database";
+import app from "../../apps/api/src/app";
+import { prisma } from "../../apps/api/src/config/database";
 import {
   criarTenantTeste,
   criarUsuarioTeste,
@@ -13,7 +12,12 @@ describe("Rotas de Usuários (Integração)", () => {
   let tenantId: string;
   let tenantSlug: string;
   let userToken: string;
-  let userTeste: usuariosModel;
+  let userTeste: {
+    id: string;
+    email: string;
+    nome: string;
+    cargo: "admin" | "membro" | "global_admin";
+  };
 
   beforeAll(async () => {
     await limparBancoTeste();
@@ -47,6 +51,7 @@ describe("Rotas de Usuários (Integração)", () => {
         email: "novo@teste.com",
         senha: "senha-segura",
         cargo: "admin",
+        tenantId,
       };
 
       const response = await request(app)
@@ -69,6 +74,7 @@ describe("Rotas de Usuários (Integração)", () => {
         email: "admin@teste.com", // Já existe
         senha: "senha123",
         cargo: "membro",
+        tenantId,
       };
 
       const response = await request(app)
@@ -86,6 +92,7 @@ describe("Rotas de Usuários (Integração)", () => {
       const payload = {
         email: "admin@teste.com",
         senha: "senha-teste",
+        tenantId,
       };
 
       const response = await request(app)
@@ -102,6 +109,7 @@ describe("Rotas de Usuários (Integração)", () => {
       const payload = {
         email: "admin@teste.com",
         senha: "senha-errada",
+        tenantId,
       };
 
       const response = await request(app)

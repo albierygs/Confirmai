@@ -1,6 +1,9 @@
-import { createDefaultPreset } from "ts-jest";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const tsJestTransformCfg = createDefaultPreset().transform;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const apiTsconfigPath = path.resolve(__dirname, "test/tsconfig.json");
 
 /** @type {import("jest").Config} **/
 export default {
@@ -8,6 +11,7 @@ export default {
   testEnvironment: "node",
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^@scalar/express-api-reference$": "<rootDir>/test/mocks/scalar-express-api-reference.ts",
   },
   transform: {
     // Configura o ts-jest para usar ESM
@@ -15,6 +19,7 @@ export default {
       "ts-jest",
       {
         useESM: true,
+        tsconfig: apiTsconfigPath,
       },
     ],
   },
