@@ -49,6 +49,11 @@ export type Ticket = $Result.DefaultSelection<Prisma.$TicketPayload>
  */
 export type usuarios = $Result.DefaultSelection<Prisma.$usuariosPayload>
 /**
+ * Model inscricoes
+ * 
+ */
+export type inscricoes = $Result.DefaultSelection<Prisma.$inscricoesPayload>
+/**
  * Model GlobalPaymentConfig
  * 
  */
@@ -238,7 +243,9 @@ export const ReservationStatus: typeof $Enums.ReservationStatus
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Tenants
  * const tenants = await prisma.tenants.findMany()
  * ```
@@ -259,7 +266,9 @@ export class PrismaClient<
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Tenants
    * const tenants = await prisma.tenants.findMany()
    * ```
@@ -341,7 +350,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
@@ -418,6 +427,16 @@ export class PrismaClient<
     * ```
     */
   get usuarios(): Prisma.usuariosDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inscricoes`: Exposes CRUD operations for the **inscricoes** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Inscricoes
+    * const inscricoes = await prisma.inscricoes.findMany()
+    * ```
+    */
+  get inscricoes(): Prisma.inscricoesDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.globalPaymentConfig`: Exposes CRUD operations for the **GlobalPaymentConfig** model.
@@ -518,8 +537,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.4.1
-   * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
+   * Prisma Client JS version: 7.8.0
+   * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
    */
   export type PrismaVersion = {
     client: string
@@ -909,6 +928,7 @@ export namespace Prisma {
     BatchTicket: 'BatchTicket',
     Ticket: 'Ticket',
     usuarios: 'usuarios',
+    inscricoes: 'inscricoes',
     GlobalPaymentConfig: 'GlobalPaymentConfig',
     StripeAccount: 'StripeAccount',
     Order: 'Order',
@@ -929,7 +949,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "tenants" | "eventos" | "batch" | "ticketType" | "batchTicket" | "ticket" | "usuarios" | "globalPaymentConfig" | "stripeAccount" | "order" | "orderItem" | "reservation"
+      modelProps: "tenants" | "eventos" | "batch" | "ticketType" | "batchTicket" | "ticket" | "usuarios" | "inscricoes" | "globalPaymentConfig" | "stripeAccount" | "order" | "orderItem" | "reservation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1395,6 +1415,72 @@ export namespace Prisma {
           }
         }
       }
+      inscricoes: {
+        payload: Prisma.$inscricoesPayload<ExtArgs>
+        fields: Prisma.inscricoesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.inscricoesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.inscricoesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload>
+          }
+          findFirst: {
+            args: Prisma.inscricoesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.inscricoesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload>
+          }
+          findMany: {
+            args: Prisma.inscricoesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload>[]
+          }
+          create: {
+            args: Prisma.inscricoesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload>
+          }
+          createMany: {
+            args: Prisma.inscricoesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.inscricoesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload>
+          }
+          update: {
+            args: Prisma.inscricoesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload>
+          }
+          deleteMany: {
+            args: Prisma.inscricoesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.inscricoesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.inscricoesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$inscricoesPayload>
+          }
+          aggregate: {
+            args: Prisma.InscricoesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInscricoes>
+          }
+          groupBy: {
+            args: Prisma.inscricoesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InscricoesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.inscricoesCountArgs<ExtArgs>
+            result: $Utils.Optional<InscricoesCountAggregateOutputType> | number
+          }
+        }
+      }
       GlobalPaymentConfig: {
         payload: Prisma.$GlobalPaymentConfigPayload<ExtArgs>
         fields: Prisma.GlobalPaymentConfigFieldRefs
@@ -1840,6 +1926,7 @@ export namespace Prisma {
     batchTicket?: BatchTicketOmit
     ticket?: TicketOmit
     usuarios?: usuariosOmit
+    inscricoes?: inscricoesOmit
     globalPaymentConfig?: GlobalPaymentConfigOmit
     stripeAccount?: StripeAccountOmit
     order?: OrderOmit
@@ -3057,6 +3144,11 @@ export namespace Prisma {
      * Skip the first `n` tenants.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of tenants.
+     */
     distinct?: TenantsScalarFieldEnum | TenantsScalarFieldEnum[]
   }
 
@@ -4146,6 +4238,11 @@ export namespace Prisma {
      * Skip the first `n` eventos.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of eventos.
+     */
     distinct?: EventosScalarFieldEnum | EventosScalarFieldEnum[]
   }
 
@@ -4396,12 +4493,10 @@ export namespace Prisma {
   }
 
   export type BatchAvgAggregateOutputType = {
-    totalSold: number | null
     order: number | null
   }
 
   export type BatchSumAggregateOutputType = {
-    totalSold: number | null
     order: number | null
   }
 
@@ -4413,7 +4508,6 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     isActive: boolean | null
-    totalSold: number | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4427,7 +4521,6 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     isActive: boolean | null
-    totalSold: number | null
     order: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -4441,7 +4534,6 @@ export namespace Prisma {
     startDate: number
     endDate: number
     isActive: number
-    totalSold: number
     order: number
     createdAt: number
     updatedAt: number
@@ -4450,12 +4542,10 @@ export namespace Prisma {
 
 
   export type BatchAvgAggregateInputType = {
-    totalSold?: true
     order?: true
   }
 
   export type BatchSumAggregateInputType = {
-    totalSold?: true
     order?: true
   }
 
@@ -4467,7 +4557,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isActive?: true
-    totalSold?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -4481,7 +4570,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isActive?: true
-    totalSold?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -4495,7 +4583,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     isActive?: true
-    totalSold?: true
     order?: true
     createdAt?: true
     updatedAt?: true
@@ -4596,7 +4683,6 @@ export namespace Prisma {
     startDate: Date
     endDate: Date
     isActive: boolean
-    totalSold: number
     order: number
     createdAt: Date
     updatedAt: Date
@@ -4629,7 +4715,6 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isActive?: boolean
-    totalSold?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -4648,13 +4733,12 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     isActive?: boolean
-    totalSold?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "name" | "description" | "startDate" | "endDate" | "isActive" | "totalSold" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["batch"]>
+  export type BatchOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "name" | "description" | "startDate" | "endDate" | "isActive" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["batch"]>
   export type BatchInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | eventosDefaultArgs<ExtArgs>
     batchTickets?: boolean | Batch$batchTicketsArgs<ExtArgs>
@@ -4675,7 +4759,6 @@ export namespace Prisma {
       startDate: Date
       endDate: Date
       isActive: boolean
-      totalSold: number
       order: number
       createdAt: Date
       updatedAt: Date
@@ -5057,7 +5140,6 @@ export namespace Prisma {
     readonly startDate: FieldRef<"Batch", 'DateTime'>
     readonly endDate: FieldRef<"Batch", 'DateTime'>
     readonly isActive: FieldRef<"Batch", 'Boolean'>
-    readonly totalSold: FieldRef<"Batch", 'Int'>
     readonly order: FieldRef<"Batch", 'Int'>
     readonly createdAt: FieldRef<"Batch", 'DateTime'>
     readonly updatedAt: FieldRef<"Batch", 'DateTime'>
@@ -5257,6 +5339,11 @@ export namespace Prisma {
      * Skip the first `n` Batches.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Batches.
+     */
     distinct?: BatchScalarFieldEnum | BatchScalarFieldEnum[]
   }
 
@@ -6212,6 +6299,11 @@ export namespace Prisma {
      * Skip the first `n` TicketTypes.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TicketTypes.
+     */
     distinct?: TicketTypeScalarFieldEnum | TicketTypeScalarFieldEnum[]
   }
 
@@ -7284,6 +7376,11 @@ export namespace Prisma {
      * Skip the first `n` BatchTickets.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BatchTickets.
+     */
     distinct?: BatchTicketScalarFieldEnum | BatchTicketScalarFieldEnum[]
   }
 
@@ -8430,6 +8527,11 @@ export namespace Prisma {
      * Skip the first `n` Tickets.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tickets.
+     */
     distinct?: TicketScalarFieldEnum | TicketScalarFieldEnum[]
   }
 
@@ -9421,6 +9523,11 @@ export namespace Prisma {
      * Skip the first `n` usuarios.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of usuarios.
+     */
     distinct?: UsuariosScalarFieldEnum | UsuariosScalarFieldEnum[]
   }
 
@@ -9650,6 +9757,992 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: usuariosInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model inscricoes
+   */
+
+  export type AggregateInscricoes = {
+    _count: InscricoesCountAggregateOutputType | null
+    _min: InscricoesMinAggregateOutputType | null
+    _max: InscricoesMaxAggregateOutputType | null
+  }
+
+  export type InscricoesMinAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    eventoId: string | null
+    nome: string | null
+    email: string | null
+    curso: string | null
+    status: $Enums.InscricaoStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    qr_hash: string | null
+    qr_code: string | null
+    email_status: string | null
+    checkin_realizado: boolean | null
+    checkin_data: Date | null
+  }
+
+  export type InscricoesMaxAggregateOutputType = {
+    id: string | null
+    tenantId: string | null
+    eventoId: string | null
+    nome: string | null
+    email: string | null
+    curso: string | null
+    status: $Enums.InscricaoStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    qr_hash: string | null
+    qr_code: string | null
+    email_status: string | null
+    checkin_realizado: boolean | null
+    checkin_data: Date | null
+  }
+
+  export type InscricoesCountAggregateOutputType = {
+    id: number
+    tenantId: number
+    eventoId: number
+    nome: number
+    email: number
+    curso: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    qr_hash: number
+    qr_code: number
+    email_status: number
+    checkin_realizado: number
+    checkin_data: number
+    _all: number
+  }
+
+
+  export type InscricoesMinAggregateInputType = {
+    id?: true
+    tenantId?: true
+    eventoId?: true
+    nome?: true
+    email?: true
+    curso?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    qr_hash?: true
+    qr_code?: true
+    email_status?: true
+    checkin_realizado?: true
+    checkin_data?: true
+  }
+
+  export type InscricoesMaxAggregateInputType = {
+    id?: true
+    tenantId?: true
+    eventoId?: true
+    nome?: true
+    email?: true
+    curso?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    qr_hash?: true
+    qr_code?: true
+    email_status?: true
+    checkin_realizado?: true
+    checkin_data?: true
+  }
+
+  export type InscricoesCountAggregateInputType = {
+    id?: true
+    tenantId?: true
+    eventoId?: true
+    nome?: true
+    email?: true
+    curso?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    qr_hash?: true
+    qr_code?: true
+    email_status?: true
+    checkin_realizado?: true
+    checkin_data?: true
+    _all?: true
+  }
+
+  export type InscricoesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which inscricoes to aggregate.
+     */
+    where?: inscricoesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of inscricoes to fetch.
+     */
+    orderBy?: inscricoesOrderByWithRelationInput | inscricoesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: inscricoesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` inscricoes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` inscricoes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned inscricoes
+    **/
+    _count?: true | InscricoesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InscricoesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InscricoesMaxAggregateInputType
+  }
+
+  export type GetInscricoesAggregateType<T extends InscricoesAggregateArgs> = {
+        [P in keyof T & keyof AggregateInscricoes]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInscricoes[P]>
+      : GetScalarType<T[P], AggregateInscricoes[P]>
+  }
+
+
+
+
+  export type inscricoesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: inscricoesWhereInput
+    orderBy?: inscricoesOrderByWithAggregationInput | inscricoesOrderByWithAggregationInput[]
+    by: InscricoesScalarFieldEnum[] | InscricoesScalarFieldEnum
+    having?: inscricoesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InscricoesCountAggregateInputType | true
+    _min?: InscricoesMinAggregateInputType
+    _max?: InscricoesMaxAggregateInputType
+  }
+
+  export type InscricoesGroupByOutputType = {
+    id: string
+    tenantId: string
+    eventoId: string
+    nome: string
+    email: string
+    curso: string | null
+    status: $Enums.InscricaoStatus
+    createdAt: Date
+    updatedAt: Date
+    qr_hash: string | null
+    qr_code: string | null
+    email_status: string | null
+    checkin_realizado: boolean
+    checkin_data: Date | null
+    _count: InscricoesCountAggregateOutputType | null
+    _min: InscricoesMinAggregateOutputType | null
+    _max: InscricoesMaxAggregateOutputType | null
+  }
+
+  type GetInscricoesGroupByPayload<T extends inscricoesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InscricoesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InscricoesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InscricoesGroupByOutputType[P]>
+            : GetScalarType<T[P], InscricoesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type inscricoesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    tenantId?: boolean
+    eventoId?: boolean
+    nome?: boolean
+    email?: boolean
+    curso?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    qr_hash?: boolean
+    qr_code?: boolean
+    email_status?: boolean
+    checkin_realizado?: boolean
+    checkin_data?: boolean
+  }, ExtArgs["result"]["inscricoes"]>
+
+
+
+  export type inscricoesSelectScalar = {
+    id?: boolean
+    tenantId?: boolean
+    eventoId?: boolean
+    nome?: boolean
+    email?: boolean
+    curso?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    qr_hash?: boolean
+    qr_code?: boolean
+    email_status?: boolean
+    checkin_realizado?: boolean
+    checkin_data?: boolean
+  }
+
+  export type inscricoesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tenantId" | "eventoId" | "nome" | "email" | "curso" | "status" | "createdAt" | "updatedAt" | "qr_hash" | "qr_code" | "email_status" | "checkin_realizado" | "checkin_data", ExtArgs["result"]["inscricoes"]>
+
+  export type $inscricoesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "inscricoes"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      tenantId: string
+      eventoId: string
+      nome: string
+      email: string
+      curso: string | null
+      status: $Enums.InscricaoStatus
+      createdAt: Date
+      updatedAt: Date
+      qr_hash: string | null
+      qr_code: string | null
+      email_status: string | null
+      checkin_realizado: boolean
+      checkin_data: Date | null
+    }, ExtArgs["result"]["inscricoes"]>
+    composites: {}
+  }
+
+  type inscricoesGetPayload<S extends boolean | null | undefined | inscricoesDefaultArgs> = $Result.GetResult<Prisma.$inscricoesPayload, S>
+
+  type inscricoesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<inscricoesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InscricoesCountAggregateInputType | true
+    }
+
+  export interface inscricoesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['inscricoes'], meta: { name: 'inscricoes' } }
+    /**
+     * Find zero or one Inscricoes that matches the filter.
+     * @param {inscricoesFindUniqueArgs} args - Arguments to find a Inscricoes
+     * @example
+     * // Get one Inscricoes
+     * const inscricoes = await prisma.inscricoes.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends inscricoesFindUniqueArgs>(args: SelectSubset<T, inscricoesFindUniqueArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Inscricoes that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {inscricoesFindUniqueOrThrowArgs} args - Arguments to find a Inscricoes
+     * @example
+     * // Get one Inscricoes
+     * const inscricoes = await prisma.inscricoes.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends inscricoesFindUniqueOrThrowArgs>(args: SelectSubset<T, inscricoesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Inscricoes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {inscricoesFindFirstArgs} args - Arguments to find a Inscricoes
+     * @example
+     * // Get one Inscricoes
+     * const inscricoes = await prisma.inscricoes.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends inscricoesFindFirstArgs>(args?: SelectSubset<T, inscricoesFindFirstArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Inscricoes that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {inscricoesFindFirstOrThrowArgs} args - Arguments to find a Inscricoes
+     * @example
+     * // Get one Inscricoes
+     * const inscricoes = await prisma.inscricoes.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends inscricoesFindFirstOrThrowArgs>(args?: SelectSubset<T, inscricoesFindFirstOrThrowArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Inscricoes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {inscricoesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Inscricoes
+     * const inscricoes = await prisma.inscricoes.findMany()
+     * 
+     * // Get first 10 Inscricoes
+     * const inscricoes = await prisma.inscricoes.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inscricoesWithIdOnly = await prisma.inscricoes.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends inscricoesFindManyArgs>(args?: SelectSubset<T, inscricoesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Inscricoes.
+     * @param {inscricoesCreateArgs} args - Arguments to create a Inscricoes.
+     * @example
+     * // Create one Inscricoes
+     * const Inscricoes = await prisma.inscricoes.create({
+     *   data: {
+     *     // ... data to create a Inscricoes
+     *   }
+     * })
+     * 
+     */
+    create<T extends inscricoesCreateArgs>(args: SelectSubset<T, inscricoesCreateArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Inscricoes.
+     * @param {inscricoesCreateManyArgs} args - Arguments to create many Inscricoes.
+     * @example
+     * // Create many Inscricoes
+     * const inscricoes = await prisma.inscricoes.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends inscricoesCreateManyArgs>(args?: SelectSubset<T, inscricoesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Inscricoes.
+     * @param {inscricoesDeleteArgs} args - Arguments to delete one Inscricoes.
+     * @example
+     * // Delete one Inscricoes
+     * const Inscricoes = await prisma.inscricoes.delete({
+     *   where: {
+     *     // ... filter to delete one Inscricoes
+     *   }
+     * })
+     * 
+     */
+    delete<T extends inscricoesDeleteArgs>(args: SelectSubset<T, inscricoesDeleteArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Inscricoes.
+     * @param {inscricoesUpdateArgs} args - Arguments to update one Inscricoes.
+     * @example
+     * // Update one Inscricoes
+     * const inscricoes = await prisma.inscricoes.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends inscricoesUpdateArgs>(args: SelectSubset<T, inscricoesUpdateArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Inscricoes.
+     * @param {inscricoesDeleteManyArgs} args - Arguments to filter Inscricoes to delete.
+     * @example
+     * // Delete a few Inscricoes
+     * const { count } = await prisma.inscricoes.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends inscricoesDeleteManyArgs>(args?: SelectSubset<T, inscricoesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Inscricoes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {inscricoesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Inscricoes
+     * const inscricoes = await prisma.inscricoes.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends inscricoesUpdateManyArgs>(args: SelectSubset<T, inscricoesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Inscricoes.
+     * @param {inscricoesUpsertArgs} args - Arguments to update or create a Inscricoes.
+     * @example
+     * // Update or create a Inscricoes
+     * const inscricoes = await prisma.inscricoes.upsert({
+     *   create: {
+     *     // ... data to create a Inscricoes
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Inscricoes we want to update
+     *   }
+     * })
+     */
+    upsert<T extends inscricoesUpsertArgs>(args: SelectSubset<T, inscricoesUpsertArgs<ExtArgs>>): Prisma__inscricoesClient<$Result.GetResult<Prisma.$inscricoesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Inscricoes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {inscricoesCountArgs} args - Arguments to filter Inscricoes to count.
+     * @example
+     * // Count the number of Inscricoes
+     * const count = await prisma.inscricoes.count({
+     *   where: {
+     *     // ... the filter for the Inscricoes we want to count
+     *   }
+     * })
+    **/
+    count<T extends inscricoesCountArgs>(
+      args?: Subset<T, inscricoesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InscricoesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Inscricoes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InscricoesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InscricoesAggregateArgs>(args: Subset<T, InscricoesAggregateArgs>): Prisma.PrismaPromise<GetInscricoesAggregateType<T>>
+
+    /**
+     * Group by Inscricoes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {inscricoesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends inscricoesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: inscricoesGroupByArgs['orderBy'] }
+        : { orderBy?: inscricoesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, inscricoesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInscricoesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the inscricoes model
+   */
+  readonly fields: inscricoesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for inscricoes.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__inscricoesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the inscricoes model
+   */
+  interface inscricoesFieldRefs {
+    readonly id: FieldRef<"inscricoes", 'String'>
+    readonly tenantId: FieldRef<"inscricoes", 'String'>
+    readonly eventoId: FieldRef<"inscricoes", 'String'>
+    readonly nome: FieldRef<"inscricoes", 'String'>
+    readonly email: FieldRef<"inscricoes", 'String'>
+    readonly curso: FieldRef<"inscricoes", 'String'>
+    readonly status: FieldRef<"inscricoes", 'InscricaoStatus'>
+    readonly createdAt: FieldRef<"inscricoes", 'DateTime'>
+    readonly updatedAt: FieldRef<"inscricoes", 'DateTime'>
+    readonly qr_hash: FieldRef<"inscricoes", 'String'>
+    readonly qr_code: FieldRef<"inscricoes", 'String'>
+    readonly email_status: FieldRef<"inscricoes", 'String'>
+    readonly checkin_realizado: FieldRef<"inscricoes", 'Boolean'>
+    readonly checkin_data: FieldRef<"inscricoes", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * inscricoes findUnique
+   */
+  export type inscricoesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * Filter, which inscricoes to fetch.
+     */
+    where: inscricoesWhereUniqueInput
+  }
+
+  /**
+   * inscricoes findUniqueOrThrow
+   */
+  export type inscricoesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * Filter, which inscricoes to fetch.
+     */
+    where: inscricoesWhereUniqueInput
+  }
+
+  /**
+   * inscricoes findFirst
+   */
+  export type inscricoesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * Filter, which inscricoes to fetch.
+     */
+    where?: inscricoesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of inscricoes to fetch.
+     */
+    orderBy?: inscricoesOrderByWithRelationInput | inscricoesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for inscricoes.
+     */
+    cursor?: inscricoesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` inscricoes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` inscricoes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of inscricoes.
+     */
+    distinct?: InscricoesScalarFieldEnum | InscricoesScalarFieldEnum[]
+  }
+
+  /**
+   * inscricoes findFirstOrThrow
+   */
+  export type inscricoesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * Filter, which inscricoes to fetch.
+     */
+    where?: inscricoesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of inscricoes to fetch.
+     */
+    orderBy?: inscricoesOrderByWithRelationInput | inscricoesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for inscricoes.
+     */
+    cursor?: inscricoesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` inscricoes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` inscricoes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of inscricoes.
+     */
+    distinct?: InscricoesScalarFieldEnum | InscricoesScalarFieldEnum[]
+  }
+
+  /**
+   * inscricoes findMany
+   */
+  export type inscricoesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * Filter, which inscricoes to fetch.
+     */
+    where?: inscricoesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of inscricoes to fetch.
+     */
+    orderBy?: inscricoesOrderByWithRelationInput | inscricoesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing inscricoes.
+     */
+    cursor?: inscricoesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` inscricoes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` inscricoes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of inscricoes.
+     */
+    distinct?: InscricoesScalarFieldEnum | InscricoesScalarFieldEnum[]
+  }
+
+  /**
+   * inscricoes create
+   */
+  export type inscricoesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * The data needed to create a inscricoes.
+     */
+    data: XOR<inscricoesCreateInput, inscricoesUncheckedCreateInput>
+  }
+
+  /**
+   * inscricoes createMany
+   */
+  export type inscricoesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many inscricoes.
+     */
+    data: inscricoesCreateManyInput | inscricoesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * inscricoes update
+   */
+  export type inscricoesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * The data needed to update a inscricoes.
+     */
+    data: XOR<inscricoesUpdateInput, inscricoesUncheckedUpdateInput>
+    /**
+     * Choose, which inscricoes to update.
+     */
+    where: inscricoesWhereUniqueInput
+  }
+
+  /**
+   * inscricoes updateMany
+   */
+  export type inscricoesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update inscricoes.
+     */
+    data: XOR<inscricoesUpdateManyMutationInput, inscricoesUncheckedUpdateManyInput>
+    /**
+     * Filter which inscricoes to update
+     */
+    where?: inscricoesWhereInput
+    /**
+     * Limit how many inscricoes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * inscricoes upsert
+   */
+  export type inscricoesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * The filter to search for the inscricoes to update in case it exists.
+     */
+    where: inscricoesWhereUniqueInput
+    /**
+     * In case the inscricoes found by the `where` argument doesn't exist, create a new inscricoes with this data.
+     */
+    create: XOR<inscricoesCreateInput, inscricoesUncheckedCreateInput>
+    /**
+     * In case the inscricoes was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<inscricoesUpdateInput, inscricoesUncheckedUpdateInput>
+  }
+
+  /**
+   * inscricoes delete
+   */
+  export type inscricoesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
+    /**
+     * Filter which inscricoes to delete.
+     */
+    where: inscricoesWhereUniqueInput
+  }
+
+  /**
+   * inscricoes deleteMany
+   */
+  export type inscricoesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which inscricoes to delete
+     */
+    where?: inscricoesWhereInput
+    /**
+     * Limit how many inscricoes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * inscricoes without action
+   */
+  export type inscricoesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the inscricoes
+     */
+    select?: inscricoesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the inscricoes
+     */
+    omit?: inscricoesOmit<ExtArgs> | null
   }
 
 
@@ -10584,6 +11677,11 @@ export namespace Prisma {
      * Skip the first `n` GlobalPaymentConfigs.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GlobalPaymentConfigs.
+     */
     distinct?: GlobalPaymentConfigScalarFieldEnum | GlobalPaymentConfigScalarFieldEnum[]
   }
 
@@ -11628,6 +12726,11 @@ export namespace Prisma {
      * Skip the first `n` StripeAccounts.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StripeAccounts.
+     */
     distinct?: StripeAccountScalarFieldEnum | StripeAccountScalarFieldEnum[]
   }
 
@@ -12867,6 +13970,11 @@ export namespace Prisma {
      * Skip the first `n` Orders.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Orders.
+     */
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
@@ -13945,6 +15053,11 @@ export namespace Prisma {
      * Skip the first `n` OrderItems.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrderItems.
+     */
     distinct?: OrderItemScalarFieldEnum | OrderItemScalarFieldEnum[]
   }
 
@@ -14963,6 +16076,11 @@ export namespace Prisma {
      * Skip the first `n` Reservations.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reservations.
+     */
     distinct?: ReservationScalarFieldEnum | ReservationScalarFieldEnum[]
   }
 
@@ -15183,7 +16301,6 @@ export namespace Prisma {
     startDate: 'startDate',
     endDate: 'endDate',
     isActive: 'isActive',
-    totalSold: 'totalSold',
     order: 'order',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -15251,6 +16368,26 @@ export namespace Prisma {
   };
 
   export type UsuariosScalarFieldEnum = (typeof UsuariosScalarFieldEnum)[keyof typeof UsuariosScalarFieldEnum]
+
+
+  export const InscricoesScalarFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    eventoId: 'eventoId',
+    nome: 'nome',
+    email: 'email',
+    curso: 'curso',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    qr_hash: 'qr_hash',
+    qr_code: 'qr_code',
+    email_status: 'email_status',
+    checkin_realizado: 'checkin_realizado',
+    checkin_data: 'checkin_data'
+  };
+
+  export type InscricoesScalarFieldEnum = (typeof InscricoesScalarFieldEnum)[keyof typeof InscricoesScalarFieldEnum]
 
 
   export const GlobalPaymentConfigScalarFieldEnum: {
@@ -15468,6 +16605,21 @@ export namespace Prisma {
   export type usuariosOrderByRelevanceFieldEnum = (typeof usuariosOrderByRelevanceFieldEnum)[keyof typeof usuariosOrderByRelevanceFieldEnum]
 
 
+  export const inscricoesOrderByRelevanceFieldEnum: {
+    id: 'id',
+    tenantId: 'tenantId',
+    eventoId: 'eventoId',
+    nome: 'nome',
+    email: 'email',
+    curso: 'curso',
+    qr_hash: 'qr_hash',
+    qr_code: 'qr_code',
+    email_status: 'email_status'
+  };
+
+  export type inscricoesOrderByRelevanceFieldEnum = (typeof inscricoesOrderByRelevanceFieldEnum)[keyof typeof inscricoesOrderByRelevanceFieldEnum]
+
+
   export const GlobalPaymentConfigOrderByRelevanceFieldEnum: {
     id: 'id',
     defaultServiceFeePayerType: 'defaultServiceFeePayerType'
@@ -15611,6 +16763,13 @@ export namespace Prisma {
    * Reference to a field of type 'CargoUsuario'
    */
   export type EnumCargoUsuarioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CargoUsuario'>
+    
+
+
+  /**
+   * Reference to a field of type 'InscricaoStatus'
+   */
+  export type EnumInscricaoStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InscricaoStatus'>
     
 
 
@@ -15877,7 +17036,6 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Batch"> | Date | string
     endDate?: DateTimeFilter<"Batch"> | Date | string
     isActive?: BoolFilter<"Batch"> | boolean
-    totalSold?: IntFilter<"Batch"> | number
     order?: IntFilter<"Batch"> | number
     createdAt?: DateTimeFilter<"Batch"> | Date | string
     updatedAt?: DateTimeFilter<"Batch"> | Date | string
@@ -15893,7 +17051,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15913,7 +17070,6 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Batch"> | Date | string
     endDate?: DateTimeFilter<"Batch"> | Date | string
     isActive?: BoolFilter<"Batch"> | boolean
-    totalSold?: IntFilter<"Batch"> | number
     order?: IntFilter<"Batch"> | number
     createdAt?: DateTimeFilter<"Batch"> | Date | string
     updatedAt?: DateTimeFilter<"Batch"> | Date | string
@@ -15929,7 +17085,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -15951,7 +17106,6 @@ export namespace Prisma {
     startDate?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
     isActive?: BoolWithAggregatesFilter<"Batch"> | boolean
-    totalSold?: IntWithAggregatesFilter<"Batch"> | number
     order?: IntWithAggregatesFilter<"Batch"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Batch"> | Date | string
@@ -16297,6 +17451,104 @@ export namespace Prisma {
     cargo?: EnumCargoUsuarioWithAggregatesFilter<"usuarios"> | $Enums.CargoUsuario
     createdAt?: DateTimeWithAggregatesFilter<"usuarios"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"usuarios"> | Date | string
+  }
+
+  export type inscricoesWhereInput = {
+    AND?: inscricoesWhereInput | inscricoesWhereInput[]
+    OR?: inscricoesWhereInput[]
+    NOT?: inscricoesWhereInput | inscricoesWhereInput[]
+    id?: StringFilter<"inscricoes"> | string
+    tenantId?: StringFilter<"inscricoes"> | string
+    eventoId?: StringFilter<"inscricoes"> | string
+    nome?: StringFilter<"inscricoes"> | string
+    email?: StringFilter<"inscricoes"> | string
+    curso?: StringNullableFilter<"inscricoes"> | string | null
+    status?: EnumInscricaoStatusFilter<"inscricoes"> | $Enums.InscricaoStatus
+    createdAt?: DateTimeFilter<"inscricoes"> | Date | string
+    updatedAt?: DateTimeFilter<"inscricoes"> | Date | string
+    qr_hash?: StringNullableFilter<"inscricoes"> | string | null
+    qr_code?: StringNullableFilter<"inscricoes"> | string | null
+    email_status?: StringNullableFilter<"inscricoes"> | string | null
+    checkin_realizado?: BoolFilter<"inscricoes"> | boolean
+    checkin_data?: DateTimeNullableFilter<"inscricoes"> | Date | string | null
+  }
+
+  export type inscricoesOrderByWithRelationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    eventoId?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    curso?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    qr_hash?: SortOrderInput | SortOrder
+    qr_code?: SortOrderInput | SortOrder
+    email_status?: SortOrderInput | SortOrder
+    checkin_realizado?: SortOrder
+    checkin_data?: SortOrderInput | SortOrder
+    _relevance?: inscricoesOrderByRelevanceInput
+  }
+
+  export type inscricoesWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    qr_hash?: string
+    AND?: inscricoesWhereInput | inscricoesWhereInput[]
+    OR?: inscricoesWhereInput[]
+    NOT?: inscricoesWhereInput | inscricoesWhereInput[]
+    tenantId?: StringFilter<"inscricoes"> | string
+    eventoId?: StringFilter<"inscricoes"> | string
+    nome?: StringFilter<"inscricoes"> | string
+    email?: StringFilter<"inscricoes"> | string
+    curso?: StringNullableFilter<"inscricoes"> | string | null
+    status?: EnumInscricaoStatusFilter<"inscricoes"> | $Enums.InscricaoStatus
+    createdAt?: DateTimeFilter<"inscricoes"> | Date | string
+    updatedAt?: DateTimeFilter<"inscricoes"> | Date | string
+    qr_code?: StringNullableFilter<"inscricoes"> | string | null
+    email_status?: StringNullableFilter<"inscricoes"> | string | null
+    checkin_realizado?: BoolFilter<"inscricoes"> | boolean
+    checkin_data?: DateTimeNullableFilter<"inscricoes"> | Date | string | null
+  }, "id" | "qr_hash">
+
+  export type inscricoesOrderByWithAggregationInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    eventoId?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    curso?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    qr_hash?: SortOrderInput | SortOrder
+    qr_code?: SortOrderInput | SortOrder
+    email_status?: SortOrderInput | SortOrder
+    checkin_realizado?: SortOrder
+    checkin_data?: SortOrderInput | SortOrder
+    _count?: inscricoesCountOrderByAggregateInput
+    _max?: inscricoesMaxOrderByAggregateInput
+    _min?: inscricoesMinOrderByAggregateInput
+  }
+
+  export type inscricoesScalarWhereWithAggregatesInput = {
+    AND?: inscricoesScalarWhereWithAggregatesInput | inscricoesScalarWhereWithAggregatesInput[]
+    OR?: inscricoesScalarWhereWithAggregatesInput[]
+    NOT?: inscricoesScalarWhereWithAggregatesInput | inscricoesScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"inscricoes"> | string
+    tenantId?: StringWithAggregatesFilter<"inscricoes"> | string
+    eventoId?: StringWithAggregatesFilter<"inscricoes"> | string
+    nome?: StringWithAggregatesFilter<"inscricoes"> | string
+    email?: StringWithAggregatesFilter<"inscricoes"> | string
+    curso?: StringNullableWithAggregatesFilter<"inscricoes"> | string | null
+    status?: EnumInscricaoStatusWithAggregatesFilter<"inscricoes"> | $Enums.InscricaoStatus
+    createdAt?: DateTimeWithAggregatesFilter<"inscricoes"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"inscricoes"> | Date | string
+    qr_hash?: StringNullableWithAggregatesFilter<"inscricoes"> | string | null
+    qr_code?: StringNullableWithAggregatesFilter<"inscricoes"> | string | null
+    email_status?: StringNullableWithAggregatesFilter<"inscricoes"> | string | null
+    checkin_realizado?: BoolWithAggregatesFilter<"inscricoes"> | boolean
+    checkin_data?: DateTimeNullableWithAggregatesFilter<"inscricoes"> | Date | string | null
   }
 
   export type GlobalPaymentConfigWhereInput = {
@@ -17107,7 +18359,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17123,7 +18374,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17137,7 +18387,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17153,7 +18402,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17168,7 +18416,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17181,7 +18428,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17195,7 +18441,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17559,6 +18804,125 @@ export namespace Prisma {
     cargo?: EnumCargoUsuarioFieldUpdateOperationsInput | $Enums.CargoUsuario
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type inscricoesCreateInput = {
+    id?: string
+    tenantId: string
+    eventoId: string
+    nome: string
+    email: string
+    curso?: string | null
+    status?: $Enums.InscricaoStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    qr_hash?: string | null
+    qr_code?: string | null
+    email_status?: string | null
+    checkin_realizado?: boolean
+    checkin_data?: Date | string | null
+  }
+
+  export type inscricoesUncheckedCreateInput = {
+    id?: string
+    tenantId: string
+    eventoId: string
+    nome: string
+    email: string
+    curso?: string | null
+    status?: $Enums.InscricaoStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    qr_hash?: string | null
+    qr_code?: string | null
+    email_status?: string | null
+    checkin_realizado?: boolean
+    checkin_data?: Date | string | null
+  }
+
+  export type inscricoesUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    eventoId?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    curso?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInscricaoStatusFieldUpdateOperationsInput | $Enums.InscricaoStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    qr_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
+    email_status?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_realizado?: BoolFieldUpdateOperationsInput | boolean
+    checkin_data?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type inscricoesUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    eventoId?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    curso?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInscricaoStatusFieldUpdateOperationsInput | $Enums.InscricaoStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    qr_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
+    email_status?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_realizado?: BoolFieldUpdateOperationsInput | boolean
+    checkin_data?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type inscricoesCreateManyInput = {
+    id?: string
+    tenantId: string
+    eventoId: string
+    nome: string
+    email: string
+    curso?: string | null
+    status?: $Enums.InscricaoStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    qr_hash?: string | null
+    qr_code?: string | null
+    email_status?: string | null
+    checkin_realizado?: boolean
+    checkin_data?: Date | string | null
+  }
+
+  export type inscricoesUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    eventoId?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    curso?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInscricaoStatusFieldUpdateOperationsInput | $Enums.InscricaoStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    qr_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
+    email_status?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_realizado?: BoolFieldUpdateOperationsInput | boolean
+    checkin_data?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type inscricoesUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    eventoId?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    curso?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInscricaoStatusFieldUpdateOperationsInput | $Enums.InscricaoStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    qr_hash?: NullableStringFieldUpdateOperationsInput | string | null
+    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
+    email_status?: NullableStringFieldUpdateOperationsInput | string | null
+    checkin_realizado?: BoolFieldUpdateOperationsInput | boolean
+    checkin_data?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GlobalPaymentConfigCreateInput = {
@@ -18574,14 +19938,12 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type BatchAvgOrderByAggregateInput = {
-    totalSold?: SortOrder
     order?: SortOrder
   }
 
@@ -18593,7 +19955,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -18607,14 +19968,12 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     isActive?: SortOrder
-    totalSold?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type BatchSumOrderByAggregateInput = {
-    totalSold?: SortOrder
     order?: SortOrder
   }
 
@@ -18979,6 +20338,80 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCargoUsuarioFilter<$PrismaModel>
     _max?: NestedEnumCargoUsuarioFilter<$PrismaModel>
+  }
+
+  export type EnumInscricaoStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InscricaoStatus | EnumInscricaoStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InscricaoStatus[]
+    notIn?: $Enums.InscricaoStatus[]
+    not?: NestedEnumInscricaoStatusFilter<$PrismaModel> | $Enums.InscricaoStatus
+  }
+
+  export type inscricoesOrderByRelevanceInput = {
+    fields: inscricoesOrderByRelevanceFieldEnum | inscricoesOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type inscricoesCountOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    eventoId?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    curso?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    qr_hash?: SortOrder
+    qr_code?: SortOrder
+    email_status?: SortOrder
+    checkin_realizado?: SortOrder
+    checkin_data?: SortOrder
+  }
+
+  export type inscricoesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    eventoId?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    curso?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    qr_hash?: SortOrder
+    qr_code?: SortOrder
+    email_status?: SortOrder
+    checkin_realizado?: SortOrder
+    checkin_data?: SortOrder
+  }
+
+  export type inscricoesMinOrderByAggregateInput = {
+    id?: SortOrder
+    tenantId?: SortOrder
+    eventoId?: SortOrder
+    nome?: SortOrder
+    email?: SortOrder
+    curso?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    qr_hash?: SortOrder
+    qr_code?: SortOrder
+    email_status?: SortOrder
+    checkin_realizado?: SortOrder
+    checkin_data?: SortOrder
+  }
+
+  export type EnumInscricaoStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InscricaoStatus | EnumInscricaoStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InscricaoStatus[]
+    notIn?: $Enums.InscricaoStatus[]
+    not?: NestedEnumInscricaoStatusWithAggregatesFilter<$PrismaModel> | $Enums.InscricaoStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInscricaoStatusFilter<$PrismaModel>
+    _max?: NestedEnumInscricaoStatusFilter<$PrismaModel>
   }
 
   export type GlobalPaymentConfigOrderByRelevanceInput = {
@@ -20299,6 +21732,10 @@ export namespace Prisma {
     deleteMany?: TicketScalarWhereInput | TicketScalarWhereInput[]
   }
 
+  export type EnumInscricaoStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InscricaoStatus
+  }
+
   export type tenantsCreateNestedOneWithoutStripeAccountInput = {
     create?: XOR<tenantsCreateWithoutStripeAccountInput, tenantsUncheckedCreateWithoutStripeAccountInput>
     connectOrCreate?: tenantsCreateOrConnectWithoutStripeAccountInput
@@ -20784,6 +22221,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumCargoUsuarioFilter<$PrismaModel>
     _max?: NestedEnumCargoUsuarioFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInscricaoStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InscricaoStatus | EnumInscricaoStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InscricaoStatus[]
+    notIn?: $Enums.InscricaoStatus[]
+    not?: NestedEnumInscricaoStatusFilter<$PrismaModel> | $Enums.InscricaoStatus
+  }
+
+  export type NestedEnumInscricaoStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InscricaoStatus | EnumInscricaoStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InscricaoStatus[]
+    notIn?: $Enums.InscricaoStatus[]
+    not?: NestedEnumInscricaoStatusWithAggregatesFilter<$PrismaModel> | $Enums.InscricaoStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInscricaoStatusFilter<$PrismaModel>
+    _max?: NestedEnumInscricaoStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumStripeAccountTypeFilter<$PrismaModel = never> = {
@@ -21337,7 +22791,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21351,7 +22804,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21554,7 +23006,6 @@ export namespace Prisma {
     startDate?: DateTimeFilter<"Batch"> | Date | string
     endDate?: DateTimeFilter<"Batch"> | Date | string
     isActive?: BoolFilter<"Batch"> | boolean
-    totalSold?: IntFilter<"Batch"> | number
     order?: IntFilter<"Batch"> | number
     createdAt?: DateTimeFilter<"Batch"> | Date | string
     updatedAt?: DateTimeFilter<"Batch"> | Date | string
@@ -21823,7 +23274,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21838,7 +23288,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21998,7 +23447,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -22013,7 +23461,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23645,7 +25092,6 @@ export namespace Prisma {
     startDate: Date | string
     endDate: Date | string
     isActive?: boolean
-    totalSold?: number
     order?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23703,7 +25149,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23717,7 +25162,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23731,7 +25175,6 @@ export namespace Prisma {
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
-    totalSold?: IntFieldUpdateOperationsInput | number
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

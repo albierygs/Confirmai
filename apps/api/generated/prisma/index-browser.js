@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.4.1
- * Query Engine version: 55ae170b1ced7fc6ed07a15f110549408c501bb3
+ * Prisma Client JS version: 7.8.0
+ * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
  */
 Prisma.prismaVersion = {
-  client: "7.4.1",
-  engine: "55ae170b1ced7fc6ed07a15f110549408c501bb3"
+  client: "7.8.0",
+  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -155,7 +155,6 @@ exports.Prisma.BatchScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   isActive: 'isActive',
-  totalSold: 'totalSold',
   order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -208,6 +207,23 @@ exports.Prisma.UsuariosScalarFieldEnum = {
   cargo: 'cargo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InscricoesScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  eventoId: 'eventoId',
+  nome: 'nome',
+  email: 'email',
+  curso: 'curso',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  qr_hash: 'qr_hash',
+  qr_code: 'qr_code',
+  email_status: 'email_status',
+  checkin_realizado: 'checkin_realizado',
+  checkin_data: 'checkin_data'
 };
 
 exports.Prisma.GlobalPaymentConfigScalarFieldEnum = {
@@ -380,6 +396,18 @@ exports.Prisma.usuariosOrderByRelevanceFieldEnum = {
   senhaHash: 'senhaHash'
 };
 
+exports.Prisma.inscricoesOrderByRelevanceFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  eventoId: 'eventoId',
+  nome: 'nome',
+  email: 'email',
+  curso: 'curso',
+  qr_hash: 'qr_hash',
+  qr_code: 'qr_code',
+  email_status: 'email_status'
+};
+
 exports.Prisma.GlobalPaymentConfigOrderByRelevanceFieldEnum = {
   id: 'id',
   defaultServiceFeePayerType: 'defaultServiceFeePayerType'
@@ -461,6 +489,12 @@ exports.CargoUsuario = exports.$Enums.CargoUsuario = {
   global_admin: 'global_admin'
 };
 
+exports.InscricaoStatus = exports.$Enums.InscricaoStatus = {
+  pendente: 'pendente',
+  confirmada: 'confirmada',
+  cancelada: 'cancelada'
+};
+
 exports.StripeAccountType = exports.$Enums.StripeAccountType = {
   STANDARD: 'STANDARD',
   EXPRESS: 'EXPRESS',
@@ -514,6 +548,7 @@ exports.Prisma.ModelName = {
   BatchTicket: 'BatchTicket',
   Ticket: 'Ticket',
   usuarios: 'usuarios',
+  inscricoes: 'inscricoes',
   GlobalPaymentConfig: 'GlobalPaymentConfig',
   StripeAccount: 'StripeAccount',
   Order: 'Order',

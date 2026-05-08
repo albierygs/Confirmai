@@ -144,7 +144,6 @@ model Batch {
   startDate   DateTime @map("start_date")
   endDate     DateTime @map("end_date")
   isActive    Boolean  @default(true) @map("is_active")
-  totalSold   Int      @default(0) @map("total_sold")
   order       Int      @default(0) // Ordem de exibição
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
@@ -238,10 +237,26 @@ model usuarios {
   @@unique([tenantId, email])
 }
 
+model inscricoes {
+  id                String          @id @default(uuid())
+  tenantId          String          @map("tenant_id")
+  eventoId          String          @map("evento_id")
+  nome              String
+  email             String
+  curso             String?
+  status            InscricaoStatus @default(pendente)
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  qr_hash           String?         @unique
+  qr_code           String?         @db.LongText
+  email_status      String?         @default("pendente")
+  checkin_realizado Boolean         @default(false)
+  checkin_data      DateTime?
+}
+
 model GlobalPaymentConfig {
   id String @id @default(uuid())
 
-  // Configurações padrão da plataforma
   defaultPlatformFeePercent Decimal @default(10) @map("default_platform_fee_percent") @db.Decimal(5, 2)
   defaultPlatformFeeFixed   Decimal @default(0) @map("default_platform_fee_fixed") @db.Decimal(10, 2)
 
@@ -249,25 +264,20 @@ model GlobalPaymentConfig {
   defaultServiceFeeFixed     Decimal @default(5) @map("default_service_fee_fixed") @db.Decimal(10, 2)
   defaultServiceFeePayerType String  @default("buyer") @map("default_service_fee_payer_type")
 
-  // Métodos de pagamento globais
-  acceptCreditCard Boolean @default(true) @map("accept_credit_card")
-  acceptDebitCard  Boolean @default(true) @map("accept_debit_card")
-  acceptPix        Boolean @default(true) @map("accept_pix")
-  acceptBoleto     Boolean @default(false) @map("accept_boleto")
+  acceptCreditCard Boolean @default(true)
+  acceptDebitCard  Boolean @default(true)
+  acceptPix        Boolean @default(true)
+  acceptBoleto     Boolean @default(false)
 
-  // Parcelamento
-  maxInstallments     Int     @default(5) @map("max_installments")
-  minInstallmentValue Decimal @default(50) @map("min_installment_value") @db.Decimal(19, 4)
-  interestFree        Int     @default(3) @map("interest_free")
+  maxInstallments     Int     @default(5)
+  minInstallmentValue Decimal @default(50) @db.Decimal(19, 4)
+  interestFree        Int     @default(3)
 
-  // Política de reembolso
-  allowRefunds       Boolean @default(true) @map("allow_refunds")
-  refundDeadlineDays Int     @default(7) @map("refund_deadline_days")
+  allowRefunds       Boolean @default(true)
+  refundDeadlineDays Int     @default(7)
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("global_payment_config")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model StripeAccount {
