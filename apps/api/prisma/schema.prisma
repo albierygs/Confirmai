@@ -76,7 +76,7 @@ enum OrderStatus {
   PARTIAL_REFUND // Reembolso parcial
 }
 
-enum PaymentMethod {
+enum PaymentMethodTypes {
   CREDIT_CARD
   DEBIT_CARD
   PIX
@@ -89,6 +89,18 @@ enum ReservationStatus {
   EXPIRED // Expirou
   CONVERTED // Convertida em compra
   CANCELLED // Cancelada pelo usuário
+}
+
+enum SubscriptionStatus {
+  ACTIVE // Assinatura ativa
+  PAST_DUE // Pagamento atrasado (grace period de 3 dias)
+  CANCELED // Cancelada pelo tenant
+  EXPIRED // Expirou sem renovação
+}
+
+enum PlanInterval {
+  MONTHLY
+  YEARLY
 }
 
 // Definição dos modelos
@@ -113,6 +125,8 @@ model tenants {
   eventos       eventos[]
   stripeAccount StripeAccount?
   orders        Order[]
+  reservations  Reservation[]
+  subscriptions Subscription[]
 }
 
 model eventos {
@@ -123,6 +137,7 @@ model eventos {
   linkSlug    String       @unique @map("link_slug")
   startDate   DateTime     @default(now()) @map("start_date")
   closingDate DateTime     @map("closing_date")
+  location    String?
   status      EventoStatus @default(ativo)
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt @map("updated_at")
@@ -131,7 +146,6 @@ model eventos {
   batches Batch[]
   // orders  Order[]
   tickets Ticket[]
-  orders  Order[]
 
   @@unique([tenantId, linkSlug])
 }
@@ -179,11 +193,11 @@ model BatchTicket {
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
 
-  batch        Batch         @relation(fields: [batchId], references: [id], onDelete: Cascade)
-  ticketType   TicketType    @relation(fields: [ticketTypeId], references: [id])
-  tickets      Ticket[]
-  orderItems   OrderItem[]
-  reservations Reservation[]
+  batch              Batch               @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  ticketType         TicketType          @relation(fields: [ticketTypeId], references: [id])
+  tickets            Ticket[]
+  orderItems         OrderItem[]
+  reservationTickets ReservationTicket[]
 
   @@unique([batchId, ticketTypeId])
   @@index([batchId])
@@ -194,14 +208,12 @@ model Ticket {
   id            String @id @default(uuid())
   orderId       String @map("order_id")
   eventId       String @map("event_id")
+  userId        String @map("user_id")
   batchTicketId String @map("batch_ticket_id")
 
-  hash          String       @unique // Hash único para QR Code
-  ownerName     String       @map("owner_name")
-  ownerEmail    String       @map("owner_email")
-  ownerDocument String?      @map("owner_document")
-  price         Decimal      @db.Decimal(19, 4)
-  status        TicketStatus @default(VALID)
+  hash   String       @unique // Hash único para QR Code
+  price  Decimal      @db.Decimal(19, 4)
+  status TicketStatus @default(VALID)
 
   checkedInAt DateTime?
   checkedInBy String? // User/Staff que fez check-in
@@ -211,6 +223,7 @@ model Ticket {
 
   order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
   event         eventos     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  usuario       usuarios    @relation("owner", fields: [userId], references: [id])
   batchTicket   BatchTicket @relation(fields: [batchTicketId], references: [id])
   checkedInUser usuarios?   @relation("checked-in", fields: [checkedInBy], references: [id])
 
@@ -230,11 +243,30 @@ model usuarios {
   createdAt DateTime     @default(now()) @map("created_at")
   updatedAt DateTime     @updatedAt @map("updated_at")
 
-  tenant  tenants? @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  orders  Order[]
-  tickets Ticket[] @relation("checked-in")
+  tenant         tenants?      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  orders         Order[]
+  checkedTickets Ticket[]      @relation("checked-in")
+  tickets        Ticket[]      @relation("owner")
+  reservations   Reservation[]
 
   @@unique([tenantId, email])
+}
+
+model PaymentProvider {
+  id       String  @id @default(uuid())
+  slug     String  @unique // "stripe", "mercadopago", "asaas"
+  isActive Boolean @default(true)
+
+  // Comissão da plataforma (aplicada sobre o valor do ingresso)
+  platformFeePercent   Decimal @default(10) @db.Decimal(5, 2)
+  platformCoustPercent Decimal @default(5) @db.Decimal(5, 2) // Custo operacional da plataforma (ex: taxas do stripe)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  paymentMethods PaymentMethod[]
+
+  @@map("payment_providers")
 }
 
 model inscricoes {
@@ -254,30 +286,37 @@ model inscricoes {
   checkin_data      DateTime?
 }
 
-model GlobalPaymentConfig {
-  id String @id @default(uuid())
+model PaymentMethod {
+  id         String @id @default(uuid())
+  providerId String
 
-  defaultPlatformFeePercent Decimal @default(10) @map("default_platform_fee_percent") @db.Decimal(5, 2)
-  defaultPlatformFeeFixed   Decimal @default(0) @map("default_platform_fee_fixed") @db.Decimal(10, 2)
+  // Identificação
+  slug String @unique // "credit_card", "debit_card", "pix", "boleto"
+  name String // "Cartão de Crédito", "PIX", "Boleto"
 
-  defaultServiceFeePercent   Decimal @default(0) @map("default_service_fee_percent") @db.Decimal(5, 2)
-  defaultServiceFeeFixed     Decimal @default(5) @map("default_service_fee_fixed") @db.Decimal(10, 2)
-  defaultServiceFeePayerType String  @default("buyer") @map("default_service_fee_payer_type")
+  // Taxas do gateway (cobradas pelo Stripe, MP, etc)
+  gatewayFeePercent Decimal @db.Decimal(5, 2) // Ex: 3.99% (Stripe)
+  gatewayFeeFixed   Decimal @db.Decimal(10, 2) // Ex: R$ 0,39
 
-  acceptCreditCard Boolean @default(true)
-  acceptDebitCard  Boolean @default(true)
-  acceptPix        Boolean @default(true)
-  acceptBoleto     Boolean @default(false)
+  // Parcelamento (para cartões)
+  allowInstallments   Boolean @default(false)
+  maxInstallments     Int     @default(3)
+  minInstallmentValue Decimal @default(100) @db.Decimal(10, 2)
+  interestFree        Int     @default(1) // Parcelas sem juros
+  interestRate        Decimal @default(0) @db.Decimal(5, 2) // Taxa de juros ao mês
 
-  maxInstallments     Int     @default(5)
-  minInstallmentValue Decimal @default(50) @db.Decimal(19, 4)
-  interestFree        Int     @default(3)
-
-  allowRefunds       Boolean @default(true)
-  refundDeadlineDays Int     @default(7)
+  // Status
+  isActive Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  provider PaymentProvider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, slug])
+  @@index([providerId])
+  @@index([slug])
+  @@map("payment_methods")
 }
 
 model StripeAccount {
@@ -319,14 +358,13 @@ model StripeAccount {
 }
 
 model Order {
-  id       String @id @default(uuid())
-  tenantId String @map("tenant_id")
-  eventId  String @map("event_id")
-  userId   String @map("user_id")
+  id            String @id @default(uuid())
+  tenantId      String @map("tenant_id")
+  reservationId String @map("reservation_id")
+  userId        String @map("user_id")
 
   // Valores monetários
   subtotal    Decimal @db.Decimal(19, 4) // Soma dos ingressos
-  serviceFee  Decimal @map("service_fee") @db.Decimal(19, 4) // Taxa de serviço
   platformFee Decimal @map("platform_fee") @db.Decimal(19, 4) // Comissão da plataforma
   total       Decimal @db.Decimal(19, 4) // Total pago pelo cliente
 
@@ -334,14 +372,13 @@ model Order {
   status OrderStatus @default(PENDING)
 
   // Dados de pagamento
-  paymentMethod   PaymentMethod? @map("payment_method")
-  paymentProvider String?        @default("stripe") @map("payment_provider") // stripe, mercadopago
+  paymentMethod   PaymentMethodTypes? @map("payment_method")
+  paymentProvider String?             @default("stripe") @map("payment_provider") // stripe, mercadopago
 
   // Stripe específico
-  stripePaymentIntentId String? @unique @map("stripe_payment_intent_id")
-  stripeClientSecret    String? @map("stripe_client_secret")
-  stripeTransferId      String? @map("stripe_transfer_id") // ID da transferência para o tenant
-  stripeApplicationFee  Int?    @map("stripe_application_fee") // Valor da application fee em centavos
+  stripeCheckoutSessionId String?  @unique @map("stripe_checkout_session_id")
+  stripeTransferId        String?  @map("stripe_transfer_id") // ID da transferência para o tenant
+  stripeApplicationFee    Decimal? @map("stripe_application_fee") @db.Decimal(19, 4) // Valor da application fee em centavos
 
   // URLs e dados extras
   paymentUrl    String? @map("payment_url") // Para PIX/Boleto
@@ -363,15 +400,14 @@ model Order {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relações
-  tenant     tenants     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  event      eventos     @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  usuario    usuarios    @relation(fields: [userId], references: [id])
-  tickets    Ticket[]
-  orderItems OrderItem[]
+  tenant      tenants      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  reservation Reservation? @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  usuario     usuarios     @relation(fields: [userId], references: [id])
+  tickets     Ticket[]
+  orderItems  OrderItem[]
 
   @@index([tenantId])
-  @@index([eventId])
-  @@index([stripePaymentIntentId])
+  @@index([reservationId])
   @@index([status])
   @@index([createdAt])
   @@map("orders")
@@ -402,15 +438,13 @@ model OrderItem {
 }
 
 model Reservation {
-  id            String @id @default(uuid())
-  batchTicketId String @map("batch_ticket_id")
+  id String @id @default(uuid())
 
-  // Identificação da sessão/usuário
-  userId String @map("user_id")
+  // Uma reserva ativa por usuário e tenant (carrinho unificado)
+  userId   String @map("user_id")
+  tenantId String @map("tenant_id")
 
-  quantity Int // Quantidade reservada
-
-  // Expiração
+  // Expiração do carrinho (30 min a partir do 1º ingresso; +30 min ao iniciar checkout)
   expiresAt DateTime @map("expires_at")
 
   // Status
@@ -423,10 +457,81 @@ model Reservation {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  batchTicket BatchTicket @relation(fields: [batchTicketId], references: [id], onDelete: Cascade)
+  usuario usuarios            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tickets ReservationTicket[]
+  orders  Order[]
+  tenant  tenants             @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  @@index([batchTicketId])
+  @@index([userId])
+  @@index([tenantId])
   @@index([expiresAt])
   @@index([status])
   @@map("reservations")
+}
+
+// Linhas do carrinho: quantidade por tipo de ingresso (batch_ticket)
+model ReservationTicket {
+  id            String @id @default(uuid())
+  reservationId String @map("reservation_id")
+  batchTicketId String @map("batch_ticket_id")
+  quantity      Int
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  batchTicket BatchTicket @relation(fields: [batchTicketId], references: [id], onDelete: Cascade)
+
+  @@unique([reservationId, batchTicketId])
+  @@index([batchTicketId])
+  @@map("reservation_tickets")
+}
+
+model Plan {
+  id          String       @id @default(uuid())
+  name        String // "Mensal", "Anual"
+  slug        String       @unique // "mensal", "anual"
+  description String?
+  interval    PlanInterval // MONTHLY, YEARLY
+  price       Decimal      @db.Decimal(10, 2) // Preço em BRL
+  isActive    Boolean      @default(true) @map("is_active")
+
+  // Stripe Billing
+  stripePriceId   String? @unique @map("stripe_price_id")
+  stripeProductId String? @map("stripe_product_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model Subscription {
+  id       String @id @default(uuid())
+  tenantId String @map("tenant_id")
+  planId   String @map("plan_id")
+
+  status SubscriptionStatus @default(ACTIVE)
+
+  // Datas
+  startDate  DateTime  @map("start_date")
+  endDate    DateTime  @map("end_date")
+  canceledAt DateTime? @map("canceled_at")
+  cancelAtEnd Boolean  @default(false) @map("cancel_at_end") // Cancelar no final do período
+
+  // Stripe Billing
+  stripeSubscriptionId String? @unique @map("stripe_subscription_id")
+  stripeCustomerId     String? @map("stripe_customer_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tenant tenants @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  plan   Plan    @relation(fields: [planId], references: [id])
+
+  @@index([tenantId])
+  @@index([status])
+  @@map("subscriptions")
 }

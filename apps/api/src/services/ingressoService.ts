@@ -1,5 +1,6 @@
-import Decimal from "decimal.js";
-import { SERVICE_FEE } from "../config/constants";
+import crypto from "crypto";
+import { ulid } from "ulid";
+import { TICKET_PREFIX, TICKET_SECRET_KEY } from "../config/constants";
 import { prisma } from "../config/database";
 import { AppException, NaoEncontradoException } from "../exceptions";
 
@@ -32,15 +33,74 @@ export const verificarTipoIngressoExistenteNoLote = async (
   }
 };
 
-export const calcularPrecoComTaxa = (preco: number | Decimal) => {
-  const precoDecimal = new Decimal(preco);
-  const taxaDecimal = new Decimal(SERVICE_FEE).toDecimalPlaces(2);
-  const precoComTaxa = precoDecimal
-    .plus(precoDecimal.times(taxaDecimal.dividedBy(100)))
-    .toDecimalPlaces(2)
-    .toNumber();
-  return {
-    serviceFee: taxaDecimal.toNumber(),
-    priceWithServiceFee: precoComTaxa,
-  };
+export const createOrderTickets = async (orderId: string) => {
+  const order = await prisma.order.findUnique({
+    where: {
+      id: orderId,
+    },
+    include: {
+      orderItems: {
+        include: {
+          batchTicket: {
+            include: {
+              batch: true,
+            },
+          },
+        },
+      },
+      usuario: true,
+    },
+  });
+
+  if (!order) {
+    throw new NaoEncontradoException("Pedido não encontrado.");
+  }
+
+  for (const item of order.orderItems) {
+    const eventId = item.batchTicket.batch.eventId;
+
+    for (let i = 1; i <= item.quantity; i++) {
+      const ticket = await prisma.ticket.create({
+        data: {
+          orderId,
+          batchTicketId: item.batchTicketId,
+          eventId,
+          userId: order.usuario.id,
+          price: item.price,
+          hash: generateQrcodeHash(
+            eventId,
+            order.usuario.id,
+            item.batchTicketId,
+            orderId,
+            i,
+          ),
+        },
+      });
+
+      console.info("Ticket criado:", ticket.id);
+    }
+  }
+};
+
+export const generateQrcodeHash = (
+  eventId: string,
+  userId: string,
+  batchTicketId: string,
+  orderId: string,
+  itemIndex: number,
+): string => {
+  const ulidPart = ulid();
+
+  const payload = `${userId}:${eventId}:${orderId}:${itemIndex}:${batchTicketId}:${ulidPart}:${Date.now()}`;
+
+  const hmac = crypto
+    .createHmac("sha256", TICKET_SECRET_KEY)
+    .update(payload)
+    .digest("hex");
+
+  const hmacTruncated = hmac.substring(0, 8);
+
+  const hash = `${TICKET_PREFIX}_${ulidPart}_${hmacTruncated}`;
+
+  return hash;
 };

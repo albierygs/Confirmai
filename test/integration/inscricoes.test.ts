@@ -1,7 +1,6 @@
 import request from "supertest";
-import { eventosModel, inscricoesModel } from "../../generated/prisma/models";
-import app from "../../src/app";
-import { prisma } from "../../src/config/database";
+import app from "../../apps/api/src/app";
+import { prisma } from "../../apps/api/src/config/database";
 import {
   criarEventoTeste,
   criarInscricaoTeste,
@@ -16,14 +15,25 @@ describe("Rotas de Inscrições (Integração)", () => {
   let tenantSlug: string;
   let token: string;
   let eventoId: string;
-  let evento: eventosModel;
-  let inscricao: inscricoesModel;
+  let evento: { id: string; linkSlug: string };
+  let inscricao: { email: string };
 
   beforeAll(async () => {
     await limparBancoTeste();
     const tenant = await criarTenantTeste("ativo");
     tenantId = tenant.id;
     tenantSlug = tenant.slug;
+
+    await prisma.stripeAccount.create({
+      data: {
+        tenantId,
+        accountId: `acct_test_${tenantSlug}`,
+        accountStatus: "ENABLED",
+        chargesEnabled: true,
+        payoutsEnabled: true,
+        detailsSubmitted: true,
+      },
+    });
 
     // Criar usuário Admin do Tenant
     const usuarioAdmin = await criarUsuarioTeste(tenantId, { cargo: "admin" });
@@ -55,7 +65,7 @@ describe("Rotas de Inscrições (Integração)", () => {
       };
 
       const response = await request(app)
-        .post(`/api/inscricoes/${eventoId}/inscrever`)
+        .post(`/api/${tenantSlug}/inscricoes/${eventoId}/inscrever`)
         .set("Host", `${tenantSlug}.lvh.me`)
         .send(payload);
 
@@ -75,7 +85,7 @@ describe("Rotas de Inscrições (Integração)", () => {
       };
 
       const response = await request(app)
-        .post(`/api/inscricoes/${eventoId}/inscrever`)
+        .post(`/api/${tenantSlug}/inscricoes/${eventoId}/inscrever`)
         .set("Host", `${tenantSlug}.lvh.me`)
         .send(payload);
 
@@ -86,7 +96,7 @@ describe("Rotas de Inscrições (Integração)", () => {
   describe("GET /inscricoes/:id/inscricoes [Listar Inscrições]", () => {
     it("Deve listar as inscrições de um evento (Admin)", async () => {
       const response = await request(app)
-        .get(`/api/inscricoes/${eventoId}/inscricoes`)
+        .get(`/api/${tenantSlug}/inscricoes/${eventoId}/inscricoes`)
         .set("Authorization", `Bearer ${token}`)
         .set("Host", `${tenantSlug}.lvh.me`);
 
@@ -100,7 +110,7 @@ describe("Rotas de Inscrições (Integração)", () => {
   describe("GET /inscricoes/:id/inscricoes/export [Exportar CSV]", () => {
     it("Deve exportar inscrições em formato CSV", async () => {
       const response = await request(app)
-        .get(`/api/inscricoes/${eventoId}/inscricoes/export`)
+        .get(`/api/${tenantSlug}/inscricoes/${eventoId}/inscricoes/export`)
         .set("Authorization", `Bearer ${token}`)
         .set("Host", `${tenantSlug}.lvh.me`);
 

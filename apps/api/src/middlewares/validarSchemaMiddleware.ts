@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import z from "zod";
 import { AppException } from "../exceptions";
 
-type SchemaType = "PARAMS" | "QUERY" | "REQUEST_BODY";
+type SchemaType = "PARAMS" | "REQUEST_BODY" | "QUERY";
 
 const validarSchemaMiddleware =
   (
@@ -15,6 +15,8 @@ const validarSchemaMiddleware =
       data = req.params;
     } else if (type === "REQUEST_BODY") {
       data = req.body;
+    } else if (type === "QUERY") {
+      data = req.query;
     }
 
     const result = schema.safeParse(data);
@@ -27,6 +29,9 @@ const validarSchemaMiddleware =
       );
     }
 
+    req.body = type === "REQUEST_BODY" ? result.data : req.body;
+    req.params = type === "PARAMS" ? result.data : req.params;
+    req.query = type === "QUERY" ? result.data : req.query;
     next();
   };
 

@@ -1,7 +1,7 @@
 import request from "supertest";
-import app from "../../src/app";
+import app from "../../apps/api/src/app";
 import { criarTenantTeste, limparBancoTeste } from "../helpers";
-import { prisma } from "../../src/config/database";
+import { prisma } from "../../apps/api/src/config/database";
 
 describe("Middleware: identificarTenantMiddleware", () => {
   beforeAll(async () => {
@@ -15,7 +15,7 @@ describe("Middleware: identificarTenantMiddleware", () => {
 
   it("Deve retornar 404 se o subdomínio (slug) não existir no banco", async () => {
     const response = await request(app)
-      .get("/api/eventos") // Rota que usa o middleware
+      .get("/api/slug-inexistente/eventos") // Rota que usa o middleware
       .set("Host", "slug-inexistente.lvh.me");
 
     expect(response.status).toBe(404);
@@ -27,7 +27,7 @@ describe("Middleware: identificarTenantMiddleware", () => {
     const tenant = await criarTenantTeste("suspenso");
 
     const response = await request(app)
-      .get("/api/eventos") // Rota que usa o middleware
+      .get(`/api/${tenant.slug}/eventos`) // Rota que usa o middleware
       .set("Host", `${tenant.slug}.lvh.me`);
 
     expect(response.status).toBe(401);

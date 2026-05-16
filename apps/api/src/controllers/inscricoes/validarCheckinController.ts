@@ -10,12 +10,18 @@ const validarCheckin: RequestHandler = async (req, res) => {
       qr_hash: hash,
       tenantId: req.tenant!.id,
     },
-    include: { evento: true, tenant: true },
   });
 
   if (!inscricao) {
     return res.status(404).json({ valido: false, message: "QR Code inválido" });
   }
+
+  const evento = await prisma.eventos.findFirst({
+    where: {
+      id: inscricao.eventoId,
+      tenantId: req.tenant!.id,
+    },
+  });
 
   return res.status(200).json({
     valido: true,
@@ -23,8 +29,8 @@ const validarCheckin: RequestHandler = async (req, res) => {
       inscricaoId: inscricao.id,
       nome: inscricao.nome,
       email: inscricao.email,
-      evento: inscricao.evento.titulo,
-      tenant: inscricao.tenant.nome,
+      evento: evento?.titulo ?? "",
+      tenant: req.tenant!.nome,
       checkinRealizado: inscricao.checkin_realizado,
     },
   });

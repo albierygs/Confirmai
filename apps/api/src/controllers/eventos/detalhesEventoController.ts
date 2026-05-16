@@ -5,7 +5,6 @@ import {
   DetalhesEventoResponseSchema,
 } from "../../schemas/eventos/detalhesEventoSchema";
 import { buscarEventoDetalhado } from "../../services/eventoService";
-import { calcularPrecoComTaxa } from "../../services/ingressoService";
 
 const detalhesEvento: RequestHandler<
   DetalhesEventoParamsSchema,
@@ -24,7 +23,6 @@ const detalhesEvento: RequestHandler<
       batchTickets: batch.batchTickets.map((ticket) => ({
         ...ticket,
         price: new Decimal(ticket.price).toDecimalPlaces(2).toNumber(),
-        ...calcularPrecoComTaxa(ticket.price),
       })),
     })),
   };

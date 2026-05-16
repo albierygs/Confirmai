@@ -5,7 +5,7 @@ import {
   exportarInscricoesParaCSV,
   validarCheckin, 
   confirmarCheckin
-} from "../controllers/inscricoes";
+} from "../controllers/inscricoes/index.js";
 import {
   validarSchemaMiddleware,
   validarTokenMiddleware,
@@ -14,7 +14,7 @@ import buscarInscricoesSchema from "../schemas/inscricoes/buscarInscricoesSchema
 import criarInscricaoSchema from "../schemas/inscricoes/criarInscricaoSchema";
 import exportarInscricoesParaCSVSchema from "../schemas/inscricoes/exportarInscricoesParaCSVSchema";
 
-const inscricoesRoutes = Router();
+const inscricoesRoutes = Router({ mergeParams: true });
 
 inscricoesRoutes.post(
   "/:id/inscrever",

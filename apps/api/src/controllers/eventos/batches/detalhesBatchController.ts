@@ -9,7 +9,6 @@ import {
   verificarEventoExistente,
   verificarLoteExistente,
 } from "../../../services/eventoService.ts";
-import { calcularPrecoComTaxa } from "../../../services/ingressoService.ts";
 
 const detalhesBatch: RequestHandler<
   DetalhesBatchParamsSchema,
@@ -32,7 +31,6 @@ const detalhesBatch: RequestHandler<
     batchTickets: batch!.batchTickets.map((batchTicket) => ({
       ...batchTicket,
       price: new Decimal(batchTicket.price).toDecimalPlaces(2).toNumber(),
-      ...calcularPrecoComTaxa(batchTicket.price),
     })),
   };
 

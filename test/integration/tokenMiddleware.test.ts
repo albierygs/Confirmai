@@ -1,7 +1,6 @@
 import request from "supertest";
-import { usuariosModel } from "../../generated/prisma/models";
-import app from "../../src/app";
-import { prisma } from "../../src/config/database";
+import app from "../../apps/api/src/app";
+import { prisma } from "../../apps/api/src/config/database";
 import {
   criarTenantTeste,
   criarUsuarioTeste,
@@ -11,7 +10,12 @@ import {
 
 describe("Middleware: validarTokenMiddleware", () => {
   let tenantSlug: string;
-  let usuario: usuariosModel;
+  let usuario: {
+    id: string;
+    email: string;
+    nome: string;
+    cargo: "admin" | "membro" | "global_admin";
+  };
   let token: string;
 
   beforeAll(async () => {
@@ -41,7 +45,7 @@ describe("Middleware: validarTokenMiddleware", () => {
 
   it("Deve retornar 401 se o token não for fornecido", async () => {
     const response = await request(app)
-      .post("/api/eventos") // Rota que usa o middleware
+      .post(`/api/${tenantSlug}/eventos`) // Rota que usa o middleware
       .set("Host", `${tenantSlug}.lvh.me`);
 
     expect(response.status).toBe(401);
@@ -51,7 +55,7 @@ describe("Middleware: validarTokenMiddleware", () => {
 
   it("Deve retornar 401 se o formato do token estiver incorreto", async () => {
     const response = await request(app)
-      .post("/api/eventos") // Rota que usa o middleware
+      .post(`/api/${tenantSlug}/eventos`) // Rota que usa o middleware
       .set("authorization", `Bearer${token}`) // Formato incorreto
       .set("Host", `${tenantSlug}.lvh.me`);
 
@@ -72,7 +76,7 @@ describe("Middleware: validarTokenMiddleware", () => {
     );
 
     const response = await request(app)
-      .post("/api/eventos") // Rota que usa o middleware
+      .post(`/api/${tenantSlug}/eventos`) // Rota que usa o middleware
       .set("authorization", `Bearer ${tokenInvalido}`)
       .set("Host", `${tenantSlug}.lvh.me`);
 

@@ -1,9 +1,9 @@
-import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 import QRCode from "qrcode";
 
 export async function gerarCredenciaisIncricao(){
 
-    const hash = uuidv4();
+    const hash = crypto.randomUUID();
 
     const qrCode = await QRCode.toDataURL(hash);
 

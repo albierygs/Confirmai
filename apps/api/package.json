@@ -9,8 +9,10 @@
     "dev": "cross-env NODE_ENV=development tsx watch src/server.ts",
     "build": "tsup src/server.ts",
     "test:create-db": "dotenv -e .env.test -- npx prisma db push",
-    "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test -- jest --runInBand",
-    "test:watch": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test -- jest --watch --runInBand",
+    "test:seed": "cross-env NODE_ENV=test dotenv -e .env.test -- tsx prisma/seed.test.ts",
+    "test:prepare": "cross-env NODE_ENV=test dotenv -e .env.test -- prisma db push  && pnpm run test:seed",
+    "test": "pnpm run test:prepare && cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test -- jest --config ../../jest.config.js --runInBand",
+    "test:watch": "pnpm run test:prepare && cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test -- jest --config ../../jest.config.js --watch --runInBand",
     "format": "prettier --cache --write ."
   },
   "dependencies": {
@@ -30,6 +32,7 @@
     "node-cron": "^4.2.1",
     "prisma": "^7.2.0",
     "stripe": "^20.4.1",
+    "ulid": "^3.0.2",
     "zod": "^4.2.1"
   },
   "devDependencies": {
@@ -52,3 +55,4 @@
     "typescript": "^5.9.3"
   }
 }
+

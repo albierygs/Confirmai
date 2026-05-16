@@ -16,6 +16,12 @@ declare global {
         slug: string;
         status: "ativo" | "cancelado" | "suspenso";
       };
+      subscription?: {
+        id: string;
+        planId: string;
+        status: string;
+        endDate: Date;
+      };
     }
   }
 }

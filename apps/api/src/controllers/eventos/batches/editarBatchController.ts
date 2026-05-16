@@ -20,6 +20,7 @@ const editarBatch: RequestHandler<
 > = async (req, res) => {
   const { eventoId, batchId } = req.params;
   const { name, description, startDate, endDate, order, isActive } = req.body;
+  console.log("data:", endDate);
 
   // Verifica se o evento existe e pertence ao tenant
   const evento = await verificarEventoExistente(eventoId, req.tenant!.id);
