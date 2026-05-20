@@ -281,7 +281,7 @@ model inscricoes {
   updatedAt DateTime        @updatedAt @map("updated_at")
   qr_hash   String?         @unique
   qr_code   String?         @db.LongText
-  email_status String?      @default("pendente") // pendente | enviado | falhou
+  email_status String?      @default("pendente")
   checkin_realizado Boolean @default(false)
   checkin_data      DateTime?
 }
